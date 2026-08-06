@@ -1916,6 +1916,20 @@ document.addEventListener('keydown',e=>{
   }
 });
 
+// ─── EXPONER FUNCIONES AL SCOPE GLOBAL ─
+// Necesario porque type="module" aísla el scope
+Object.assign(window, {
+  goTo, renderPage, openSearch, closeSearch, applySearch, doSearch,
+  openDrawer, closeDrawer, overlayClick, openAddMenu,
+  openDetail, closeDetail, shareItem,
+  toggleSave, toggleTag, getSelectedTags, setEmoji,
+  savePlace, saveEvent, saveExperience, saveEmprendimiento,
+  saveProfile, saveNotifSettings, saveCity,
+  filterCategory, exploreFilter, exploreFilter,
+  selectDate, surpriseMe, clearAllData,
+  goToExplore, openFirstEvent
+});
+
 // ─── PWA SERVICE WORKER ────────────────
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
