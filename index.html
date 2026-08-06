@@ -1206,43 +1206,103 @@ a{color:inherit;text-decoration:none}
 <!-- ══════════════════════════════════════
      SCRIPT
 ══════════════════════════════════════ -->
-<script>
-// ─── STORAGE ───────────────────────────
-const DB = {
+<script type="module">
+// ─── FIREBASE ──────────────────────────
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAWLT8ohR1KcTLCgnv6Z59fazgo8s4H8lY",
+  authDomain: "quehaydebueno-8a9b6.firebaseapp.com",
+  databaseURL: "https://quehaydebueno-8a9b6-default-rtdb.firebaseio.com",
+  projectId: "quehaydebueno-8a9b6",
+  storageBucket: "quehaydebueno-8a9b6.firebasestorage.app",
+  messagingSenderId: "642411460190",
+  appId: "1:642411460190:web:020b2c852fb45054b8a6cf",
+  measurementId: "G-BM355Y7QXZ"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ─── COLECCIONES FIRESTORE ──────────────
+const COLS = {
+  places: collection(db,'places'),
+  events: collection(db,'events'),
+  experiences: collection(db,'experiences'),
+  emprendimientos: collection(db,'emprendimientos')
+};
+
+// ─── CACHE LOCAL (para búsqueda y guardados) ─
+const localDB = {
   get(k){try{return JSON.parse(localStorage.getItem('qhdb_'+k))||[]}catch{return[]}},
   set(k,v){localStorage.setItem('qhdb_'+k,JSON.stringify(v))},
   obj(k){try{return JSON.parse(localStorage.getItem('qhdb_'+k))||{}}catch{return{}}}
 };
 
-// ─── STATE ─────────────────────────────
+// ─── ESTADO GLOBAL ──────────────────────
 let currentPage = 'home';
 let currentFilter = 'todos';
 let currentDetail = null;
 let selectedEmojis = {place:'🏪', event:'🎵'};
 let agendaDate = new Date();
 
-// ─── SEED DATA ─────────────────────────
-function seedData(){
-  if(DB.get('places').length) return;
-  const places = [
-    {id:'p1',type:'place',name:'La Leña Pizzería',cat:'comida',city:'Valdivia',sector:'Centro',address:'Av. Independencia 456',desc:'Pizza artesanal horneada en leña. Ingredientes locales, masas hechas a mano cada día desde las 10am.',hours:'12:00–23:00',price:'$$',phone:'+56 9 8765 4321',web:'@lalenapizzeria',tags:['Acepta mascotas','Con terraza','Para llevar'],emoji:'🍕',saved:false,created:Date.now()-86400000*3},
-    {id:'p2',type:'place',name:'Café Independencia',cat:'cafe',city:'Valdivia',sector:'Centro Histórico',address:'Calle Independencia 123',desc:'Café de especialidad con granos de origen único. El mejor espacio para trabajar o leer con vista al río.',hours:'08:00–20:00',price:'$$',phone:'+56 9 1122 3344',web:'@cafeindependencia',tags:['WiFi gratis','Acepta mascotas'],emoji:'☕',saved:false,created:Date.now()-86400000*5},
-    {id:'p3',type:'place',name:'Bar Origen',cat:'bares',city:'Valdivia',sector:'Barrio Histórico',address:'O\'Higgins 890',desc:'Cócteles artesanales con botánicos del sur. Happy hour todos los días de 18:00 a 20:00.',hours:'18:00–02:00',price:'$$',phone:'+56 9 5566 7788',web:'@barorigen',tags:['Música en vivo','Con terraza'],emoji:'🍸',saved:false,created:Date.now()-86400000*2},
-    {id:'p4',type:'place',name:'Museo Regional de Los Ríos',cat:'arte',city:'Valdivia',sector:'Centro',address:'Los Lauros 47',desc:'Historia y cultura de la región de Los Ríos. Exposiciones permanentes y temporales. Acceso gratuito los domingos.',hours:'10:00–18:00',price:'gratis',phone:'+56 63 212 872',web:'museoregionallosrios.cl',tags:['Apto niños','Sin gluten','Acceso silla de ruedas'],emoji:'🏛️',saved:false,created:Date.now()-86400000*10},
-    {id:'p5',type:'place',name:'Club Náutico Valdivia',cat:'deporte',city:'Valdivia',sector:'Muelle Fluvial',address:'Arturo Prat s/n',desc:'Kayak, SUP y paseos en bote por el río Calle-Calle. Clases para principiantes disponibles los fines de semana.',hours:'09:00–18:00',price:'$$$',phone:'+56 9 9988 7766',web:'@clubnauticovaldivia',tags:['Acepta mascotas','Reserva requerida'],emoji:'🏄',saved:false,created:Date.now()-86400000*7}
-  ];
-  const events = [
-    {id:'e1',type:'event',name:'Jazz en Café Torrente',evType:'musica',city:'Valdivia',venue:'Café Torrente',address:'Yungay 735',desc:'Cuarteto de jazz local con música original. Entrada libre, consumas mínimas. Ambiente íntimo y acogedor.',date:todayStr(),time:'21:00',endTime:'23:30',price:'gratis',priceVal:'',capacity:60,contact:'@cafetorrente',tags:['Apto todo público','Con barra','Artistas locales'],emoji:'🎵',saved:false,created:Date.now()-3600000},
-    {id:'e2',type:'event',name:'Feria Artesanal del Río',evType:'feria',city:'Valdivia',venue:'Paseo Libertad',address:'Paseo Libertad s/n',desc:'Más de 40 emprendedores y artesanos locales. Cerámica, tejidos, alimentos artesanales, joyería. Sábados y domingos.',date:todayStr(),time:'10:00',endTime:'19:00',price:'gratis',priceVal:'',capacity:'',contact:'@feriavaldivia',tags:['Apto todo público','Al aire libre','Pet friendly'],emoji:'🏪',saved:false,created:Date.now()-7200000},
-    {id:'e3',type:'event',name:'Running Club — Parque Saval',evType:'deporte',city:'Valdivia',venue:'Parque Saval',address:'Entrada principal Parque Saval',desc:'Rodada semanal abierta a todos los niveles. 5K, 10K y 15K. Reunión a las 7:45am en la entrada principal.',date:tomorrowStr(),time:'08:00',endTime:'10:00',price:'gratis',priceVal:'',capacity:'',contact:'+56 9 7654 3210',tags:['Apto todo público','Al aire libre','Sin inscripción'],emoji:'🏃',saved:false,created:Date.now()-10800000}
-  ];
-  const experiences = [
-    {id:'x1',type:'experience',name:'Kayak al amanecer — Río Calle-Calle',expType:'aventura',city:'Valdivia',desc:'Recorrido en kayak de 2 horas por el río Calle-Calle al amanecer. Incluye equipamiento completo y guía experto. Sin experiencia previa necesaria.',duration:'2 horas',price:'$18.000',min:2,max:8,avail:'finde',contact:'@kayakvaldivia',includes:['Equipamiento','Guía experto','Fotos'],emoji:'🚣',saved:false,created:Date.now()-172800000}
-  ];
-  DB.set('places',places);
-  DB.set('events',events);
-  DB.set('experiences',experiences);
-  DB.set('emprendimientos',[]);
+// Cache en memoria de todos los items de Firestore
+let memCache = { places:[], events:[], experiences:[], emprendimientos:[] };
+
+// ─── LISTENERS EN TIEMPO REAL ───────────
+function initRealtimeListeners(){
+  // Escucha cada colección en tiempo real
+  ['places','events','experiences','emprendimientos'].forEach(col=>{
+    const q = query(COLS[col], orderBy('created','desc'));
+    onSnapshot(q, snap=>{
+      const savedIds = localDB.get('saved_ids');
+      memCache[col] = snap.docs.map(d=>({
+        ...d.data(),
+        id: d.id,
+        saved: savedIds.includes(d.id)
+      }));
+      // Re-renderizar si estamos en una página que lo necesite
+      if(currentPage==='home') renderHome();
+      else if(currentPage==='explore') renderExplore(currentFilter);
+      else if(currentPage==='agenda') renderAgendaFeed(document.querySelector('.date-btn.active')?.dataset?.date||todayStr());
+      else if(currentPage==='saved') renderSaved();
+      else if(currentPage==='profile') renderProfile();
+    }, err=>{
+      console.error('Firestore error:',err);
+      toast('⚠️ Error de conexión');
+    });
+  });
+}
+
+// ─── SEED DATA (solo si Firestore está vacío) ──
+async function seedData(){
+  try {
+    const snap = await getDocs(COLS.places);
+    if(!snap.empty) return; // ya hay datos, no sembrar
+    const now = Date.now();
+    const places = [
+      {type:'place',name:'La Leña Pizzería',cat:'comida',city:'Valdivia',sector:'Centro',address:'Av. Independencia 456',desc:'Pizza artesanal horneada en leña. Ingredientes locales, masas hechas a mano cada día.',hours:'12:00–23:00',price:'$$',phone:'+56 9 8765 4321',web:'@lalenapizzeria',tags:['Acepta mascotas','Con terraza','Para llevar'],emoji:'🍕',created:now-86400000*3},
+      {type:'place',name:'Café Independencia',cat:'cafe',city:'Valdivia',sector:'Centro Histórico',address:'Calle Independencia 123',desc:'Café de especialidad con granos de origen único. El mejor espacio para trabajar o leer con vista al río.',hours:'08:00–20:00',price:'$$',phone:'+56 9 1122 3344',web:'@cafeindependencia',tags:['WiFi gratis','Acepta mascotas'],emoji:'☕',created:now-86400000*5},
+      {type:'place',name:'Bar Origen',cat:'bares',city:'Valdivia',sector:'Barrio Histórico',address:"O'Higgins 890",desc:'Cócteles artesanales con botánicos del sur. Happy hour todos los días de 18:00 a 20:00.',hours:'18:00–02:00',price:'$$',phone:'+56 9 5566 7788',web:'@barorigen',tags:['Música en vivo','Con terraza'],emoji:'🍸',created:now-86400000*2},
+      {type:'place',name:'Museo Regional de Los Ríos',cat:'arte',city:'Valdivia',sector:'Centro',address:'Los Lauros 47',desc:'Historia y cultura de la región de Los Ríos. Exposiciones permanentes y temporales.',hours:'10:00–18:00',price:'gratis',phone:'+56 63 212 872',web:'museoregionallosrios.cl',tags:['Apto niños','Acceso silla de ruedas'],emoji:'🏛️',created:now-86400000*10},
+      {type:'place',name:'Club Náutico Valdivia',cat:'deporte',city:'Valdivia',sector:'Muelle Fluvial',address:'Arturo Prat s/n',desc:'Kayak, SUP y paseos en bote por el río Calle-Calle. Clases para principiantes disponibles los fines de semana.',hours:'09:00–18:00',price:'$$$',phone:'+56 9 9988 7766',web:'@clubnauticovaldivia',tags:['Reserva requerida'],emoji:'🏄',created:now-86400000*7}
+    ];
+    const events = [
+      {type:'event',name:'Jazz en Café Torrente',evType:'musica',city:'Valdivia',venue:'Café Torrente',address:'Yungay 735',desc:'Cuarteto de jazz local con música original. Entrada libre, consumas mínimas.',date:todayStr(),time:'21:00',endTime:'23:30',price:'gratis',priceVal:'',capacity:60,contact:'@cafetorrente',tags:['Apto todo público','Con barra'],emoji:'🎵',created:now-3600000},
+      {type:'event',name:'Feria Artesanal del Río',evType:'feria',city:'Valdivia',venue:'Paseo Libertad',address:'Paseo Libertad s/n',desc:'Más de 40 emprendedores y artesanos locales. Cerámica, tejidos, alimentos artesanales.',date:todayStr(),time:'10:00',endTime:'19:00',price:'gratis',priceVal:'',capacity:'',contact:'@feriavaldivia',tags:['Al aire libre','Pet friendly'],emoji:'🏪',created:now-7200000},
+      {type:'event',name:'Running Club — Parque Saval',evType:'deporte',city:'Valdivia',venue:'Parque Saval',address:'Entrada principal Parque Saval',desc:'Rodada semanal abierta a todos los niveles. 5K, 10K y 15K.',date:tomorrowStr(),time:'08:00',endTime:'10:00',price:'gratis',priceVal:'',capacity:'',contact:'+56 9 7654 3210',tags:['Al aire libre','Sin inscripción'],emoji:'🏃',created:now-10800000}
+    ];
+    const experiences = [
+      {type:'experience',name:'Kayak al amanecer — Río Calle-Calle',expType:'aventura',city:'Valdivia',desc:'Recorrido en kayak de 2 horas al amanecer. Incluye equipamiento completo y guía experto.',duration:'2 horas',price:'$18.000',min:2,max:8,avail:'finde',contact:'@kayakvaldivia',includes:['Equipamiento','Guía experto','Fotos'],emoji:'🚣',created:now-172800000}
+    ];
+    for(const p of places) await addDoc(COLS.places, p);
+    for(const e of events) await addDoc(COLS.events, e);
+    for(const x of experiences) await addDoc(COLS.experiences, x);
+    console.log('Datos de ejemplo cargados en Firestore');
+  } catch(err){
+    console.warn('seedData error:',err);
+  }
 }
 
 function todayStr(){
@@ -1279,7 +1339,7 @@ function updateContext(){
   const now = new Date();
   const h = now.getHours(), m = now.getMinutes();
   document.getElementById('ctx-time').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-  const profile = DB.obj('profile');
+  const profile = localDB.obj('profile');
   const city = profile.city || 'Tu ciudad';
   document.getElementById('ctx-city').textContent = city;
   document.getElementById('settings-city-val').textContent = city;
@@ -1302,7 +1362,7 @@ function renderHome(){
 }
 
 function renderLiveBanner(){
-  const evs = DB.get('events');
+  const evs = memCache.events;
   const today = todayStr();
   const liveEvs = evs.filter(e=>e.date===today);
   if(liveEvs.length){
@@ -1317,7 +1377,7 @@ function renderLiveBanner(){
 }
 
 function openFirstEvent(){
-  const evs = DB.get('events');
+  const evs = memCache.events;
   if(evs.length) openDetail(evs[0]);
 }
 
@@ -1367,7 +1427,12 @@ function isOpen(item){
 
 // ─── ALL ITEMS HELPERS ─────────────────
 function getAllItems(){
-  return [...DB.get('places'),...DB.get('events'),...DB.get('experiences'),...DB.get('emprendimientos')].sort((a,b)=>b.created-a.created);
+  return [
+    ...memCache.places,
+    ...memCache.events,
+    ...memCache.experiences,
+    ...memCache.emprendimientos
+  ].sort((a,b)=>(b.created||0)-(a.created||0));
 }
 
 function getAllById(id){
@@ -1431,7 +1496,7 @@ function selectDate(el, dateStr){
 }
 
 function renderAgendaFeed(dateStr){
-  const evs = DB.get('events').filter(e=>e.date===dateStr);
+  const evs = memCache.events.filter(e=>e.date===dateStr);
   const feed = document.getElementById('agenda-feed');
   if(!evs.length){
     feed.innerHTML=`<div class="empty"><div class="empty-icon">📅</div><div class="empty-title">Sin eventos este día</div><div class="empty-sub">¿Tienes algo que compartir? Publícalo ahora.</div><div class="empty-btn" onclick="openDrawer('add-event')">+ Publicar evento</div></div>`;
@@ -1452,28 +1517,27 @@ function renderSaved(){
 }
 
 function toggleSave(id){
+  const savedIds = localDB.get('saved_ids');
+  const isSaved = savedIds.includes(id);
+  const newIds = isSaved ? savedIds.filter(s=>s!==id) : [...savedIds, id];
+  localDB.set('saved_ids', newIds);
+  // Actualizar el cache en memoria
   ['places','events','experiences','emprendimientos'].forEach(col=>{
-    const arr = DB.get(col);
-    const idx = arr.findIndex(i=>i.id===id);
-    if(idx>-1){
-      arr[idx].saved=!arr[idx].saved;
-      DB.set(col,arr);
-      toast(arr[idx].saved?'❤️ Guardado':'💔 Eliminado de guardados');
-      renderPage(currentPage);
-    }
+    memCache[col] = memCache[col].map(i=>i.id===id?{...i,saved:!isSaved}:i);
   });
+  toast(isSaved?'💔 Eliminado de guardados':'❤️ Guardado');
+  renderPage(currentPage);
 }
 
 // ─── PROFILE ───────────────────────────
 function renderProfile(){
-  const profile = DB.obj('profile');
+  const profile = localDB.obj('profile');
   document.getElementById('profile-name').textContent = profile.name||'Mi perfil';
   document.getElementById('profile-since').textContent = profile.city?`📍 ${profile.city}`:'Configura tu ciudad';
-  document.getElementById('stat-places').textContent = DB.get('places').length;
-  document.getElementById('stat-events').textContent = DB.get('events').length;
+  document.getElementById('stat-places').textContent = memCache.places.length;
+  document.getElementById('stat-events').textContent = memCache.events.length;
   document.getElementById('stat-saved').textContent = getAllItems().filter(i=>i.saved).length;
-  const p = DB.obj('profile');
-  document.getElementById('settings-city-val').textContent = p.city||'No configurada';
+  document.getElementById('settings-city-val').textContent = profile.city||'No configurada';
 }
 
 // ─── DETAIL VIEW ───────────────────────
@@ -1587,7 +1651,7 @@ function openDrawer(name){
     };
   }
   if(name==='city-settings'){
-    const p = DB.obj('profile');
+    const p = localDB.obj('profile');
     const sel = document.getElementById('city-select');
     if(p.city) sel.value = p.city;
     sel.onchange = function(){
@@ -1595,7 +1659,7 @@ function openDrawer(name){
     };
   }
   if(name==='profile-edit'){
-    const p = DB.obj('profile');
+    const p = localDB.obj('profile');
     document.getElementById('prof-name').value = p.name||'';
     document.getElementById('prof-city').value = p.city||'';
   }
@@ -1630,14 +1694,13 @@ function setEmoji(type, emoji){
 }
 
 // ─── SAVE PLACE ────────────────────────
-function savePlace(){
+async function savePlace(){
   const name = document.getElementById('place-name').value.trim();
   const cat = document.getElementById('place-cat').value;
   const city = document.getElementById('place-city').value.trim();
   if(!name||!cat||!city){toast('⚠️ Completa los campos obligatorios');return;}
   const place = {
-    id:'p'+Date.now(),type:'place',
-    name, cat, city,
+    type:'place', name, cat, city,
     sector:document.getElementById('place-sector').value.trim(),
     address:document.getElementById('place-address').value.trim(),
     desc:document.getElementById('place-desc').value.trim(),
@@ -1647,23 +1710,26 @@ function savePlace(){
     web:document.getElementById('place-web').value.trim(),
     tags:getSelectedTags('place-tags'),
     emoji:selectedEmojis.place,
-    saved:false,created:Date.now()
+    created:Date.now()
   };
-  const places = DB.get('places');
-  places.unshift(place);
-  DB.set('places',places);
-  clearForm(['place-name','place-city','place-sector','place-address','place-desc','place-phone','place-web','place-open','place-close']);
-  document.getElementById('place-cat').selectedIndex=0;
-  document.getElementById('place-price').selectedIndex=0;
-  document.querySelectorAll('#place-tags .tag-pick').forEach(t=>t.classList.remove('sel'));
-  selectedEmojis.place='🏪';
-  closeDrawer('add-place');
-  toast('✅ ¡Lugar publicado!');
-  renderPage(currentPage);
+  try{
+    toast('⏳ Publicando...');
+    await addDoc(COLS.places, place);
+    clearForm(['place-name','place-city','place-sector','place-address','place-desc','place-phone','place-web','place-open','place-close']);
+    document.getElementById('place-cat').selectedIndex=0;
+    document.getElementById('place-price').selectedIndex=0;
+    document.querySelectorAll('#place-tags .tag-pick').forEach(t=>t.classList.remove('sel'));
+    selectedEmojis.place='🏪';
+    closeDrawer('add-place');
+    toast('✅ ¡Lugar publicado!');
+  }catch(err){
+    console.error(err);
+    toast('❌ Error al publicar. Intenta de nuevo.');
+  }
 }
 
 // ─── SAVE EVENT ────────────────────────
-function saveEvent(){
+async function saveEvent(){
   const name = document.getElementById('ev-name').value.trim();
   const evType = document.getElementById('ev-type').value;
   const city = document.getElementById('ev-city').value.trim();
@@ -1671,8 +1737,7 @@ function saveEvent(){
   const time = document.getElementById('ev-time').value;
   if(!name||!evType||!city||!date||!time){toast('⚠️ Completa los campos obligatorios');return;}
   const ev = {
-    id:'e'+Date.now(),type:'event',
-    name,evType,city,date,time,
+    type:'event', name,evType,city,date,time,
     endTime:document.getElementById('ev-end-time').value,
     desc:document.getElementById('ev-desc').value.trim(),
     price:document.getElementById('ev-price').value,
@@ -1683,29 +1748,31 @@ function saveEvent(){
     contact:document.getElementById('ev-contact').value.trim(),
     tags:getSelectedTags('ev-tags'),
     emoji:selectedEmojis.event,
-    saved:false,created:Date.now()
+    created:Date.now()
   };
-  const events = DB.get('events');
-  events.unshift(ev);
-  DB.set('events',events);
-  clearForm(['ev-name','ev-city','ev-address','ev-desc','ev-venue','ev-contact','ev-capacity','ev-price-val']);
-  document.getElementById('ev-type').selectedIndex=0;
-  document.querySelectorAll('#ev-tags .tag-pick').forEach(t=>t.classList.remove('sel'));
-  selectedEmojis.event='🎵';
-  closeDrawer('add-event');
-  toast('✅ ¡Evento publicado!');
-  renderPage(currentPage);
+  try{
+    toast('⏳ Publicando...');
+    await addDoc(COLS.events, ev);
+    clearForm(['ev-name','ev-city','ev-address','ev-desc','ev-venue','ev-contact','ev-capacity','ev-price-val']);
+    document.getElementById('ev-type').selectedIndex=0;
+    document.querySelectorAll('#ev-tags .tag-pick').forEach(t=>t.classList.remove('sel'));
+    selectedEmojis.event='🎵';
+    closeDrawer('add-event');
+    toast('✅ ¡Evento publicado!');
+  }catch(err){
+    console.error(err);
+    toast('❌ Error al publicar. Intenta de nuevo.');
+  }
 }
 
 // ─── SAVE EXPERIENCE ───────────────────
-function saveExperience(){
+async function saveExperience(){
   const name = document.getElementById('exp-name').value.trim();
   const expType = document.getElementById('exp-type').value;
   const city = document.getElementById('exp-city').value.trim();
   if(!name||!expType||!city){toast('⚠️ Completa los campos obligatorios');return;}
   const exp = {
-    id:'x'+Date.now(),type:'experience',
-    name,expType,city,
+    type:'experience', name,expType,city,
     desc:document.getElementById('exp-desc').value.trim(),
     duration:document.getElementById('exp-duration').value.trim(),
     price:document.getElementById('exp-price').value.trim(),
@@ -1714,45 +1781,52 @@ function saveExperience(){
     avail:document.getElementById('exp-avail').value,
     contact:document.getElementById('exp-contact').value.trim(),
     includes:getSelectedTags('exp-includes'),
-    emoji:'🎒',saved:false,created:Date.now()
+    emoji:'🎒',
+    created:Date.now()
   };
-  const exps = DB.get('experiences');
-  exps.unshift(exp);
-  DB.set('experiences',exps);
-  clearForm(['exp-name','exp-city','exp-desc','exp-duration','exp-price','exp-contact']);
-  document.getElementById('exp-type').selectedIndex=0;
-  document.querySelectorAll('#exp-includes .tag-pick').forEach(t=>t.classList.remove('sel'));
-  closeDrawer('add-experience');
-  toast('✅ ¡Experiencia publicada!');
-  renderPage(currentPage);
+  try{
+    toast('⏳ Publicando...');
+    await addDoc(COLS.experiences, exp);
+    clearForm(['exp-name','exp-city','exp-desc','exp-duration','exp-price','exp-contact']);
+    document.getElementById('exp-type').selectedIndex=0;
+    document.querySelectorAll('#exp-includes .tag-pick').forEach(t=>t.classList.remove('sel'));
+    closeDrawer('add-experience');
+    toast('✅ ¡Experiencia publicada!');
+  }catch(err){
+    console.error(err);
+    toast('❌ Error al publicar. Intenta de nuevo.');
+  }
 }
 
 // ─── SAVE EMPRENDIMIENTO ───────────────
-function saveEmprendimiento(){
+async function saveEmprendimiento(){
   const name = document.getElementById('emp-name').value.trim();
   const cat = document.getElementById('emp-cat').value;
   const city = document.getElementById('emp-city').value.trim();
   if(!name||!cat||!city){toast('⚠️ Completa los campos obligatorios');return;}
   const emp = {
-    id:'em'+Date.now(),type:'emprendimiento',
-    name,cat,city,
+    type:'emprendimiento', name,cat,city,
     desc:document.getElementById('emp-desc').value.trim(),
     products:document.getElementById('emp-products').value.trim(),
     years:document.getElementById('emp-years').value,
     channels:getSelectedTags('emp-channels'),
     ig:document.getElementById('emp-ig').value.trim(),
     wa:document.getElementById('emp-wa').value.trim(),
-    emoji:'🛍️',saved:false,created:Date.now()
+    emoji:'🛍️',
+    created:Date.now()
   };
-  const emps = DB.get('emprendimientos');
-  emps.unshift(emp);
-  DB.set('emprendimientos',emps);
-  clearForm(['emp-name','emp-city','emp-desc','emp-products','emp-years','emp-ig','emp-wa']);
-  document.getElementById('emp-cat').selectedIndex=0;
-  document.querySelectorAll('#emp-channels .tag-pick').forEach(t=>t.classList.remove('sel'));
-  closeDrawer('add-emprendimiento');
-  toast('✅ ¡Emprendimiento registrado!');
-  renderPage(currentPage);
+  try{
+    toast('⏳ Registrando...');
+    await addDoc(COLS.emprendimientos, emp);
+    clearForm(['emp-name','emp-city','emp-desc','emp-products','emp-years','emp-ig','emp-wa']);
+    document.getElementById('emp-cat').selectedIndex=0;
+    document.querySelectorAll('#emp-channels .tag-pick').forEach(t=>t.classList.remove('sel'));
+    closeDrawer('add-emprendimiento');
+    toast('✅ ¡Emprendimiento registrado!');
+  }catch(err){
+    console.error(err);
+    toast('❌ Error al registrar. Intenta de nuevo.');
+  }
 }
 
 // ─── PROFILE & SETTINGS ────────────────
@@ -1760,11 +1834,11 @@ function saveProfile(){
   const name = document.getElementById('prof-name').value.trim();
   const city = document.getElementById('prof-city').value.trim();
   const interests = getSelectedTags('prof-interests');
-  const profile = DB.obj('profile');
+  const profile = localDB.obj('profile');
   profile.name = name||profile.name;
   profile.city = city||profile.city;
   profile.interests = interests;
-  DB.set('profile',profile);
+  localDB.set('profile',profile);
   closeDrawer('profile-edit');
   toast('✅ Perfil guardado');
   renderProfile();
@@ -1773,7 +1847,7 @@ function saveProfile(){
 
 function saveNotifSettings(){
   const s = {events:document.getElementById('notif-events').checked,nearby:document.getElementById('notif-nearby').checked,reminders:document.getElementById('notif-reminders').checked,trends:document.getElementById('notif-trends').checked};
-  DB.set('notifications',s);
+  localDB.set('notifications',s);
   closeDrawer('notif-settings');
   toast('✅ Configuración guardada');
 }
@@ -1781,9 +1855,9 @@ function saveNotifSettings(){
 function saveCity(){
   const sel = document.getElementById('city-select').value;
   const city = sel==='Otra'?document.getElementById('city-other-input').value.trim()||'Mi ciudad':sel;
-  const profile = DB.obj('profile');
+  const profile = localDB.obj('profile');
   profile.city = city;
-  DB.set('profile',profile);
+  localDB.set('profile',profile);
   closeDrawer('city-settings');
   toast(`✅ Ciudad: ${city}`);
   updateContext();
@@ -1820,10 +1894,13 @@ function toast(msg,dur=2400){
 }
 
 function clearAllData(){
-  if(!confirm('¿Borrar todos los datos? Esta acción no se puede deshacer.')) return;
-  ['places','events','experiences','emprendimientos','profile','notifications'].forEach(k=>localStorage.removeItem('qhdb_'+k));
-  toast('🗑️ Datos borrados');
-  seedData();
+  if(!confirm('¿Borrar datos locales (guardados, perfil, ciudad)? Los lugares y eventos publicados en la nube no se eliminan.')) return;
+  ['profile','notifications','saved_ids'].forEach(k=>localStorage.removeItem('qhdb_'+k));
+  // Resetear saved en memCache
+  ['places','events','experiences','emprendimientos'].forEach(col=>{
+    memCache[col] = memCache[col].map(i=>({...i,saved:false}));
+  });
+  toast('🗑️ Datos locales borrados');
   renderPage(currentPage);
   renderProfile();
 }
@@ -1845,10 +1922,18 @@ if('serviceWorker' in navigator){
 }
 
 // ─── INIT ──────────────────────────────
-seedData();
-renderHome();
-updateContext();
-setInterval(updateContext, 30000);
+async function init(){
+  updateContext();
+  setInterval(updateContext, 30000);
+  // Mostrar loading mientras conecta
+  document.getElementById('home-feed').innerHTML = `<div class="empty"><div class="empty-icon" style="animation:pulse-live 1s infinite">🔄</div><div class="empty-title">Conectando...</div><div class="empty-sub">Cargando datos en tiempo real</div></div>`;
+  // Iniciar listeners en tiempo real (renderiza automáticamente al recibir datos)
+  initRealtimeListeners();
+  // Sembrar datos de ejemplo si Firestore está vacío
+  await seedData();
+}
+
+init();
 </script>
 </body>
 </html>
