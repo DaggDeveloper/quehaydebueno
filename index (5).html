@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FF4422">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="QHDB">
+<meta name="description" content="Descubre qué está pasando cerca de ti ahora mismo">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>¿Qué hay de bueno?</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & BASE ─────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0D0D0F;--bg2:#141416;--bg3:#1C1C1F;--bg4:#242428;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+  --brand:#FF4422;--brand-soft:rgba(255,68,34,0.15);--brand-mid:#FF6644;
+  --text:#FFFFFF;--text2:rgba(255,255,255,0.65);--text3:rgba(255,255,255,0.35);
+  --green:#10B981;--green-soft:rgba(16,185,129,0.15);
+  --purple:#7C3AED;--purple-soft:rgba(124,58,237,0.15);
+  --amber:#F59E0B;--amber-soft:rgba(245,158,11,0.15);
+  --blue:#3B82F6;--blue-soft:rgba(59,130,246,0.15);
+  --radius:12px;--radius-lg:16px;--radius-xl:20px;
+  --nav-h:64px;--header-h:56px;
+  --font:'Space Grotesk',system-ui,sans-serif;
+  --font-body:'DM Sans',system-ui,sans-serif;
+}
+html{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;overflow-x:hidden}
+body{min-height:100vh;overflow-x:hidden}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;outline:none}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+/* scrollbars */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* ── LAYOUT ───────────────────────────────────── */
+.app{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+.page{display:none;flex-direction:column;flex:1;padding-bottom:var(--nav-h)}
+.page.active{display:flex}
+
+/* ── TOP HEADER ───────────────────────────────── */
+.top-header{
+  position:sticky;top:0;z-index:50;
+  height:var(--header-h);
+  background:rgba(13,13,15,0.92);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 16px;gap:12px;
+}
+.header-logo{font-family:var(--font);font-weight:800;font-size:15px;color:var(--brand);letter-spacing:-0.4px;white-space:nowrap}
+.header-search{
+  flex:1;display:flex;align-items:center;gap:8px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;padding:8px 12px;cursor:pointer;
+}
+.header-search span{font-size:13px;color:var(--text3)}
+.header-btn{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--bg3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;cursor:pointer;flex-shrink:0;transition:background 0.15s;
+}
+.header-btn:hover{background:var(--bg4)}
+.header-btn.brand{background:var(--brand);border-color:var(--brand);color:#fff}
+
+/* ── BOTTOM NAV ───────────────────────────────── */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  height:var(--nav-h);
+  background:rgba(13,13,15,0.96);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-top:1px solid var(--border);
+  display:flex;align-items:stretch;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.nav-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:4px;cursor:pointer;
+  font-size:10px;color:var(--text3);font-weight:500;
+  transition:color 0.15s;border:none;background:none;padding:0;
+}
+.nav-btn.active{color:var(--brand)}
+.nav-icon{font-size:22px;line-height:1;transition:transform 0.15s}
+.nav-btn.active .nav-icon{transform:scale(1.1)}
+.nav-btn:hover{color:var(--text2)}
+
+/* ── SECTION HEADER ───────────────────────────── */
+.sec-header{padding:20px 16px 12px;display:flex;align-items:center;justify-content:space-between}
+.sec-title{font-family:var(--font);font-size:18px;font-weight:700;letter-spacing:-0.4px}
+.sec-action{font-size:12px;color:var(--brand);font-weight:600;cursor:pointer}
+
+/* ── CARDS ────────────────────────────────────── */
+.card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:14px;margin:0 16px 10px;
+  display:flex;gap:12px;align-items:flex-start;cursor:pointer;
+  transition:border-color 0.15s,background 0.15s;
+}
+.card:hover{background:var(--bg3);border-color:var(--border2)}
+.card-thumb{
+  width:52px;height:52px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+}
+.card-thumb.food{background:rgba(255,68,34,0.18);border:1px solid rgba(255,68,34,0.25)}
+.card-thumb.music{background:rgba(124,58,237,0.18);border:1px solid rgba(124,58,237,0.25)}
+.card-thumb.sport{background:rgba(16,185,129,0.18);border:1px solid rgba(16,185,129,0.25)}
+.card-thumb.art{background:rgba(245,158,11,0.18);border:1px solid rgba(245,158,11,0.25)}
+.card-thumb.bar{background:rgba(59,130,246,0.18);border:1px solid rgba(59,130,246,0.25)}
+.card-thumb.family{background:rgba(236,72,153,0.18);border:1px solid rgba(236,72,153,0.25)}
+.card-thumb.default{background:var(--bg4);border:1px solid var(--border)}
+.card-body{flex:1;min-width:0}
+.card-name{font-family:var(--font);font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-meta{font-size:12px;color:var(--text3);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-tags{display:flex;flex-wrap:wrap;gap:5px}
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;white-space:nowrap}
+.badge-open{background:var(--green-soft);color:var(--green)}
+.badge-hot{background:var(--brand-soft);color:var(--brand)}
+.badge-free{background:var(--amber-soft);color:var(--amber)}
+.badge-event{background:var(--purple-soft);color:#A78BFA}
+.badge-new{background:var(--blue-soft);color:var(--blue)}
+.badge-closed{background:rgba(255,255,255,0.06);color:var(--text3)}
+.card-dist{font-size:11px;color:var(--text3);white-space:nowrap;flex-shrink:0;padding-top:2px}
+
+/* ── HORIZONTAL SCROLL ROW ────────────────────── */
+.hscroll{display:flex;gap:10px;overflow-x:auto;padding:0 16px 16px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.hscroll::-webkit-scrollbar{display:none}
+.hcard{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:14px;flex-shrink:0;width:160px;scroll-snap-align:start;cursor:pointer;
+  transition:border-color 0.15s;
+}
+.hcard:hover{border-color:var(--border2)}
+.hcard-emoji{font-size:26px;margin-bottom:8px}
+.hcard-name{font-family:var(--font);font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hcard-meta{font-size:11px;color:var(--text3)}
+.hcard-dist{font-size:11px;color:var(--brand);font-weight:700;margin-top:6px}
+
+/* ── CHIPS ────────────────────────────────────── */
+.chips-row{display:flex;gap:8px;overflow-x:auto;padding:0 16px 16px;scrollbar-width:none}
+.chips-row::-webkit-scrollbar{display:none}
+.chip{
+  display:flex;align-items:center;gap:5px;
+  padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  white-space:nowrap;flex-shrink:0;cursor:pointer;
+  background:var(--bg3);border:1px solid var(--border);color:var(--text2);
+  transition:all 0.15s;
+}
+.chip.active{background:var(--brand);border-color:var(--brand);color:#fff}
+.chip:hover:not(.active){border-color:var(--border2);color:var(--text)}
+
+/* ── INTENT GRID (home) ───────────────────────── */
+.intent-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 16px}
+.intent-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:16px 14px;cursor:pointer;transition:all 0.15s;
+}
+.intent-card:hover{background:var(--bg3);border-color:var(--border2)}
+.intent-card.active{border-color:var(--brand);background:var(--brand-soft)}
+.intent-icon{font-size:26px;margin-bottom:8px}
+.intent-label{font-family:var(--font);font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.intent-sub{font-size:11px;color:var(--text3)}
+
+/* ── LIVE BANNER ──────────────────────────────── */
+.live-banner{
+  margin:0 16px 16px;border-radius:var(--radius-lg);padding:14px 16px;
+  background:var(--bg2);border:1px solid rgba(255,68,34,0.3);cursor:pointer;
+}
+.live-eyebrow{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--brand);animation:pulse-live 1.8s ease-in-out infinite}
+@keyframes pulse-live{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.live-title{font-family:var(--font);font-size:16px;font-weight:700;color:var(--text);margin-bottom:3px}
+.live-sub{font-size:12px;color:var(--text3)}
+.live-row{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.live-time{font-size:11px;color:var(--text3)}
+.live-cta{background:var(--brand);color:#fff;font-size:11px;font-weight:700;padding:6px 14px;border-radius:8px}
+
+/* ── EMPTY STATE ──────────────────────────────── */
+.empty{text-align:center;padding:60px 32px;color:var(--text3)}
+.empty-icon{font-size:48px;margin-bottom:16px}
+.empty-title{font-family:var(--font);font-size:16px;font-weight:700;color:var(--text2);margin-bottom:8px}
+.empty-sub{font-size:13px;line-height:1.6;color:var(--text3)}
+.empty-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:20px;background:var(--brand);color:#fff;
+  padding:10px 22px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;
+}
+
+/* ── FAB ──────────────────────────────────────── */
+.fab{
+  position:fixed;right:18px;bottom:calc(var(--nav-h) + 12px + env(safe-area-inset-bottom,0px));
+  z-index:90;width:52px;height:52px;border-radius:50%;
+  background:var(--brand);color:#fff;font-size:24px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(255,68,34,0.45);cursor:pointer;
+  border:none;transition:transform 0.2s,box-shadow 0.2s;
+}
+.fab:hover{transform:scale(1.06);box-shadow:0 6px 28px rgba(255,68,34,0.55)}
+.fab:active{transform:scale(0.96)}
+
+/* ── MODAL / DRAWER ───────────────────────────── */
+.overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,0.7);
+  display:none;align-items:flex-end;
+  animation:fade-in 0.2s;
+}
+.overlay.open{display:flex}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+.drawer{
+  width:100%;max-width:640px;margin:0 auto;
+  background:var(--bg2);border-radius:20px 20px 0 0;
+  border:1px solid var(--border);border-bottom:none;
+  padding:0 0 env(safe-area-inset-bottom,16px);
+  max-height:92vh;overflow-y:auto;
+  animation:slide-up 0.28s cubic-bezier(0.34,1.1,0.64,1);
+}
+@keyframes slide-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.drawer-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:12px auto 4px}
+.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px}
+.drawer-title{font-family:var(--font);font-size:18px;font-weight:700}
+.drawer-close{
+  width:32px;height:32px;border-radius:8px;background:var(--bg4);
+  display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;
+}
+.drawer-body{padding:0 20px 20px}
+
+/* ── FORM ELEMENTS ────────────────────────────── */
+.form-group{margin-bottom:16px}
+.form-label{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;display:block}
+.form-input{
+  width:100%;background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--radius);padding:11px 14px;
+  font-size:14px;color:var(--text);transition:border-color 0.15s;
+}
+.form-input:focus{border-color:var(--brand);outline:none}
+.form-input::placeholder{color:var(--text3)}
+.form-textarea{resize:vertical;min-height:90px;line-height:1.5}
+.form-select{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:11px 14px;font-size:14px;color:var(--text);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;transition:border-color 0.15s}
+.form-select:focus{border-color:var(--brand);outline:none}
+.form-select option{background:var(--bg2)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-hint{font-size:11px;color:var(--text3);margin-top:5px}
+.tag-picker{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px}
+.tag-pick{
+  padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;
+  background:var(--bg4);border:1px solid var(--border);color:var(--text3);
+  transition:all 0.15s;user-select:none;
+}
+.tag-pick.sel{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
+.img-upload{
+  width:100%;border:2px dashed var(--border2);border-radius:var(--radius);
+  padding:28px;text-align:center;cursor:pointer;transition:border-color 0.15s;
+}
+.img-upload:hover{border-color:var(--brand)}
+.img-upload-icon{font-size:32px;margin-bottom:8px}
+.img-upload-text{font-size:13px;color:var(--text3)}
+.img-upload input[type=file]{display:none}
+.img-preview{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.img-preview-item{position:relative;width:72px;height:72px;border-radius:8px;overflow:hidden}
+.img-preview-item img{width:100%;height:100%;object-fit:cover}
+.img-preview-remove{position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;color:#fff}
+.btn-primary{
+  width:100%;padding:13px;border-radius:var(--radius);
+  background:var(--brand);color:#fff;font-size:15px;font-weight:700;
+  cursor:pointer;border:none;font-family:var(--font);
+  transition:opacity 0.15s,transform 0.15s;letter-spacing:-0.3px;
+}
+.btn-primary:hover{opacity:0.9}
+.btn-primary:active{transform:scale(0.98)}
+.btn-secondary{
+  width:100%;padding:11px;border-radius:var(--radius);
+  background:var(--bg4);color:var(--text2);font-size:14px;font-weight:600;
+  cursor:pointer;border:1px solid var(--border);font-family:var(--font);
+  transition:background 0.15s;
+}
+.btn-secondary:hover{background:var(--bg3)}
+
+/* ── TOGGLE ───────────────────────────────────── */
+.toggle-wrap{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)}
+.toggle-wrap:last-child{border-bottom:none}
+.toggle-label{font-size:14px;color:var(--text);font-weight:500}
+.toggle-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;background:var(--bg4);border-radius:12px;cursor:pointer;transition:background 0.2s;border:1px solid var(--border)}
+.toggle input:checked+.toggle-track{background:var(--brand);border-color:var(--brand)}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform 0.2s}
+.toggle input:checked~.toggle-thumb{transform:translateX(20px)}
+
+/* ── SEARCH MODAL ─────────────────────────────── */
+.search-overlay{
+  position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.85);
+  display:none;flex-direction:column;
+  animation:fade-in 0.15s;
+}
+.search-overlay.open{display:flex}
+.search-box{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px}
+.search-field{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:15px;color:var(--text);transition:border-color 0.15s}
+.search-field:focus{border-color:var(--brand);outline:none}
+.search-cancel{font-size:14px;color:var(--brand);font-weight:600;cursor:pointer;flex-shrink:0}
+.search-results{flex:1;overflow-y:auto;padding:8px 0}
+.search-suggestions{padding:12px 16px}
+.search-suggest-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.search-pill{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;background:var(--bg3);border:1px solid var(--border);color:var(--text2);margin:4px;cursor:pointer}
+
+/* ── DETAIL OVERLAY ───────────────────────────── */
+.detail-overlay{
+  position:fixed;inset:0;z-index:250;background:var(--bg);
+  display:none;flex-direction:column;overflow-y:auto;
+  animation:slide-in-right 0.25s cubic-bezier(0.25,1,0.5,1);
+}
+.detail-overlay.open{display:flex}
+@keyframes slide-in-right{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.detail-hero{
+  width:100%;height:220px;background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:72px;position:relative;flex-shrink:0;
+}
+.detail-back{
+  position:absolute;top:16px;left:16px;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;
+  font-size:18px;cursor:pointer;color:#fff;
+}
+.detail-share{
+  position:absolute;top:16px;right:16px;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;
+  font-size:16px;cursor:pointer;color:#fff;
+}
+.detail-body{padding:20px 16px;flex:1}
+.detail-name{font-family:var(--font);font-size:24px;font-weight:800;letter-spacing:-0.6px;margin-bottom:6px}
+.detail-tagline{font-size:14px;color:var(--text3);margin-bottom:14px}
+.detail-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.detail-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.detail-info-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
+.detail-info-label{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px}
+.detail-info-value{font-size:13px;color:var(--text);font-weight:600}
+.detail-section{font-family:var(--font);font-size:15px;font-weight:700;margin-bottom:10px;margin-top:20px}
+.detail-desc{font-size:14px;color:var(--text2);line-height:1.65}
+.detail-actions{display:flex;gap:10px;margin-top:20px;padding-bottom:24px}
+.detail-action-btn{
+  flex:1;padding:13px;border-radius:var(--radius);font-size:14px;font-weight:700;
+  cursor:pointer;border:none;font-family:var(--font);text-align:center;
+}
+.detail-action-btn.primary{background:var(--brand);color:#fff}
+.detail-action-btn.secondary{background:var(--bg3);color:var(--text);border:1px solid var(--border)}
+
+/* ── STATS ROW ────────────────────────────────── */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px 16px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
+.stat-num{font-family:var(--font);font-size:26px;font-weight:800;color:var(--brand);letter-spacing:-1px}
+.stat-lbl{font-size:11px;color:var(--text3);margin-top:3px}
+
+/* ── PROFILE ──────────────────────────────────── */
+.profile-header{padding:28px 20px 20px;text-align:center}
+.profile-avatar{width:72px;height:72px;border-radius:50%;background:var(--brand-soft);border:2px solid var(--brand);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px}
+.profile-name{font-family:var(--font);font-size:20px;font-weight:700;margin-bottom:4px}
+.profile-since{font-size:12px;color:var(--text3)}
+.settings-section{padding:16px 16px 8px;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.settings-item{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;
+}
+.settings-item:hover{background:var(--bg2)}
+.settings-icon{width:36px;height:36px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.settings-label{flex:1;font-size:14px;font-weight:500}
+.settings-value{font-size:12px;color:var(--text3)}
+.settings-arrow{font-size:16px;color:var(--text3)}
+
+/* ── TOAST ────────────────────────────────────── */
+.toast{
+  position:fixed;top:72px;left:50%;transform:translateX(-50%);
+  z-index:500;background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;padding:10px 18px;font-size:13px;font-weight:600;
+  display:none;align-items:center;gap:8px;white-space:nowrap;
+  animation:toast-in 0.25s cubic-bezier(0.34,1.1,0.64,1);
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);
+}
+.toast.show{display:flex}
+@keyframes toast-in{from{opacity:0;transform:translateX(-50%) translateY(-8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* ── AGENDA ───────────────────────────────────── */
+.date-strip{display:flex;gap:8px;overflow-x:auto;padding:4px 16px 16px;scrollbar-width:none}
+.date-strip::-webkit-scrollbar{display:none}
+.date-btn{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:9px 14px;border-radius:var(--radius);flex-shrink:0;cursor:pointer;
+  background:var(--bg3);border:1px solid var(--border);transition:all 0.15s;
+}
+.date-btn.today{border-color:var(--brand);background:var(--brand-soft)}
+.date-btn.active{background:var(--brand);border-color:var(--brand)}
+.date-btn .dday{font-size:11px;color:var(--text3);font-weight:600}
+.date-btn.active .dday,.date-btn.today .dday{color:rgba(255,255,255,0.8)}
+.date-btn .dnum{font-family:var(--font);font-size:18px;font-weight:700;color:var(--text);line-height:1}
+.date-btn.active .dnum{color:#fff}
+
+/* ── CONTEXT BAR ──────────────────────────────── */
+.context-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;background:var(--bg2);
+  border:1px solid var(--border);margin:0 16px 16px;border-radius:var(--radius);
+}
+.ctx-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text3)}
+.ctx-val{font-weight:700;color:var(--text2);margin-left:2px}
+
+/* ── RESPONSIVE ───────────────────────────────── */
+@media(min-width:640px){
+  .page{max-width:640px;margin:0 auto}
+  .bottom-nav{max-width:640px;margin:0 auto;left:50%;transform:translateX(-50%);border-radius:16px 16px 0 0}
+  .fab{right:calc(50% - 320px + 18px)}
+  .drawer{border-radius:20px;margin:auto;max-height:80vh;width:540px}
+  .overlay{align-items:center;justify-content:center}
+  .detail-overlay{max-width:640px;left:50%;transform:none}
+  .detail-overlay.open{transform:translateX(-50%);margin-left:0}
+}
+
+/* ── ANIMATIONS ───────────────────────────────── */
+.fade-in{animation:fade-in 0.3s}
+.card,.hcard,.intent-card{animation:card-in 0.3s both}
+@keyframes card-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="alert"></div>
+
+<!-- ══════════════════════════════════════
+     APP
+══════════════════════════════════════ -->
+<div class="app">
+
+<!-- ── HEADER ──────────────────────────── -->
+<header class="top-header" id="top-header">
+  <div class="header-logo">¿Qué hay de bueno?</div>
+  <div class="header-search" onclick="openSearch()" role="button" aria-label="Buscar">
+    <span>🔍</span>
+    <span id="header-search-text">¿Qué quieres hacer ahora?</span>
+  </div>
+  <div class="header-btn" onclick="openSearch()" aria-label="Búsqueda por voz">🎤</div>
+</header>
+
+<!-- ══════════════════════════════════════
+     PAGE: INICIO
+══════════════════════════════════════ -->
+<section class="page active" id="page-home">
+
+  <!-- Context bar -->
+  <div class="context-bar" id="ctx-bar">
+    <div class="ctx-item">📍 <span class="ctx-val" id="ctx-city">Detectando...</span></div>
+    <div class="ctx-item">🕐 <span class="ctx-val" id="ctx-time"></span></div>
+    <div class="ctx-item">🌡️ <span class="ctx-val" id="ctx-weather">—</span></div>
+  </div>
+
+  <!-- Live banner -->
+  <div class="live-banner" id="live-banner" onclick="openFirstEvent()">
+    <div class="live-eyebrow"><div class="live-dot"></div>En vivo ahora</div>
+    <div class="live-title" id="live-title">Cargando eventos...</div>
+    <div class="live-sub" id="live-sub">La ciudad está viva</div>
+    <div class="live-row">
+      <div class="live-time" id="live-time"></div>
+      <div class="live-cta">Ver →</div>
+    </div>
+  </div>
+
+  <!-- Intent grid -->
+  <div class="sec-header"><span class="sec-title">¿Qué quieres vivir?</span></div>
+  <div class="intent-grid" id="intent-grid">
+    <div class="intent-card" onclick="filterCategory('comida')"><div class="intent-icon">🍜</div><div class="intent-label">Tengo hambre</div><div class="intent-sub">Comer cerca ahora</div></div>
+    <div class="intent-card" onclick="filterCategory('bares')"><div class="intent-icon">🍸</div><div class="intent-label">Quiero tomar algo</div><div class="intent-sub">Bares y cócteles</div></div>
+    <div class="intent-card" onclick="filterCategory('musica')"><div class="intent-icon">🎵</div><div class="intent-label">Quiero salir</div><div class="intent-sub">Música y eventos</div></div>
+    <div class="intent-card" onclick="filterCategory('familia')"><div class="intent-icon">👨‍👩‍👧</div><div class="intent-label">Con mi familia</div><div class="intent-sub">Planes para todos</div></div>
+    <div class="intent-card" onclick="filterCategory('deporte')"><div class="intent-icon">🏃</div><div class="intent-label">Quiero moverme</div><div class="intent-sub">Deporte y naturaleza</div></div>
+    <div class="intent-card" onclick="surpriseMe()"><div class="intent-icon">✨</div><div class="intent-label">Sorpréndeme</div><div class="intent-sub">IA elige por ti</div></div>
+  </div>
+
+  <!-- Cerca de ti -->
+  <div class="sec-header">
+    <span class="sec-title">Cerca de ti</span>
+    <span class="sec-action" onclick="goToExplore()">Ver todo</span>
+  </div>
+  <div id="home-feed"></div>
+
+</section>
+
+<!-- ══════════════════════════════════════
+     PAGE: EXPLORAR
+══════════════════════════════════════ -->
+<section class="page" id="page-explore">
+  <div class="sec-header"><span class="sec-title">Explorar</span></div>
+  <div class="chips-row" id="explore-chips">
+    <div class="chip active" onclick="exploreFilter(this,'todos')">🌎 Todos</div>
+    <div class="chip" onclick="exploreFilter(this,'comida')">🍜 Comida</div>
+    <div class="chip" onclick="exploreFilter(this,'bares')">🍸 Bares</div>
+    <div class="chip" onclick="exploreFilter(this,'musica')">🎵 Música</div>
+    <div class="chip" onclick="exploreFilter(this,'deporte')">🏃 Deporte</div>
+    <div class="chip" onclick="exploreFilter(this,'arte')">🎨 Arte</div>
+    <div class="chip" onclick="exploreFilter(this,'familia')">👨‍👩‍👧 Familia</div>
+    <div class="chip" onclick="exploreFilter(this,'emprendimiento')">🏪 Emprendedores</div>
+    <div class="chip" onclick="exploreFilter(this,'gratis')">🎁 Gratis</div>
+  </div>
+  <div id="explore-feed"></div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PAGE: AGENDA
+══════════════════════════════════════ -->
+<section class="page" id="page-agenda">
+  <div class="sec-header"><span class="sec-title">Agenda</span></div>
+  <div class="date-strip" id="date-strip"></div>
+  <div id="agenda-feed"></div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PAGE: GUARDADOS
+══════════════════════════════════════ -->
+<section class="page" id="page-saved">
+  <div class="sec-header"><span class="sec-title">Guardados</span></div>
+  <div id="saved-feed"></div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PAGE: PERFIL / ADMIN
+══════════════════════════════════════ -->
+<section class="page" id="page-profile">
+  <div class="profile-header">
+    <div class="profile-avatar">😊</div>
+    <div class="profile-name" id="profile-name">Mi perfil</div>
+    <div class="profile-since" id="profile-since">Usuario de ¿Qué hay de bueno?</div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" id="stat-places">0</div><div class="stat-lbl">Lugares</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-events">0</div><div class="stat-lbl">Eventos</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-saved">0</div><div class="stat-lbl">Guardados</div></div>
+  </div>
+  <div class="settings-section">Mi contenido</div>
+  <div class="settings-item" onclick="openDrawer('add-place')">
+    <div class="settings-icon">🏪</div>
+    <div><div class="settings-label">Agregar lugar / negocio</div><div class="settings-value">Restaurante, café, bar, tienda...</div></div>
+    <div class="settings-arrow">›</div>
+  </div>
+  <div class="settings-item" onclick="openDrawer('add-event')">
+    <div class="settings-icon">📅</div>
+    <div><div class="settings-label">Publicar evento</div><div class="settings-value">Concierto, feria, taller, deporte...</div></div>
+    <div class="settings-arrow">›</div>
+  </div>
+  <div class="settings-item" onclick="openDrawer('add-experience')">
+    <div class="settings-icon">🎒</div>
+    <div><div class="settings-label">Ofrecer experiencia</div><div class="settings-value">Tour, clase, aventura, servicio...</div></div>
+    <div class="settings-arrow">›</div>
+  </div>
+  <div class="settings-item" onclick="openDrawer('add-emprendimiento')">
+    <div class="settings-icon">🛍️</div>
+    <div><div class="settings-label">Registrar emprendimiento</div><div class="settings-value">Emprendedor, artesano, creador...</div></div>
+    <div class="settings-arrow">›</div>
+  </div>
+  <div class="settings-section">Configuración</div>
+  <div class="settings-item" onclick="openDrawer('profile-edit')">
+    <div class="settings-icon">👤</div>
+    <div><div class="settings-label">Editar perfil</div></div>
+    <div class="settings-arrow">›</div>
+  </div>
+  <div class="settings-item" onclick="openDrawer('notif-settings')">
+    <div class="settings-icon">🔔</div>
+    <div><div class="settings-label">Notificaciones</div></div>
+    <div class="settings-arrow">›</div>
+  </div>
+  <div class="settings-item" onclick="openDrawer('city-settings')">
+    <div class="settings-icon">🌆</div>
+    <div><div class="settings-label">Mi ciudad</div><div class="settings-value" id="settings-city-val">No configurada</div></div>
+    <div class="settings-arrow">›</div>
+  </div>
+  <div class="settings-item" onclick="clearAllData()">
+    <div class="settings-icon">🗑️</div>
+    <div><div class="settings-label" style="color:#f87171">Borrar todos los datos</div></div>
+    <div class="settings-arrow">›</div>
+  </div>
+  <div style="height:20px"></div>
+</section>
+
+<!-- ══════════════════════════════════════
+     BOTTOM NAV
+══════════════════════════════════════ -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-home" onclick="goTo('home')" aria-label="Inicio">
+    <span class="nav-icon">🏠</span><span>Inicio</span>
+  </button>
+  <button class="nav-btn" id="nav-explore" onclick="goTo('explore')" aria-label="Explorar">
+    <span class="nav-icon">🔭</span><span>Explorar</span>
+  </button>
+  <button class="nav-btn" id="nav-agenda" onclick="goTo('agenda')" aria-label="Agenda">
+    <span class="nav-icon">📅</span><span>Agenda</span>
+  </button>
+  <button class="nav-btn" id="nav-saved" onclick="goTo('saved')" aria-label="Guardados">
+    <span class="nav-icon">❤️</span><span>Guardados</span>
+  </button>
+  <button class="nav-btn" id="nav-profile" onclick="goTo('profile')" aria-label="Perfil">
+    <span class="nav-icon">👤</span><span>Perfil</span>
+  </button>
+</nav>
+
+</div><!-- /app -->
+
+<!-- ══════════════════════════════════════
+     FAB
+══════════════════════════════════════ -->
+<button class="fab" id="fab" onclick="openAddMenu()" aria-label="Agregar contenido">+</button>
+
+<!-- ══════════════════════════════════════
+     SEARCH OVERLAY
+══════════════════════════════════════ -->
+<div class="search-overlay" id="search-overlay" role="dialog" aria-label="Buscar">
+  <div class="search-box">
+    <input class="search-field" id="search-field" type="search" placeholder="¿Qué quieres hacer?" autocomplete="off" oninput="doSearch(this.value)" autofocus>
+    <div class="search-cancel" onclick="closeSearch()">Cancelar</div>
+  </div>
+  <div class="search-results" id="search-results">
+    <div class="search-suggestions">
+      <div class="search-suggest-title">Intenciones populares</div>
+      <span class="search-pill" onclick="applySearch('almorzar cerca')">🍜 Almorzar cerca</span>
+      <span class="search-pill" onclick="applySearch('café para trabajar')">☕ Café para trabajar</span>
+      <span class="search-pill" onclick="applySearch('salir esta noche')">🌙 Salir esta noche</span>
+      <span class="search-pill" onclick="applySearch('plan familiar')">👨‍👩‍👧 Plan familiar</span>
+      <span class="search-pill" onclick="applySearch('actividad gratis')">🎁 Actividad gratis</span>
+      <span class="search-pill" onclick="applySearch('deporte al aire libre')">🏃 Deporte al aire libre</span>
+      <span class="search-pill" onclick="applySearch('música en vivo')">🎵 Música en vivo</span>
+      <span class="search-pill" onclick="applySearch('evento hoy')">⚡ Evento hoy</span>
+    </div>
+    <div id="search-live-results"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     OVERLAYS / DRAWERS
+══════════════════════════════════════ -->
+
+<!-- ADD PLACE -->
+<div class="overlay" id="drawer-add-place" onclick="overlayClick(event,'drawer-add-place')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <div class="drawer-title">🏪 Agregar lugar</div>
+      <div class="drawer-close" onclick="closeDrawer('add-place')">✕</div>
+    </div>
+    <div class="drawer-body">
+      <div class="form-group">
+        <label class="form-label">Nombre del lugar *</label>
+        <input class="form-input" id="place-name" placeholder="ej. La Leña Pizzería" maxlength="80">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Categoría *</label>
+        <select class="form-select" id="place-cat">
+          <option value="">Selecciona una categoría</option>
+          <option value="comida">🍜 Restaurante / Comida</option>
+          <option value="cafe">☕ Café / Pastelería</option>
+          <option value="bares">🍸 Bar / Pub / Discoteca</option>
+          <option value="musica">🎵 Música en vivo / Karaoke</option>
+          <option value="arte">🎨 Arte / Cultura / Teatro</option>
+          <option value="deporte">🏃 Deporte / Aventura</option>
+          <option value="familia">👨‍👩‍👧 Familia / Niños</option>
+          <option value="tienda">🛍️ Tienda / Comercio</option>
+          <option value="servicio">🔧 Servicio / Profesional</option>
+          <option value="naturaleza">🌿 Naturaleza / Turismo</option>
+          <option value="emprendimiento">🏪 Emprendimiento</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Ciudad *</label>
+          <input class="form-input" id="place-city" placeholder="ej. Valdivia">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Barrio / Sector</label>
+          <input class="form-input" id="place-sector" placeholder="ej. Centro">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Dirección</label>
+        <input class="form-input" id="place-address" placeholder="ej. Av. Independencia 123">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-input form-textarea" id="place-desc" placeholder="Cuéntanos qué hace especial a este lugar..." maxlength="500"></textarea>
+        <div class="form-hint">Máx. 500 caracteres</div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Horario apertura</label>
+          <input class="form-input" id="place-open" type="time" placeholder="09:00">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Horario cierre</label>
+          <input class="form-input" id="place-close" type="time" placeholder="22:00">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Rango de precio</label>
+        <select class="form-select" id="place-price">
+          <option value="">Sin especificar</option>
+          <option value="gratis">🎁 Gratis</option>
+          <option value="$">$ Económico</option>
+          <option value="$$">$$ Moderado</option>
+          <option value="$$$">$$$ Premium</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Contacto / WhatsApp</label>
+        <input class="form-input" id="place-phone" type="tel" placeholder="+56 9 1234 5678">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Instagram / Web</label>
+        <input class="form-input" id="place-web" placeholder="@milugar o https://...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Etiquetas</label>
+        <div class="tag-picker" id="place-tags">
+          <span class="tag-pick" onclick="toggleTag(this)">Acepta mascotas</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Con terraza</span>
+          <span class="tag-pick" onclick="toggleTag(this)">WiFi gratis</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Estacionamiento</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Apto niños</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Opciones veganas</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Sin gluten</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Música en vivo</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Delivery</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Para llevar</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Reserva requerida</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Acceso silla de ruedas</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Foto del emoji representativo</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px" id="emoji-picker-place">
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','🍕')">🍕</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','☕')">☕</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','🍸')">🍸</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','🎵')">🎵</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','🏪')">🏪</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','🎨')">🎨</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','🏛️')">🏛️</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','🌿')">🌿</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','🍜')">🍜</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','🎭')">🎭</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','🏄')">🏄</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','🛍️')">🛍️</span>
+        </div>
+        <div style="margin-top:8px;font-size:13px;color:var(--text3)">Emoji seleccionado: <span id="place-emoji-preview" style="font-size:20px">🏪</span></div>
+      </div>
+      <div style="height:16px"></div>
+      <button class="btn-primary" onclick="savePlace()">Publicar lugar</button>
+      <div style="height:10px"></div>
+      <button class="btn-secondary" onclick="closeDrawer('add-place')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD EVENT -->
+<div class="overlay" id="drawer-add-event" onclick="overlayClick(event,'drawer-add-event')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <div class="drawer-title">📅 Publicar evento</div>
+      <div class="drawer-close" onclick="closeDrawer('add-event')">✕</div>
+    </div>
+    <div class="drawer-body">
+      <div class="form-group">
+        <label class="form-label">Nombre del evento *</label>
+        <input class="form-input" id="ev-name" placeholder="ej. Jazz en vivo — Café Torrente" maxlength="80">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tipo de evento *</label>
+        <select class="form-select" id="ev-type">
+          <option value="">Selecciona el tipo</option>
+          <option value="musica">🎵 Música en vivo / Concierto</option>
+          <option value="teatro">🎭 Teatro / Danza / Circo</option>
+          <option value="feria">🏪 Feria / Mercado / Expo</option>
+          <option value="deporte">🏃 Deporte / Running / Trekking</option>
+          <option value="taller">📚 Taller / Clase / Charla</option>
+          <option value="gastronomia">🍴 Gastronomía / Degustación</option>
+          <option value="arte">🎨 Arte / Exposición / Fotografía</option>
+          <option value="cine">🎬 Cine / Audiovisual</option>
+          <option value="comunidad">🤝 Comunidad / Voluntariado</option>
+          <option value="otro">📌 Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Descripción del evento</label>
+        <textarea class="form-input form-textarea" id="ev-desc" placeholder="Describe qué pasará, quién puede venir, qué se necesita..." maxlength="600"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Fecha *</label>
+          <input class="form-input" id="ev-date" type="date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Hora de inicio *</label>
+          <input class="form-input" id="ev-time" type="time">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Hora de término</label>
+          <input class="form-input" id="ev-end-time" type="time">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Entrada</label>
+          <select class="form-select" id="ev-price">
+            <option value="gratis">🎁 Entrada gratuita</option>
+            <option value="pago">💳 Con valor</option>
+            <option value="sugerido">🎩 Aporte voluntario</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" id="ev-price-val-wrap" style="display:none">
+        <label class="form-label">Valor de entrada</label>
+        <input class="form-input" id="ev-price-val" placeholder="ej. $5.000" type="text">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Lugar donde se realiza</label>
+        <input class="form-input" id="ev-venue" placeholder="ej. Café Torrente, Parque Saval...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Ciudad *</label>
+          <input class="form-input" id="ev-city" placeholder="ej. Valdivia">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Dirección</label>
+          <input class="form-input" id="ev-address" placeholder="ej. O'Higgins 1234">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Capacidad máxima</label>
+        <input class="form-input" id="ev-capacity" type="number" placeholder="ej. 100 (dejar vacío si no hay límite)">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Contacto / Inscripción</label>
+        <input class="form-input" id="ev-contact" placeholder="WhatsApp, email, link de inscripción...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Etiquetas</label>
+        <div class="tag-picker" id="ev-tags">
+          <span class="tag-pick" onclick="toggleTag(this)">Apto todo público</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Para adultos</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Para niños</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Al aire libre</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Con previa</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Pet friendly</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Sin inscripción</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Cupos limitados</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Artistas locales</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Con barra</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Emoji del evento</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('event','🎵')">🎵</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('event','🎭')">🎭</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('event','🏪')">🏪</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('event','🏃')">🏃</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('event','📚')">📚</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('event','🎬')">🎬</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('event','🎨')">🎨</span>
+          <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('event','🍴')">🍴</span>
+        </div>
+        <div style="margin-top:8px;font-size:13px;color:var(--text3)">Emoji: <span id="event-emoji-preview" style="font-size:20px">🎵</span></div>
+      </div>
+      <div style="height:16px"></div>
+      <button class="btn-primary" onclick="saveEvent()">Publicar evento</button>
+      <div style="height:10px"></div>
+      <button class="btn-secondary" onclick="closeDrawer('add-event')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD EXPERIENCE -->
+<div class="overlay" id="drawer-add-experience" onclick="overlayClick(event,'drawer-add-experience')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <div class="drawer-title">🎒 Ofrecer experiencia</div>
+      <div class="drawer-close" onclick="closeDrawer('add-experience')">✕</div>
+    </div>
+    <div class="drawer-body">
+      <div class="form-group">
+        <label class="form-label">Nombre de la experiencia *</label>
+        <input class="form-input" id="exp-name" placeholder="ej. Kayak al amanecer en el Río Calle-Calle" maxlength="80">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tipo *</label>
+        <select class="form-select" id="exp-type">
+          <option value="">Selecciona</option>
+          <option value="aventura">🏄 Aventura / Deporte extremo</option>
+          <option value="naturaleza">🌿 Naturaleza / Trekking</option>
+          <option value="gastronomia">🍴 Experiencia gastronómica</option>
+          <option value="cultural">🎨 Cultural / Artística</option>
+          <option value="bienestar">🧘 Bienestar / Meditación</option>
+          <option value="tour">🗺️ Tour / Recorrido</option>
+          <option value="clase">📚 Clase / Taller</option>
+          <option value="fotografia">📷 Fotografía</option>
+          <option value="otro">📌 Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Descripción detallada</label>
+        <textarea class="form-input form-textarea" id="exp-desc" placeholder="Describe la experiencia, qué incluye, qué nivel de condición física se necesita..." maxlength="700" style="min-height:110px"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Duración</label>
+          <input class="form-input" id="exp-duration" placeholder="ej. 3 horas">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Precio por persona</label>
+          <input class="form-input" id="exp-price" placeholder="ej. $15.000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Mín. personas</label>
+          <input class="form-input" id="exp-min" type="number" placeholder="1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Máx. personas</label>
+          <input class="form-input" id="exp-max" type="number" placeholder="10">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ciudad / Punto de encuentro</label>
+        <input class="form-input" id="exp-city" placeholder="ej. Valdivia, Muelle Fluvial">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Disponibilidad</label>
+        <select class="form-select" id="exp-avail">
+          <option value="todos">Todos los días</option>
+          <option value="semana">Lunes a viernes</option>
+          <option value="finde">Fines de semana</option>
+          <option value="agenda">Por agenda (contactar)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">¿Qué incluye?</label>
+        <div class="tag-picker" id="exp-includes">
+          <span class="tag-pick" onclick="toggleTag(this)">Equipamiento</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Transporte</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Alimentación</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Guía experto</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Seguro</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Fotos</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Certificado</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Contacto</label>
+        <input class="form-input" id="exp-contact" placeholder="WhatsApp, Instagram, email...">
+      </div>
+      <div style="height:16px"></div>
+      <button class="btn-primary" onclick="saveExperience()">Publicar experiencia</button>
+      <div style="height:10px"></div>
+      <button class="btn-secondary" onclick="closeDrawer('add-experience')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD EMPRENDIMIENTO -->
+<div class="overlay" id="drawer-add-emprendimiento" onclick="overlayClick(event,'drawer-add-emprendimiento')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <div class="drawer-title">🛍️ Registrar emprendimiento</div>
+      <div class="drawer-close" onclick="closeDrawer('add-emprendimiento')">✕</div>
+    </div>
+    <div class="drawer-body">
+      <div class="form-group">
+        <label class="form-label">Nombre del emprendimiento *</label>
+        <input class="form-input" id="emp-name" placeholder="ej. Cerámica Sur, Miel del Bosque..." maxlength="80">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Rubro *</label>
+        <select class="form-select" id="emp-cat">
+          <option value="">Selecciona el rubro</option>
+          <option value="artesania">🪡 Artesanía / Manualidades</option>
+          <option value="alimentos">🍯 Alimentos / Bebidas artesanales</option>
+          <option value="moda">👗 Moda / Indumentaria</option>
+          <option value="belleza">💄 Belleza / Cosmética natural</option>
+          <option value="decoracion">🏠 Decoración / Hogar</option>
+          <option value="tecnologia">💻 Tecnología / Software</option>
+          <option value="servicios">🔧 Servicios profesionales</option>
+          <option value="salud">💊 Salud / Bienestar</option>
+          <option value="educacion">📚 Educación / Tutorías</option>
+          <option value="arte">🎨 Arte / Diseño gráfico</option>
+          <option value="gastronomia">🍳 Gastronomía / Catering</option>
+          <option value="otro">📌 Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Historia / Descripción</label>
+        <textarea class="form-input form-textarea" id="emp-desc" placeholder="Cuéntanos tu historia. ¿Qué te motivó a emprender? ¿Qué te hace especial?" maxlength="600"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">¿Qué ofreces? (productos o servicios principales)</label>
+        <textarea class="form-input form-textarea" id="emp-products" placeholder="ej. Tazas de cerámica, platos, jarrones hechos a mano con arcilla local..." style="min-height:70px" maxlength="400"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Ciudad *</label>
+          <input class="form-input" id="emp-city" placeholder="ej. Valdivia">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Años en operación</label>
+          <input class="form-input" id="emp-years" type="number" placeholder="ej. 3">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">¿Cómo vende?</label>
+        <div class="tag-picker" id="emp-channels">
+          <span class="tag-pick" onclick="toggleTag(this)">Ferias locales</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Instagram</span>
+          <span class="tag-pick" onclick="toggleTag(this)">WhatsApp</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Tienda propia</span>
+          <span class="tag-pick" onclick="toggleTag(this)">A domicilio</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Encargos</span>
+          <span class="tag-pick" onclick="toggleTag(this)">Tienda online</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Instagram</label>
+        <input class="form-input" id="emp-ig" placeholder="@miemprendimiento">
+      </div>
+      <div class="form-group">
+        <label class="form-label">WhatsApp de contacto</label>
+        <input class="form-input" id="emp-wa" type="tel" placeholder="+56 9 1234 5678">
+      </div>
+      <div style="height:16px"></div>
+      <button class="btn-primary" onclick="saveEmprendimiento()">Registrar emprendimiento</button>
+      <div style="height:10px"></div>
+      <button class="btn-secondary" onclick="closeDrawer('add-emprendimiento')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE EDIT -->
+<div class="overlay" id="drawer-profile-edit" onclick="overlayClick(event,'drawer-profile-edit')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <div class="drawer-title">👤 Editar perfil</div>
+      <div class="drawer-close" onclick="closeDrawer('profile-edit')">✕</div>
+    </div>
+    <div class="drawer-body">
+      <div class="form-group">
+        <label class="form-label">Nombre</label>
+        <input class="form-input" id="prof-name" placeholder="Tu nombre o apodo">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ciudad principal</label>
+        <input class="form-input" id="prof-city" placeholder="ej. Valdivia">
+      </div>
+      <div class="form-group">
+        <label class="form-label">¿Qué te interesa?</label>
+        <div class="tag-picker" id="prof-interests">
+          <span class="tag-pick" onclick="toggleTag(this)">🍜 Gastronomía</span>
+          <span class="tag-pick" onclick="toggleTag(this)">🎵 Música</span>
+          <span class="tag-pick" onclick="toggleTag(this)">🎨 Arte y cultura</span>
+          <span class="tag-pick" onclick="toggleTag(this)">🏃 Deporte</span>
+          <span class="tag-pick" onclick="toggleTag(this)">🌿 Naturaleza</span>
+          <span class="tag-pick" onclick="toggleTag(this)">👨‍👩‍👧 Familia</span>
+          <span class="tag-pick" onclick="toggleTag(this)">🎭 Teatro</span>
+          <span class="tag-pick" onclick="toggleTag(this)">🎁 Gratis</span>
+          <span class="tag-pick" onclick="toggleTag(this)">🎒 Aventura</span>
+          <span class="tag-pick" onclick="toggleTag(this)">📸 Fotografía</span>
+        </div>
+      </div>
+      <div style="height:16px"></div>
+      <button class="btn-primary" onclick="saveProfile()">Guardar perfil</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div class="overlay" id="drawer-notif-settings" onclick="overlayClick(event,'drawer-notif-settings')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <div class="drawer-title">🔔 Notificaciones</div>
+      <div class="drawer-close" onclick="closeDrawer('notif-settings')">✕</div>
+    </div>
+    <div class="drawer-body">
+      <div class="toggle-wrap">
+        <div><div class="toggle-label">Eventos nuevos en tu ciudad</div><div class="toggle-sub">Te avisamos cuando se publica algo nuevo</div></div>
+        <label class="toggle"><input type="checkbox" id="notif-events" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+      </div>
+      <div class="toggle-wrap">
+        <div><div class="toggle-label">Lugares abiertos cerca</div><div class="toggle-sub">Geofencing al pasar por un lugar relevante</div></div>
+        <label class="toggle"><input type="checkbox" id="notif-nearby"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+      </div>
+      <div class="toggle-wrap">
+        <div><div class="toggle-label">Recordatorio de eventos guardados</div><div class="toggle-sub">1 hora antes del evento</div></div>
+        <label class="toggle"><input type="checkbox" id="notif-reminders" checked><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+      </div>
+      <div class="toggle-wrap">
+        <div><div class="toggle-label">Tendencias del día</div><div class="toggle-sub">Qué está popular ahora en tu ciudad</div></div>
+        <label class="toggle"><input type="checkbox" id="notif-trends"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+      </div>
+      <div style="height:20px"></div>
+      <button class="btn-primary" onclick="saveNotifSettings()">Guardar configuración</button>
+    </div>
+  </div>
+</div>
+
+<!-- CITY SETTINGS -->
+<div class="overlay" id="drawer-city-settings" onclick="overlayClick(event,'drawer-city-settings')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <div class="drawer-title">🌆 Mi ciudad</div>
+      <div class="drawer-close" onclick="closeDrawer('city-settings')">✕</div>
+    </div>
+    <div class="drawer-body">
+      <div class="form-group">
+        <label class="form-label">Ciudad activa</label>
+        <select class="form-select" id="city-select">
+          <option value="Valdivia">Valdivia</option>
+          <option value="Osorno">Osorno</option>
+          <option value="Puerto Montt">Puerto Montt</option>
+          <option value="Temuco">Temuco</option>
+          <option value="Concepción">Concepción</option>
+          <option value="Santiago">Santiago</option>
+          <option value="Villarrica">Villarrica</option>
+          <option value="Pucón">Pucón</option>
+          <option value="Castro">Castro</option>
+          <option value="Otra">Otra ciudad</option>
+        </select>
+      </div>
+      <div class="form-group" id="city-other-wrap" style="display:none">
+        <label class="form-label">Ingresa tu ciudad</label>
+        <input class="form-input" id="city-other-input" placeholder="Nombre de tu ciudad">
+      </div>
+      <div style="height:16px"></div>
+      <button class="btn-primary" onclick="saveCity()">Confirmar ciudad</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD MENU SHORTCUT -->
+<div class="overlay" id="drawer-add-menu" onclick="overlayClick(event,'drawer-add-menu')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <div class="drawer-title">¿Qué quieres publicar?</div>
+      <div class="drawer-close" onclick="closeDrawer('add-menu')">✕</div>
+    </div>
+    <div class="drawer-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="settings-item" style="flex-direction:column;align-items:flex-start;border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;background:var(--bg3)" onclick="closeDrawer('add-menu');openDrawer('add-place')">
+          <div style="font-size:28px;margin-bottom:8px">🏪</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text)">Lugar / Negocio</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:3px">Restaurante, café, bar, tienda...</div>
+        </div>
+        <div class="settings-item" style="flex-direction:column;align-items:flex-start;border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;background:var(--bg3)" onclick="closeDrawer('add-menu');openDrawer('add-event')">
+          <div style="font-size:28px;margin-bottom:8px">📅</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text)">Evento</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:3px">Concierto, feria, taller...</div>
+        </div>
+        <div class="settings-item" style="flex-direction:column;align-items:flex-start;border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;background:var(--bg3)" onclick="closeDrawer('add-menu');openDrawer('add-experience')">
+          <div style="font-size:28px;margin-bottom:8px">🎒</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text)">Experiencia</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:3px">Kayak, tour, clase, aventura...</div>
+        </div>
+        <div class="settings-item" style="flex-direction:column;align-items:flex-start;border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;background:var(--bg3)" onclick="closeDrawer('add-menu');openDrawer('add-emprendimiento')">
+          <div style="font-size:28px;margin-bottom:8px">🛍️</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text)">Emprendimiento</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:3px">Artesano, creador, servicio...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL VIEW -->
+<div class="detail-overlay" id="detail-overlay">
+  <div class="detail-hero" id="detail-hero">
+    <div class="detail-back" onclick="closeDetail()">←</div>
+    <div class="detail-share" onclick="shareItem()">↗</div>
+    <span id="detail-emoji" style="font-size:80px"></span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-name" id="detail-name"></div>
+    <div class="detail-tagline" id="detail-tagline"></div>
+    <div class="detail-tags" id="detail-tags"></div>
+    <div class="detail-info-grid" id="detail-info-grid"></div>
+    <div class="detail-section">Descripción</div>
+    <div class="detail-desc" id="detail-desc"></div>
+    <div class="detail-actions" id="detail-actions"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCRIPT
+══════════════════════════════════════ -->
+<script type="module">
+// ─── FIREBASE ──────────────────────────
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAWLT8ohR1KcTLCgnv6Z59fazgo8s4H8lY",
+  authDomain: "quehaydebueno-8a9b6.firebaseapp.com",
+  databaseURL: "https://quehaydebueno-8a9b6-default-rtdb.firebaseio.com",
+  projectId: "quehaydebueno-8a9b6",
+  storageBucket: "quehaydebueno-8a9b6.firebasestorage.app",
+  messagingSenderId: "642411460190",
+  appId: "1:642411460190:web:020b2c852fb45054b8a6cf",
+  measurementId: "G-BM355Y7QXZ"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ─── COLECCIONES FIRESTORE ──────────────
+const COLS = {
+  places: collection(db,'places'),
+  events: collection(db,'events'),
+  experiences: collection(db,'experiences'),
+  emprendimientos: collection(db,'emprendimientos')
+};
+
+// ─── CACHE LOCAL (para búsqueda y guardados) ─
+const localDB = {
+  get(k){try{return JSON.parse(localStorage.getItem('qhdb_'+k))||[]}catch{return[]}},
+  set(k,v){localStorage.setItem('qhdb_'+k,JSON.stringify(v))},
+  obj(k){try{return JSON.parse(localStorage.getItem('qhdb_'+k))||{}}catch{return{}}}
+};
+
+// ─── ESTADO GLOBAL ──────────────────────
+let currentPage = 'home';
+let currentFilter = 'todos';
+let currentDetail = null;
+let selectedEmojis = {place:'🏪', event:'🎵'};
+let agendaDate = new Date();
+
+// Cache en memoria de todos los items de Firestore
+let memCache = { places:[], events:[], experiences:[], emprendimientos:[] };
+
+// ─── LISTENERS EN TIEMPO REAL ───────────
+function initRealtimeListeners(){
+  // Escucha cada colección en tiempo real
+  ['places','events','experiences','emprendimientos'].forEach(col=>{
+    const q = query(COLS[col], orderBy('created','desc'));
+    onSnapshot(q, snap=>{
+      const savedIds = localDB.get('saved_ids');
+      memCache[col] = snap.docs.map(d=>({
+        ...d.data(),
+        id: d.id,
+        saved: savedIds.includes(d.id)
+      }));
+      // Re-renderizar si estamos en una página que lo necesite
+      if(currentPage==='home') renderHome();
+      else if(currentPage==='explore') renderExplore(currentFilter);
+      else if(currentPage==='agenda') renderAgendaFeed(document.querySelector('.date-btn.active')?.dataset?.date||todayStr());
+      else if(currentPage==='saved') renderSaved();
+      else if(currentPage==='profile') renderProfile();
+    }, err=>{
+      console.error('Firestore error:',err);
+      toast('⚠️ Error de conexión');
+    });
+  });
+}
+
+// ─── SEED DATA (solo si Firestore está vacío) ──
+async function seedData(){
+  try {
+    const snap = await getDocs(COLS.places);
+    if(!snap.empty) return; // ya hay datos, no sembrar
+    const now = Date.now();
+    const places = [
+      {type:'place',name:'La Leña Pizzería',cat:'comida',city:'Valdivia',sector:'Centro',address:'Av. Independencia 456',desc:'Pizza artesanal horneada en leña. Ingredientes locales, masas hechas a mano cada día.',hours:'12:00–23:00',price:'$$',phone:'+56 9 8765 4321',web:'@lalenapizzeria',tags:['Acepta mascotas','Con terraza','Para llevar'],emoji:'🍕',created:now-86400000*3},
+      {type:'place',name:'Café Independencia',cat:'cafe',city:'Valdivia',sector:'Centro Histórico',address:'Calle Independencia 123',desc:'Café de especialidad con granos de origen único. El mejor espacio para trabajar o leer con vista al río.',hours:'08:00–20:00',price:'$$',phone:'+56 9 1122 3344',web:'@cafeindependencia',tags:['WiFi gratis','Acepta mascotas'],emoji:'☕',created:now-86400000*5},
+      {type:'place',name:'Bar Origen',cat:'bares',city:'Valdivia',sector:'Barrio Histórico',address:"O'Higgins 890",desc:'Cócteles artesanales con botánicos del sur. Happy hour todos los días de 18:00 a 20:00.',hours:'18:00–02:00',price:'$$',phone:'+56 9 5566 7788',web:'@barorigen',tags:['Música en vivo','Con terraza'],emoji:'🍸',created:now-86400000*2},
+      {type:'place',name:'Museo Regional de Los Ríos',cat:'arte',city:'Valdivia',sector:'Centro',address:'Los Lauros 47',desc:'Historia y cultura de la región de Los Ríos. Exposiciones permanentes y temporales.',hours:'10:00–18:00',price:'gratis',phone:'+56 63 212 872',web:'museoregionallosrios.cl',tags:['Apto niños','Acceso silla de ruedas'],emoji:'🏛️',created:now-86400000*10},
+      {type:'place',name:'Club Náutico Valdivia',cat:'deporte',city:'Valdivia',sector:'Muelle Fluvial',address:'Arturo Prat s/n',desc:'Kayak, SUP y paseos en bote por el río Calle-Calle. Clases para principiantes disponibles los fines de semana.',hours:'09:00–18:00',price:'$$$',phone:'+56 9 9988 7766',web:'@clubnauticovaldivia',tags:['Reserva requerida'],emoji:'🏄',created:now-86400000*7}
+    ];
+    const events = [
+      {type:'event',name:'Jazz en Café Torrente',evType:'musica',city:'Valdivia',venue:'Café Torrente',address:'Yungay 735',desc:'Cuarteto de jazz local con música original. Entrada libre, consumas mínimas.',date:todayStr(),time:'21:00',endTime:'23:30',price:'gratis',priceVal:'',capacity:60,contact:'@cafetorrente',tags:['Apto todo público','Con barra'],emoji:'🎵',created:now-3600000},
+      {type:'event',name:'Feria Artesanal del Río',evType:'feria',city:'Valdivia',venue:'Paseo Libertad',address:'Paseo Libertad s/n',desc:'Más de 40 emprendedores y artesanos locales. Cerámica, tejidos, alimentos artesanales.',date:todayStr(),time:'10:00',endTime:'19:00',price:'gratis',priceVal:'',capacity:'',contact:'@feriavaldivia',tags:['Al aire libre','Pet friendly'],emoji:'🏪',created:now-7200000},
+      {type:'event',name:'Running Club — Parque Saval',evType:'deporte',city:'Valdivia',venue:'Parque Saval',address:'Entrada principal Parque Saval',desc:'Rodada semanal abierta a todos los niveles. 5K, 10K y 15K.',date:tomorrowStr(),time:'08:00',endTime:'10:00',price:'gratis',priceVal:'',capacity:'',contact:'+56 9 7654 3210',tags:['Al aire libre','Sin inscripción'],emoji:'🏃',created:now-10800000}
+    ];
+    const experiences = [
+      {type:'experience',name:'Kayak al amanecer — Río Calle-Calle',expType:'aventura',city:'Valdivia',desc:'Recorrido en kayak de 2 horas al amanecer. Incluye equipamiento completo y guía experto.',duration:'2 horas',price:'$18.000',min:2,max:8,avail:'finde',contact:'@kayakvaldivia',includes:['Equipamiento','Guía experto','Fotos'],emoji:'🚣',created:now-172800000}
+    ];
+    for(const p of places) await addDoc(COLS.places, p);
+    for(const e of events) await addDoc(COLS.events, e);
+    for(const x of experiences) await addDoc(COLS.experiences, x);
+    console.log('Datos de ejemplo cargados en Firestore');
+  } catch(err){
+    console.warn('seedData error:',err);
+  }
+}
+
+function todayStr(){
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function tomorrowStr(){
+  const d=new Date();d.setDate(d.getDate()+1);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+// ─── NAVIGATION ────────────────────────
+function goTo(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.getElementById('nav-'+page).classList.add('active');
+  currentPage = page;
+  renderPage(page);
+}
+
+function goToExplore(){goTo('explore')}
+
+function renderPage(page){
+  if(page==='home') renderHome();
+  else if(page==='explore') renderExplore('todos');
+  else if(page==='agenda') renderAgenda();
+  else if(page==='saved') renderSaved();
+  else if(page==='profile') renderProfile();
+}
+
+// ─── CONTEXT BAR ───────────────────────
+function updateContext(){
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes();
+  document.getElementById('ctx-time').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+  const profile = localDB.obj('profile');
+  const city = profile.city || 'Tu ciudad';
+  document.getElementById('ctx-city').textContent = city;
+  document.getElementById('settings-city-val').textContent = city;
+  const weathers = ['☀️ 18°C','🌤️ 15°C','☁️ 14°C','🌧️ 11°C','🌦️ 13°C'];
+  const wi = Math.floor(Date.now()/3600000) % weathers.length;
+  document.getElementById('ctx-weather').textContent = weathers[wi];
+}
+
+// ─── HOME ──────────────────────────────
+function renderHome(){
+  updateContext();
+  renderLiveBanner();
+  const all = getAllItems();
+  if(!all.length){
+    document.getElementById('home-feed').innerHTML = `<div class="empty"><div class="empty-icon">🌆</div><div class="empty-title">La ciudad te espera</div><div class="empty-sub">Sé el primero en agregar un lugar, evento o experiencia.</div><div class="empty-btn" onclick="openDrawer('add-menu')">+ Agregar ahora</div></div>`;
+    return;
+  }
+  const shown = all.slice(0,6);
+  document.getElementById('home-feed').innerHTML = shown.map(renderCard).join('');
+}
+
+function renderLiveBanner(){
+  const evs = memCache.events;
+  const today = todayStr();
+  const liveEvs = evs.filter(e=>e.date===today);
+  if(liveEvs.length){
+    const ev = liveEvs[0];
+    document.getElementById('live-title').textContent = ev.name;
+    document.getElementById('live-sub').textContent = `${ev.venue||ev.city} · ${ev.price==='gratis'?'Entrada libre':'$'+ev.priceVal}`;
+    document.getElementById('live-time').textContent = `Hoy ${ev.time}${ev.endTime?' – '+ev.endTime:''}`;
+    document.getElementById('live-banner').style.display='block';
+  } else {
+    document.getElementById('live-banner').style.display='none';
+  }
+}
+
+function openFirstEvent(){
+  const evs = memCache.events;
+  if(evs.length) openDetail(evs[0]);
+}
+
+// ─── CARD RENDERER ─────────────────────
+function getCatThumb(item){
+  const map={comida:'food',cafe:'food',bares:'bar',musica:'music',arte:'art',deporte:'sport',familia:'family',emprendimiento:'food',aventura:'sport',naturaleza:'sport'};
+  return map[item.cat||item.evType||item.expType]||'default';
+}
+
+function renderCard(item){
+  const thumb = getCatThumb(item);
+  const saved = item.saved;
+  const dist = ['200m','350m','500m','800m','1.2km','1.5km'][Math.floor(Math.random()*6)];
+  let badges = '';
+  if(item.price==='gratis'||item.priceVal==='0') badges+=`<span class="badge badge-free">🎁 Gratis</span>`;
+  if(item.type==='event') badges+=`<span class="badge badge-event">📅 Evento</span>`;
+  if(item.type==='experience') badges+=`<span class="badge badge-new">🎒 Experiencia</span>`;
+  if(item.type==='place'&&isOpen(item)) badges+=`<span class="badge badge-open">Abierto</span>`;
+  if(item.type==='emprendimiento') badges+=`<span class="badge badge-new">🛍️ Emprendedor</span>`;
+  const subtitle = item.type==='event'?`${item.date===todayStr()?'Hoy':'📅 '+item.date} ${item.time||''} · ${item.venue||item.city}`
+                 : item.type==='experience'?`${item.duration||''} · ${item.city} · ${item.price||''}`
+                 : `${item.cat||''} · ${item.city}${item.sector?' · '+item.sector:''}`;
+  return `<div class="card" onclick="openDetail(getAllById('${item.id}'))">
+    <div class="card-thumb ${thumb}">${item.emoji||'📍'}</div>
+    <div class="card-body">
+      <div class="card-name">${item.name}</div>
+      <div class="card-meta">${subtitle}</div>
+      <div class="card-tags">${badges}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+      <div class="card-dist">${dist}</div>
+      <div onclick="event.stopPropagation();toggleSave('${item.id}')" style="font-size:18px;cursor:pointer;line-height:1">${saved?'❤️':'🤍'}</div>
+    </div>
+  </div>`;
+}
+
+function isOpen(item){
+  if(!item.hours) return true;
+  const [o,c] = item.hours.split('–');
+  if(!o||!c) return true;
+  const now = new Date();
+  const cur = now.getHours()*60+now.getMinutes();
+  const [oh,om] = o.split(':').map(Number);
+  const [ch,cm] = c.split(':').map(Number);
+  return cur>=oh*60+om && cur<=ch*60+cm;
+}
+
+// ─── ALL ITEMS HELPERS ─────────────────
+function getAllItems(){
+  return [
+    ...memCache.places,
+    ...memCache.events,
+    ...memCache.experiences,
+    ...memCache.emprendimientos
+  ].sort((a,b)=>(b.created||0)-(a.created||0));
+}
+
+function getAllById(id){
+  return getAllItems().find(i=>i.id===id);
+}
+
+// ─── EXPLORE ───────────────────────────
+function renderExplore(filter){
+  currentFilter = filter;
+  let all = getAllItems();
+  if(filter!=='todos'){
+    all = all.filter(i=>{
+      const c = (i.cat||i.evType||i.expType||'').toLowerCase();
+      if(filter==='gratis') return i.price==='gratis'||i.priceVal==='0';
+      if(filter==='emprendimiento') return i.type==='emprendimiento';
+      return c===filter || (filter==='bares'&&c==='bar') || (filter==='musica'&&(c==='musica'||c==='bar')) || (filter==='arte'&&(c==='arte'||c==='teatro'||c==='cultural'));
+    });
+  }
+  const feed = document.getElementById('explore-feed');
+  if(!all.length){
+    feed.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><div class="empty-title">Nada aquí todavía</div><div class="empty-sub">¡Sé el primero en agregar algo en esta categoría!</div><div class="empty-btn" onclick="openDrawer('add-menu')">+ Agregar</div></div>`;
+  } else {
+    feed.innerHTML = all.map(renderCard).join('');
+  }
+}
+
+function exploreFilter(el, filter){
+  document.querySelectorAll('#explore-chips .chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderExplore(filter);
+}
+
+// ─── AGENDA ────────────────────────────
+function renderAgenda(){
+  renderDateStrip();
+  renderAgendaFeed(todayStr());
+}
+
+function renderDateStrip(){
+  const strip = document.getElementById('date-strip');
+  const days = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  let html = '';
+  for(let i=0;i<14;i++){
+    const d = new Date(); d.setDate(d.getDate()+i);
+    const ds = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const isToday = i===0;
+    html += `<div class="date-btn${isToday?' today active':''}" onclick="selectDate(this,'${ds}')">
+      <span class="dday">${isToday?'Hoy':days[d.getDay()]}</span>
+      <span class="dnum">${d.getDate()}</span>
+      <span class="dday">${months[d.getMonth()]}</span>
+    </div>`;
+  }
+  strip.innerHTML = html;
+}
+
+function selectDate(el, dateStr){
+  document.querySelectorAll('.date-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderAgendaFeed(dateStr);
+}
+
+function renderAgendaFeed(dateStr){
+  const evs = memCache.events.filter(e=>e.date===dateStr);
+  const feed = document.getElementById('agenda-feed');
+  if(!evs.length){
+    feed.innerHTML=`<div class="empty"><div class="empty-icon">📅</div><div class="empty-title">Sin eventos este día</div><div class="empty-sub">¿Tienes algo que compartir? Publícalo ahora.</div><div class="empty-btn" onclick="openDrawer('add-event')">+ Publicar evento</div></div>`;
+  } else {
+    feed.innerHTML = evs.map(renderCard).join('');
+  }
+}
+
+// ─── SAVED ─────────────────────────────
+function renderSaved(){
+  const all = getAllItems().filter(i=>i.saved);
+  const feed = document.getElementById('saved-feed');
+  if(!all.length){
+    feed.innerHTML=`<div class="empty"><div class="empty-icon">❤️</div><div class="empty-title">Nada guardado aún</div><div class="empty-sub">Toca el corazón en cualquier lugar o evento para guardarlo aquí.</div></div>`;
+  } else {
+    feed.innerHTML = all.map(renderCard).join('');
+  }
+}
+
+function toggleSave(id){
+  const savedIds = localDB.get('saved_ids');
+  const isSaved = savedIds.includes(id);
+  const newIds = isSaved ? savedIds.filter(s=>s!==id) : [...savedIds, id];
+  localDB.set('saved_ids', newIds);
+  // Actualizar el cache en memoria
+  ['places','events','experiences','emprendimientos'].forEach(col=>{
+    memCache[col] = memCache[col].map(i=>i.id===id?{...i,saved:!isSaved}:i);
+  });
+  toast(isSaved?'💔 Eliminado de guardados':'❤️ Guardado');
+  renderPage(currentPage);
+}
+
+// ─── PROFILE ───────────────────────────
+function renderProfile(){
+  const profile = localDB.obj('profile');
+  document.getElementById('profile-name').textContent = profile.name||'Mi perfil';
+  document.getElementById('profile-since').textContent = profile.city?`📍 ${profile.city}`:'Configura tu ciudad';
+  document.getElementById('stat-places').textContent = memCache.places.length;
+  document.getElementById('stat-events').textContent = memCache.events.length;
+  document.getElementById('stat-saved').textContent = getAllItems().filter(i=>i.saved).length;
+  document.getElementById('settings-city-val').textContent = profile.city||'No configurada';
+}
+
+// ─── DETAIL VIEW ───────────────────────
+function openDetail(item){
+  if(!item) return;
+  currentDetail = item;
+  document.getElementById('detail-emoji').textContent = item.emoji||'📍';
+  document.getElementById('detail-name').textContent = item.name;
+
+  let tagline = '';
+  if(item.type==='place') tagline = `${item.cat||''} · ${item.city}${item.sector?' · '+item.sector:''}`;
+  if(item.type==='event') tagline = `${item.date===todayStr()?'Hoy':'📅 '+item.date} ${item.time||''} · ${item.venue||item.city}`;
+  if(item.type==='experience') tagline = `${item.expType||''} · ${item.city} · ${item.duration||''}`;
+  if(item.type==='emprendimiento') tagline = `${item.cat||''} · ${item.city}`;
+  document.getElementById('detail-tagline').textContent = tagline;
+
+  const badges = [];
+  if(item.price==='gratis'||item.priceVal==='0') badges.push(`<span class="badge badge-free">🎁 Gratis</span>`);
+  if(item.type==='event') badges.push(`<span class="badge badge-event">📅 Evento</span>`);
+  if(item.type==='experience') badges.push(`<span class="badge badge-new">🎒 Experiencia</span>`);
+  if(item.type==='place'&&isOpen(item)) badges.push(`<span class="badge badge-open">Abierto ahora</span>`);
+  if(item.tags) item.tags.forEach(t=>badges.push(`<span class="badge" style="background:var(--bg4);color:var(--text3)">${t}</span>`));
+  document.getElementById('detail-tags').innerHTML = badges.join('');
+
+  const infoCards = [];
+  if(item.hours) infoCards.push(`<div class="detail-info-card"><div class="detail-info-label">Horario</div><div class="detail-info-value">${item.hours}</div></div>`);
+  if(item.price) infoCards.push(`<div class="detail-info-card"><div class="detail-info-label">Precio</div><div class="detail-info-value">${item.price==='gratis'?'Gratis':item.price+' '+(item.priceVal||'')}</div></div>`);
+  if(item.address) infoCards.push(`<div class="detail-info-card"><div class="detail-info-label">Dirección</div><div class="detail-info-value">${item.address}</div></div>`);
+  if(item.phone) infoCards.push(`<div class="detail-info-card"><div class="detail-info-label">Contacto</div><div class="detail-info-value">${item.phone}</div></div>`);
+  if(item.capacity) infoCards.push(`<div class="detail-info-card"><div class="detail-info-label">Capacidad</div><div class="detail-info-value">${item.capacity} personas</div></div>`);
+  if(item.duration) infoCards.push(`<div class="detail-info-card"><div class="detail-info-label">Duración</div><div class="detail-info-value">${item.duration}</div></div>`);
+  document.getElementById('detail-info-grid').innerHTML = infoCards.join('');
+
+  document.getElementById('detail-desc').textContent = item.desc||'Sin descripción disponible.';
+
+  const saved = item.saved;
+  document.getElementById('detail-actions').innerHTML = `
+    <div class="detail-action-btn secondary" onclick="toggleSave('${item.id}')">${saved?'❤️ Guardado':'🤍 Guardar'}</div>
+    ${item.phone?`<div class="detail-action-btn primary" onclick="window.open('https://wa.me/${item.phone.replace(/\D/g,'')}','_blank')">💬 Contactar</div>`:''}
+    ${item.web&&item.web.startsWith('http')?`<div class="detail-action-btn secondary" onclick="window.open('${item.web}','_blank')">🔗 Ver web</div>`:''}
+  `;
+
+  document.getElementById('detail-overlay').classList.add('open');
+}
+
+function closeDetail(){
+  document.getElementById('detail-overlay').classList.remove('open');
+  currentDetail = null;
+}
+
+function shareItem(){
+  if(!currentDetail) return;
+  if(navigator.share){
+    navigator.share({title:currentDetail.name, text:`¿Qué hay de bueno? — ${currentDetail.name}`, url:window.location.href});
+  } else {
+    navigator.clipboard.writeText(window.location.href).then(()=>toast('🔗 Enlace copiado'));
+  }
+}
+
+// ─── SEARCH ────────────────────────────
+function openSearch(){
+  document.getElementById('search-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('search-field').focus(),100);
+}
+function closeSearch(){
+  document.getElementById('search-overlay').classList.remove('open');
+  document.getElementById('search-field').value='';
+  document.getElementById('search-live-results').innerHTML='';
+}
+function applySearch(q){
+  document.getElementById('search-field').value=q;
+  doSearch(q);
+}
+function doSearch(q){
+  const res = document.getElementById('search-live-results');
+  if(!q.trim()){res.innerHTML='';return;}
+  const all = getAllItems();
+  const ql = q.toLowerCase();
+  const filtered = all.filter(i=>
+    i.name.toLowerCase().includes(ql)||
+    (i.desc&&i.desc.toLowerCase().includes(ql))||
+    (i.cat&&i.cat.toLowerCase().includes(ql))||
+    (i.city&&i.city.toLowerCase().includes(ql))||
+    (i.evType&&i.evType.toLowerCase().includes(ql))||
+    (i.tags&&i.tags.some(t=>t.toLowerCase().includes(ql)))
+  );
+  if(!filtered.length){
+    res.innerHTML=`<div class="empty" style="padding:40px 20px"><div class="empty-title">Sin resultados para "${q}"</div><div class="empty-sub">Intenta con otra búsqueda</div></div>`;
+  } else {
+    res.innerHTML = `<div style="padding:12px 16px 4px;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px">${filtered.length} resultado${filtered.length!==1?'s':''}</div>`+filtered.map(i=>`
+      <div class="card" onclick="closeSearch();openDetail(getAllById('${i.id}'))">
+        <div class="card-thumb ${getCatThumb(i)}">${i.emoji||'📍'}</div>
+        <div class="card-body">
+          <div class="card-name">${i.name}</div>
+          <div class="card-meta">${i.type==='event'?'Evento · '+i.city:i.cat||i.type} · ${i.city}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+// ─── DRAWERS ───────────────────────────
+function openDrawer(name){
+  document.getElementById('drawer-'+name).classList.add('open');
+  if(name==='add-event'){
+    const d = document.getElementById('ev-date');
+    if(!d.value) d.value = todayStr();
+    document.getElementById('ev-price-val-wrap').style.display='none';
+    document.getElementById('ev-price').onchange = function(){
+      document.getElementById('ev-price-val-wrap').style.display = this.value==='pago'?'block':'none';
+    };
+  }
+  if(name==='city-settings'){
+    const p = localDB.obj('profile');
+    const sel = document.getElementById('city-select');
+    if(p.city) sel.value = p.city;
+    sel.onchange = function(){
+      document.getElementById('city-other-wrap').style.display = this.value==='Otra'?'block':'none';
+    };
+  }
+  if(name==='profile-edit'){
+    const p = localDB.obj('profile');
+    document.getElementById('prof-name').value = p.name||'';
+    document.getElementById('prof-city').value = p.city||'';
+  }
+  if(name==='add-place'){
+    document.getElementById('place-emoji-preview').textContent = selectedEmojis.place;
+  }
+  if(name==='add-event'){
+    document.getElementById('event-emoji-preview').textContent = selectedEmojis.event;
+  }
+}
+
+function closeDrawer(name){
+  document.getElementById('drawer-'+name).classList.remove('open');
+}
+
+function overlayClick(e, name){
+  if(e.target===document.getElementById('drawer-'+name)) closeDrawer(name);
+}
+
+function openAddMenu(){openDrawer('add-menu')}
+
+// ─── TAG TOGGLE ────────────────────────
+function toggleTag(el){el.classList.toggle('sel')}
+function getSelectedTags(containerId){
+  return Array.from(document.querySelectorAll('#'+containerId+' .tag-pick.sel')).map(el=>el.textContent.trim());
+}
+
+// ─── EMOJI PICKER ──────────────────────
+function setEmoji(type, emoji){
+  selectedEmojis[type] = emoji;
+  document.getElementById(type==='place'?'place-emoji-preview':'event-emoji-preview').textContent = emoji;
+}
+
+// ─── SAVE PLACE ────────────────────────
+async function savePlace(){
+  const name = document.getElementById('place-name').value.trim();
+  const cat = document.getElementById('place-cat').value;
+  const city = document.getElementById('place-city').value.trim();
+  if(!name||!cat||!city){toast('⚠️ Completa los campos obligatorios');return;}
+  const place = {
+    type:'place', name, cat, city,
+    sector:document.getElementById('place-sector').value.trim(),
+    address:document.getElementById('place-address').value.trim(),
+    desc:document.getElementById('place-desc').value.trim(),
+    hours:document.getElementById('place-open').value&&document.getElementById('place-close').value?document.getElementById('place-open').value+'–'+document.getElementById('place-close').value:'',
+    price:document.getElementById('place-price').value,
+    phone:document.getElementById('place-phone').value.trim(),
+    web:document.getElementById('place-web').value.trim(),
+    tags:getSelectedTags('place-tags'),
+    emoji:selectedEmojis.place,
+    created:Date.now()
+  };
+  try{
+    toast('⏳ Publicando...');
+    await addDoc(COLS.places, place);
+    clearForm(['place-name','place-city','place-sector','place-address','place-desc','place-phone','place-web','place-open','place-close']);
+    document.getElementById('place-cat').selectedIndex=0;
+    document.getElementById('place-price').selectedIndex=0;
+    document.querySelectorAll('#place-tags .tag-pick').forEach(t=>t.classList.remove('sel'));
+    selectedEmojis.place='🏪';
+    closeDrawer('add-place');
+    toast('✅ ¡Lugar publicado!');
+  }catch(err){
+    console.error(err);
+    toast('❌ Error al publicar. Intenta de nuevo.');
+  }
+}
+
+// ─── SAVE EVENT ────────────────────────
+async function saveEvent(){
+  const name = document.getElementById('ev-name').value.trim();
+  const evType = document.getElementById('ev-type').value;
+  const city = document.getElementById('ev-city').value.trim();
+  const date = document.getElementById('ev-date').value;
+  const time = document.getElementById('ev-time').value;
+  if(!name||!evType||!city||!date||!time){toast('⚠️ Completa los campos obligatorios');return;}
+  const ev = {
+    type:'event', name,evType,city,date,time,
+    endTime:document.getElementById('ev-end-time').value,
+    desc:document.getElementById('ev-desc').value.trim(),
+    price:document.getElementById('ev-price').value,
+    priceVal:document.getElementById('ev-price-val').value.trim(),
+    venue:document.getElementById('ev-venue').value.trim(),
+    address:document.getElementById('ev-address').value.trim(),
+    capacity:document.getElementById('ev-capacity').value.trim(),
+    contact:document.getElementById('ev-contact').value.trim(),
+    tags:getSelectedTags('ev-tags'),
+    emoji:selectedEmojis.event,
+    created:Date.now()
+  };
+  try{
+    toast('⏳ Publicando...');
+    await addDoc(COLS.events, ev);
+    clearForm(['ev-name','ev-city','ev-address','ev-desc','ev-venue','ev-contact','ev-capacity','ev-price-val']);
+    document.getElementById('ev-type').selectedIndex=0;
+    document.querySelectorAll('#ev-tags .tag-pick').forEach(t=>t.classList.remove('sel'));
+    selectedEmojis.event='🎵';
+    closeDrawer('add-event');
+    toast('✅ ¡Evento publicado!');
+  }catch(err){
+    console.error(err);
+    toast('❌ Error al publicar. Intenta de nuevo.');
+  }
+}
+
+// ─── SAVE EXPERIENCE ───────────────────
+async function saveExperience(){
+  const name = document.getElementById('exp-name').value.trim();
+  const expType = document.getElementById('exp-type').value;
+  const city = document.getElementById('exp-city').value.trim();
+  if(!name||!expType||!city){toast('⚠️ Completa los campos obligatorios');return;}
+  const exp = {
+    type:'experience', name,expType,city,
+    desc:document.getElementById('exp-desc').value.trim(),
+    duration:document.getElementById('exp-duration').value.trim(),
+    price:document.getElementById('exp-price').value.trim(),
+    min:document.getElementById('exp-min').value,
+    max:document.getElementById('exp-max').value,
+    avail:document.getElementById('exp-avail').value,
+    contact:document.getElementById('exp-contact').value.trim(),
+    includes:getSelectedTags('exp-includes'),
+    emoji:'🎒',
+    created:Date.now()
+  };
+  try{
+    toast('⏳ Publicando...');
+    await addDoc(COLS.experiences, exp);
+    clearForm(['exp-name','exp-city','exp-desc','exp-duration','exp-price','exp-contact']);
+    document.getElementById('exp-type').selectedIndex=0;
+    document.querySelectorAll('#exp-includes .tag-pick').forEach(t=>t.classList.remove('sel'));
+    closeDrawer('add-experience');
+    toast('✅ ¡Experiencia publicada!');
+  }catch(err){
+    console.error(err);
+    toast('❌ Error al publicar. Intenta de nuevo.');
+  }
+}
+
+// ─── SAVE EMPRENDIMIENTO ───────────────
+async function saveEmprendimiento(){
+  const name = document.getElementById('emp-name').value.trim();
+  const cat = document.getElementById('emp-cat').value;
+  const city = document.getElementById('emp-city').value.trim();
+  if(!name||!cat||!city){toast('⚠️ Completa los campos obligatorios');return;}
+  const emp = {
+    type:'emprendimiento', name,cat,city,
+    desc:document.getElementById('emp-desc').value.trim(),
+    products:document.getElementById('emp-products').value.trim(),
+    years:document.getElementById('emp-years').value,
+    channels:getSelectedTags('emp-channels'),
+    ig:document.getElementById('emp-ig').value.trim(),
+    wa:document.getElementById('emp-wa').value.trim(),
+    emoji:'🛍️',
+    created:Date.now()
+  };
+  try{
+    toast('⏳ Registrando...');
+    await addDoc(COLS.emprendimientos, emp);
+    clearForm(['emp-name','emp-city','emp-desc','emp-products','emp-years','emp-ig','emp-wa']);
+    document.getElementById('emp-cat').selectedIndex=0;
+    document.querySelectorAll('#emp-channels .tag-pick').forEach(t=>t.classList.remove('sel'));
+    closeDrawer('add-emprendimiento');
+    toast('✅ ¡Emprendimiento registrado!');
+  }catch(err){
+    console.error(err);
+    toast('❌ Error al registrar. Intenta de nuevo.');
+  }
+}
+
+// ─── PROFILE & SETTINGS ────────────────
+function saveProfile(){
+  const name = document.getElementById('prof-name').value.trim();
+  const city = document.getElementById('prof-city').value.trim();
+  const interests = getSelectedTags('prof-interests');
+  const profile = localDB.obj('profile');
+  profile.name = name||profile.name;
+  profile.city = city||profile.city;
+  profile.interests = interests;
+  localDB.set('profile',profile);
+  closeDrawer('profile-edit');
+  toast('✅ Perfil guardado');
+  renderProfile();
+  updateContext();
+}
+
+function saveNotifSettings(){
+  const s = {events:document.getElementById('notif-events').checked,nearby:document.getElementById('notif-nearby').checked,reminders:document.getElementById('notif-reminders').checked,trends:document.getElementById('notif-trends').checked};
+  localDB.set('notifications',s);
+  closeDrawer('notif-settings');
+  toast('✅ Configuración guardada');
+}
+
+function saveCity(){
+  const sel = document.getElementById('city-select').value;
+  const city = sel==='Otra'?document.getElementById('city-other-input').value.trim()||'Mi ciudad':sel;
+  const profile = localDB.obj('profile');
+  profile.city = city;
+  localDB.set('profile',profile);
+  closeDrawer('city-settings');
+  toast(`✅ Ciudad: ${city}`);
+  updateContext();
+  renderProfile();
+}
+
+// ─── SURPRISE ME ───────────────────────
+function surpriseMe(){
+  const all = getAllItems();
+  if(!all.length){toast('🌆 Agrega lugares primero');return;}
+  const pick = all[Math.floor(Math.random()*all.length)];
+  toast(`✨ Sorpresa: ${pick.name}`);
+  setTimeout(()=>openDetail(pick),400);
+}
+
+// ─── CATEGORY FILTER FROM HOME ─────────
+function filterCategory(cat){
+  goTo('explore');
+  setTimeout(()=>{
+    document.querySelectorAll('#explore-chips .chip').forEach(c=>c.classList.remove('active'));
+    const chip = Array.from(document.querySelectorAll('#explore-chips .chip')).find(c=>c.getAttribute('onclick')&&c.getAttribute('onclick').includes(`'${cat}'`));
+    if(chip) chip.classList.add('active');
+    renderExplore(cat);
+  },50);
+}
+
+// ─── HELPERS ───────────────────────────
+function clearForm(ids){ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value=''})}
+
+function toast(msg,dur=2400){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+function clearAllData(){
+  if(!confirm('¿Borrar datos locales (guardados, perfil, ciudad)? Los lugares y eventos publicados en la nube no se eliminan.')) return;
+  ['profile','notifications','saved_ids'].forEach(k=>localStorage.removeItem('qhdb_'+k));
+  // Resetear saved en memCache
+  ['places','events','experiences','emprendimientos'].forEach(col=>{
+    memCache[col] = memCache[col].map(i=>({...i,saved:false}));
+  });
+  toast('🗑️ Datos locales borrados');
+  renderPage(currentPage);
+  renderProfile();
+}
+
+// ─── KEYBOARD ──────────────────────────
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(document.getElementById('detail-overlay').classList.contains('open')){closeDetail();return;}
+    if(document.getElementById('search-overlay').classList.contains('open')){closeSearch();return;}
+    ['add-place','add-event','add-experience','add-emprendimiento','profile-edit','notif-settings','city-settings','add-menu'].forEach(n=>{
+      document.getElementById('drawer-'+n).classList.remove('open');
+    });
+  }
+});
+
+// ─── EXPONER FUNCIONES AL SCOPE GLOBAL ─
+// Necesario porque type="module" aísla el scope
+Object.assign(window, {
+  goTo, renderPage, openSearch, closeSearch, applySearch, doSearch,
+  openDrawer, closeDrawer, overlayClick, openAddMenu,
+  openDetail, closeDetail, shareItem,
+  toggleSave, toggleTag, getSelectedTags, setEmoji,
+  savePlace, saveEvent, saveExperience, saveEmprendimiento,
+  saveProfile, saveNotifSettings, saveCity,
+  filterCategory, exploreFilter, exploreFilter,
+  selectDate, surpriseMe, clearAllData,
+  goToExplore, openFirstEvent
+});
+
+// ─── PWA SERVICE WORKER ────────────────
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+
+// ─── INIT ──────────────────────────────
+async function init(){
+  updateContext();
+  setInterval(updateContext, 30000);
+  // Mostrar loading mientras conecta
+  document.getElementById('home-feed').innerHTML = `<div class="empty"><div class="empty-icon" style="animation:pulse-live 1s infinite">🔄</div><div class="empty-title">Conectando...</div><div class="empty-sub">Cargando datos en tiempo real</div></div>`;
+  // Iniciar listeners en tiempo real (renderiza automáticamente al recibir datos)
+  initRealtimeListeners();
+  // Sembrar datos de ejemplo si Firestore está vacío
+  await seedData();
+}
+
+init();
+</script>
+</body>
+</html>
