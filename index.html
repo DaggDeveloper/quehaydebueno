@@ -410,6 +410,67 @@ a{color:inherit;text-decoration:none}
 .ctx-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text3)}
 .ctx-val{font-weight:700;color:var(--text2);margin-left:2px}
 
+/* ── AUTH SCREEN ──────────────────────────────── */
+.auth-screen{
+  position:fixed;inset:0;z-index:400;
+  background:var(--bg);display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:32px 24px;text-align:center;
+}
+.auth-screen.show{display:flex}
+.auth-logo{font-family:var(--font);font-size:36px;font-weight:800;color:var(--brand);letter-spacing:-1.5px;margin-bottom:8px}
+.auth-tagline{font-size:15px;color:var(--text2);margin-bottom:48px;line-height:1.5;max-width:280px}
+.auth-btn-google{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  width:100%;max-width:320px;padding:14px 24px;border-radius:14px;
+  background:#fff;color:#1A1A1A;font-size:15px;font-weight:700;
+  cursor:pointer;border:none;font-family:var(--font);
+  box-shadow:0 2px 16px rgba(0,0,0,0.2);transition:transform 0.15s,box-shadow 0.15s;
+}
+.auth-btn-google:hover{transform:translateY(-1px);box-shadow:0 4px 24px rgba(0,0,0,0.3)}
+.auth-btn-google:active{transform:scale(0.98)}
+.auth-btn-google svg{width:20px;height:20px;flex-shrink:0}
+.auth-guest{margin-top:16px;font-size:13px;color:var(--text3);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.auth-terms{margin-top:32px;font-size:11px;color:var(--text3);max-width:280px;line-height:1.6}
+
+/* ── USER AVATAR ──────────────────────────────── */
+.user-avatar{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  object-fit:cover;border:2px solid var(--brand);cursor:pointer;
+}
+.user-avatar-placeholder{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  background:var(--brand-soft);border:2px solid var(--brand);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;cursor:pointer;color:var(--brand);font-weight:700;
+}
+
+/* ── USER MENU ────────────────────────────────── */
+.user-menu{
+  position:fixed;top:60px;right:12px;z-index:200;
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:var(--radius-lg);padding:8px;min-width:200px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  display:none;animation:fade-in 0.15s;
+}
+.user-menu.show{display:block}
+.user-menu-header{padding:10px 12px 10px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.user-menu-name{font-size:14px;font-weight:700;color:var(--text)}
+.user-menu-email{font-size:11px;color:var(--text3);margin-top:2px}
+.user-menu-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  border-radius:8px;cursor:pointer;font-size:13px;color:var(--text2);
+  transition:background 0.1s;
+}
+.user-menu-item:hover{background:var(--bg4)}
+.user-menu-item.danger{color:#f87171}
+
+/* ── MY CONTENT BADGE ─────────────────────────── */
+.mine-badge{
+  font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;
+  background:var(--brand-soft);color:var(--brand);border:1px solid rgba(255,68,34,0.3);
+}
+
 /* ── RESPONSIVE ───────────────────────────────── */
 @media(min-width:640px){
   .page{max-width:640px;margin:0 auto}
@@ -433,6 +494,36 @@ a{color:inherit;text-decoration:none}
 <div class="toast" id="toast" role="alert"></div>
 
 <!-- ══════════════════════════════════════
+     AUTH SCREEN
+══════════════════════════════════════ -->
+<div class="auth-screen" id="auth-screen">
+  <div class="auth-logo">¿Qué hay<br>de bueno?</div>
+  <div class="auth-tagline">Descubre, comparte y vive lo mejor de tu ciudad.</div>
+  <button class="auth-btn-google" onclick="loginWithGoogle()">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+    Continuar con Google
+  </button>
+  <div class="auth-guest" onclick="continueAsGuest()">Continuar sin cuenta</div>
+  <div class="auth-terms">Al registrarte aceptas nuestros términos de uso. Tu información no será compartida con terceros.</div>
+</div>
+
+<!-- USER MENU -->
+<div class="user-menu" id="user-menu">
+  <div class="user-menu-header">
+    <div class="user-menu-name" id="um-name">—</div>
+    <div class="user-menu-email" id="um-email">—</div>
+  </div>
+  <div class="user-menu-item" onclick="goTo('profile');closeUserMenu()">👤 Mi perfil</div>
+  <div class="user-menu-item" onclick="openDrawer('add-menu');closeUserMenu()">➕ Publicar</div>
+  <div class="user-menu-item danger" onclick="logoutUser();closeUserMenu()">🚪 Cerrar sesión</div>
+</div>
+
+<!-- ══════════════════════════════════════
      APP
 ══════════════════════════════════════ -->
 <div class="app">
@@ -444,7 +535,9 @@ a{color:inherit;text-decoration:none}
     <span>🔍</span>
     <span id="header-search-text">¿Qué quieres hacer ahora?</span>
   </div>
-  <div class="header-btn" onclick="openSearch()" aria-label="Búsqueda por voz">🎤</div>
+  <div id="header-user-btn" onclick="toggleUserMenu()" aria-label="Mi cuenta">
+    <div class="user-avatar-placeholder" id="header-avatar">👤</div>
+  </div>
 </header>
 
 <!-- ══════════════════════════════════════
@@ -531,7 +624,7 @@ a{color:inherit;text-decoration:none}
 ══════════════════════════════════════ -->
 <section class="page" id="page-profile">
   <div class="profile-header">
-    <div class="profile-avatar">😊</div>
+    <div class="profile-avatar" id="profile-avatar-el">😊</div>
     <div class="profile-name" id="profile-name">Mi perfil</div>
     <div class="profile-since" id="profile-since">Usuario de ¿Qué hay de bueno?</div>
   </div>
@@ -1210,6 +1303,7 @@ a{color:inherit;text-decoration:none}
 // ─── FIREBASE ──────────────────────────
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAWLT8ohR1KcTLCgnv6Z59fazgo8s4H8lY",
@@ -1224,6 +1318,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+
+// ─── ESTADO DE USUARIO ──────────────────
+let currentUser = null; // objeto Firebase Auth user
 
 // ─── COLECCIONES FIRESTORE ──────────────
 const COLS = {
@@ -1249,6 +1348,92 @@ let agendaDate = new Date();
 
 // Cache en memoria de todos los items de Firestore
 let memCache = { places:[], events:[], experiences:[], emprendimientos:[] };
+
+// ─── AUTH FUNCTIONS ────────────────────
+async function loginWithGoogle(){
+  try{
+    toast('⏳ Conectando con Google...');
+    const result = await signInWithPopup(auth, googleProvider);
+    currentUser = result.user;
+    toast(`✅ Bienvenido, ${currentUser.displayName.split(' ')[0]}!`);
+  }catch(err){
+    console.error(err);
+    if(err.code !== 'auth/popup-closed-by-user'){
+      toast('❌ Error al iniciar sesión');
+    }
+  }
+}
+
+function continueAsGuest(){
+  document.getElementById('auth-screen').classList.remove('show');
+  toast('👋 Modo invitado — puedes explorar pero no publicar');
+}
+
+async function logoutUser(){
+  try{
+    await signOut(auth);
+    currentUser = null;
+    toast('👋 Sesión cerrada');
+  }catch(err){
+    console.error(err);
+  }
+}
+
+function toggleUserMenu(){
+  const menu = document.getElementById('user-menu');
+  menu.classList.toggle('show');
+}
+
+function closeUserMenu(){
+  document.getElementById('user-menu').classList.remove('show');
+}
+
+// Cerrar user menu al tocar fuera
+document.addEventListener('click', e=>{
+  const menu = document.getElementById('user-menu');
+  const btn = document.getElementById('header-user-btn');
+  if(menu.classList.contains('show') && !menu.contains(e.target) && !btn.contains(e.target)){
+    menu.classList.remove('show');
+  }
+});
+
+function updateAuthUI(user){
+  const avatarEl = document.getElementById('header-avatar');
+  const authScreen = document.getElementById('auth-screen');
+  if(user){
+    // Usuario logueado — mostrar foto o inicial
+    if(user.photoURL){
+      avatarEl.outerHTML = `<img src="${user.photoURL}" class="user-avatar" id="header-avatar" onclick="toggleUserMenu()" referrerpolicy="no-referrer">`;
+    } else {
+      avatarEl.textContent = user.displayName?user.displayName[0].toUpperCase():'👤';
+    }
+    // Actualizar user menu
+    document.getElementById('um-name').textContent = user.displayName||'Usuario';
+    document.getElementById('um-email').textContent = user.email||'';
+    // Ocultar auth screen
+    authScreen.classList.remove('show');
+    // Sincronizar guardados del usuario en Firestore (futuro)
+    // Actualizar perfil local
+    const profile = localDB.obj('profile');
+    if(!profile.name) profile.name = user.displayName;
+    if(!profile.city) profile.city = '';
+    localDB.set('profile', profile);
+  } else {
+    // No logueado — mostrar pantalla de auth
+    avatarEl.textContent = '👤';
+    authScreen.classList.add('show');
+  }
+  renderProfile();
+}
+
+function requireAuth(action){
+  if(!currentUser){
+    toast('👤 Inicia sesión para publicar');
+    document.getElementById('auth-screen').classList.add('show');
+    return false;
+  }
+  return true;
+}
 
 // ─── LISTENERS EN TIEMPO REAL ───────────
 function initRealtimeListeners(){
@@ -1532,12 +1717,26 @@ function toggleSave(id){
 // ─── PROFILE ───────────────────────────
 function renderProfile(){
   const profile = localDB.obj('profile');
-  document.getElementById('profile-name').textContent = profile.name||'Mi perfil';
-  document.getElementById('profile-since').textContent = profile.city?`📍 ${profile.city}`:'Configura tu ciudad';
-  document.getElementById('stat-places').textContent = memCache.places.length;
-  document.getElementById('stat-events').textContent = memCache.events.length;
+  const name = currentUser?.displayName || profile.name || 'Mi perfil';
+  const city = profile.city || '';
+  document.getElementById('profile-name').textContent = name;
+  document.getElementById('profile-since').textContent = city ? `📍 ${city}` : (currentUser ? currentUser.email : 'Configura tu ciudad');
+  // Avatar en perfil
+  const avatarEl = document.getElementById('profile-avatar-el');
+  if(avatarEl){
+    if(currentUser?.photoURL){
+      avatarEl.innerHTML = `<img src="${currentUser.photoURL}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--brand)" referrerpolicy="no-referrer">`;
+    } else {
+      avatarEl.textContent = name[0]?.toUpperCase() || '😊';
+    }
+  }
+  // Stats — mis publicaciones
+  const myPlaces = currentUser ? memCache.places.filter(i=>i.userId===currentUser.uid).length : memCache.places.length;
+  const myEvents = currentUser ? memCache.events.filter(i=>i.userId===currentUser.uid).length : memCache.events.length;
+  document.getElementById('stat-places').textContent = myPlaces;
+  document.getElementById('stat-events').textContent = myEvents;
   document.getElementById('stat-saved').textContent = getAllItems().filter(i=>i.saved).length;
-  document.getElementById('settings-city-val').textContent = profile.city||'No configurada';
+  document.getElementById('settings-city-val').textContent = city || 'No configurada';
 }
 
 // ─── DETAIL VIEW ───────────────────────
@@ -1695,12 +1894,16 @@ function setEmoji(type, emoji){
 
 // ─── SAVE PLACE ────────────────────────
 async function savePlace(){
+  if(!requireAuth()) return;
   const name = document.getElementById('place-name').value.trim();
   const cat = document.getElementById('place-cat').value;
   const city = document.getElementById('place-city').value.trim();
   if(!name||!cat||!city){toast('⚠️ Completa los campos obligatorios');return;}
   const place = {
     type:'place', name, cat, city,
+    userId: currentUser.uid,
+    userName: currentUser.displayName||'',
+    userPhoto: currentUser.photoURL||'',
     sector:document.getElementById('place-sector').value.trim(),
     address:document.getElementById('place-address').value.trim(),
     desc:document.getElementById('place-desc').value.trim(),
@@ -1730,6 +1933,7 @@ async function savePlace(){
 
 // ─── SAVE EVENT ────────────────────────
 async function saveEvent(){
+  if(!requireAuth()) return;
   const name = document.getElementById('ev-name').value.trim();
   const evType = document.getElementById('ev-type').value;
   const city = document.getElementById('ev-city').value.trim();
@@ -1738,6 +1942,9 @@ async function saveEvent(){
   if(!name||!evType||!city||!date||!time){toast('⚠️ Completa los campos obligatorios');return;}
   const ev = {
     type:'event', name,evType,city,date,time,
+    userId: currentUser.uid,
+    userName: currentUser.displayName||'',
+    userPhoto: currentUser.photoURL||'',
     endTime:document.getElementById('ev-end-time').value,
     desc:document.getElementById('ev-desc').value.trim(),
     price:document.getElementById('ev-price').value,
@@ -1767,12 +1974,16 @@ async function saveEvent(){
 
 // ─── SAVE EXPERIENCE ───────────────────
 async function saveExperience(){
+  if(!requireAuth()) return;
   const name = document.getElementById('exp-name').value.trim();
   const expType = document.getElementById('exp-type').value;
   const city = document.getElementById('exp-city').value.trim();
   if(!name||!expType||!city){toast('⚠️ Completa los campos obligatorios');return;}
   const exp = {
     type:'experience', name,expType,city,
+    userId: currentUser.uid,
+    userName: currentUser.displayName||'',
+    userPhoto: currentUser.photoURL||'',
     desc:document.getElementById('exp-desc').value.trim(),
     duration:document.getElementById('exp-duration').value.trim(),
     price:document.getElementById('exp-price').value.trim(),
@@ -1800,12 +2011,16 @@ async function saveExperience(){
 
 // ─── SAVE EMPRENDIMIENTO ───────────────
 async function saveEmprendimiento(){
+  if(!requireAuth()) return;
   const name = document.getElementById('emp-name').value.trim();
   const cat = document.getElementById('emp-cat').value;
   const city = document.getElementById('emp-city').value.trim();
   if(!name||!cat||!city){toast('⚠️ Completa los campos obligatorios');return;}
   const emp = {
     type:'emprendimiento', name,cat,city,
+    userId: currentUser.uid,
+    userName: currentUser.displayName||'',
+    userPhoto: currentUser.photoURL||'',
     desc:document.getElementById('emp-desc').value.trim(),
     products:document.getElementById('emp-products').value.trim(),
     years:document.getElementById('emp-years').value,
@@ -1928,7 +2143,9 @@ Object.assign(window, {
   filterCategory, exploreFilter,
   selectDate, surpriseMe, clearAllData,
   goToExplore, openFirstEvent,
-  getAllById, getAllItems
+  getAllById, getAllItems,
+  loginWithGoogle, continueAsGuest, logoutUser,
+  toggleUserMenu, closeUserMenu
 });
 
 // ─── PWA SERVICE WORKER ────────────────
@@ -1940,10 +2157,23 @@ if('serviceWorker' in navigator){
 async function init(){
   updateContext();
   setInterval(updateContext, 30000);
+
   // Mostrar loading mientras conecta
   document.getElementById('home-feed').innerHTML = `<div class="empty"><div class="empty-icon" style="animation:pulse-live 1s infinite">🔄</div><div class="empty-title">Conectando...</div><div class="empty-sub">Cargando datos en tiempo real</div></div>`;
-  // Iniciar listeners en tiempo real (renderiza automáticamente al recibir datos)
+
+  // Listener de autenticación — se dispara al cargar y al cambiar sesión
+  onAuthStateChanged(auth, async user => {
+    currentUser = user;
+    updateAuthUI(user);
+    if(!user){
+      // Mostrar auth screen solo si no hay datos cargados aún
+      document.getElementById('auth-screen').classList.add('show');
+    }
+  });
+
+  // Iniciar listeners Firestore en tiempo real
   initRealtimeListeners();
+
   // Sembrar datos de ejemplo si Firestore está vacío
   await seedData();
 }

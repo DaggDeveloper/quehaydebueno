@@ -1480,7 +1480,7 @@ function renderDateStrip(){
     const d = new Date(); d.setDate(d.getDate()+i);
     const ds = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     const isToday = i===0;
-    html += `<div class="date-btn${isToday?' today active':''}" onclick="selectDate(this,'${ds}')">
+    html += `<div class="date-btn${isToday?' today active':''}" data-date="${ds}" onclick="selectDate(this,'${ds}')">
       <span class="dday">${isToday?'Hoy':days[d.getDay()]}</span>
       <span class="dnum">${d.getDate()}</span>
       <span class="dday">${months[d.getMonth()]}</span>
@@ -1925,9 +1925,10 @@ Object.assign(window, {
   toggleSave, toggleTag, getSelectedTags, setEmoji,
   savePlace, saveEvent, saveExperience, saveEmprendimiento,
   saveProfile, saveNotifSettings, saveCity,
-  filterCategory, exploreFilter, exploreFilter,
+  filterCategory, exploreFilter,
   selectDate, surpriseMe, clearAllData,
-  goToExplore, openFirstEvent
+  goToExplore, openFirstEvent,
+  getAllById, getAllItems
 });
 
 // ─── PWA SERVICE WORKER ────────────────
