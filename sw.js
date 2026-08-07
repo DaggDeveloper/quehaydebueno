@@ -1,4 +1,3 @@
-// Service Worker — ¿Qué hay de bueno?
 const CACHE = 'qhdb-v2';
 const STATIC = ['/manifest.json'];
 
@@ -17,7 +16,6 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // No interceptar peticiones a Firebase ni a googleapis
   const url = e.request.url;
   if (url.includes('firestore.googleapis.com') ||
       url.includes('firebase') ||
@@ -25,7 +23,6 @@ self.addEventListener('fetch', e => {
       url.includes('gstatic.com')) {
     return;
   }
-  // Para el resto, network first, cache fallback
   e.respondWith(
     fetch(e.request).catch(() => caches.match(e.request))
   );
