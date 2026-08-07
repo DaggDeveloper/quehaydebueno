@@ -471,56 +471,6 @@ a{color:inherit;text-decoration:none}
   background:var(--brand-soft);color:var(--brand);border:1px solid rgba(255,68,34,0.3);
 }
 
-/* ── ADMIN ────────────────────────────────────── */
-.admin-tabs{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;scrollbar-width:none}
-.admin-tabs::-webkit-scrollbar{display:none}
-.admin-tab{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;background:var(--bg3);border:1px solid var(--border);color:var(--text2);transition:all 0.15s;flex-shrink:0}
-.admin-tab.active{background:var(--brand);border-color:var(--brand);color:#fff}
-.pending-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:var(--radius-lg);padding:14px;margin:0 16px 10px}
-.pending-card.approved{border-left-color:var(--green)}
-.pending-card.rejected{border-left-color:#f87171;opacity:0.6}
-.pending-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
-.pending-emoji{font-size:28px;line-height:1;flex-shrink:0}
-.pending-info{flex:1;min-width:0}
-.pending-name{font-family:var(--font);font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
-.pending-meta{font-size:11px;color:var(--text3)}
-.pending-user{display:flex;align-items:center;gap:6px;margin:8px 0;padding:8px;background:var(--bg3);border-radius:8px}
-.pending-user-photo{width:24px;height:24px;border-radius:50%;object-fit:cover}
-.pending-user-name{font-size:11px;color:var(--text2);font-weight:600}
-.pending-user-role{font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700}
-.role-explorer{background:var(--bg4);color:var(--text3)}
-.role-publisher{background:var(--blue-soft);color:var(--blue)}
-.role-business{background:var(--purple-soft);color:var(--purple)}
-.role-admin{background:var(--brand-soft);color:var(--brand)}
-.pending-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.pending-actions{display:flex;gap:8px}
-.btn-approve{flex:1;padding:10px;border-radius:10px;background:var(--green);color:#fff;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:var(--font)}
-.btn-reject{flex:1;padding:10px;border-radius:10px;background:rgba(248,113,113,0.15);color:#f87171;font-size:13px;font-weight:700;cursor:pointer;border:1px solid rgba(248,113,113,0.3);font-family:var(--font)}
-.btn-delete{padding:10px 14px;border-radius:10px;background:rgba(248,113,113,0.15);color:#f87171;font-size:13px;font-weight:700;cursor:pointer;border:1px solid rgba(248,113,113,0.3);font-family:var(--font)}
-.admin-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--brand);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
-.nav-btn{position:relative}
-.users-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px 14px;margin:0 16px 8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background 0.1s}
-.users-card:hover{background:var(--bg3)}
-.users-card-photo{width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:18px}
-.users-card-info{flex:1;min-width:0}
-.users-card-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px}
-.users-card-email{font-size:11px;color:var(--text3)}
-.role-select{background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px;color:var(--text);cursor:pointer;appearance:none;-webkit-appearance:none}
-.admin-stat-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px 16px}
-.admin-stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
-.admin-stat-num{font-family:var(--font);font-size:28px;font-weight:800;color:var(--brand);letter-spacing:-1px}
-.admin-stat-lbl{font-size:11px;color:var(--text3);margin-top:3px}
-
-/* ── UPGRADE PLAN ─────────────────────────────── */
-.plan-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;margin-bottom:10px;cursor:pointer;transition:border-color 0.15s}
-.plan-card:hover{border-color:var(--brand)}
-.plan-card.recommended{border-color:var(--brand);background:var(--brand-soft)}
-.plan-name{font-family:var(--font);font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
-.plan-price{font-size:20px;font-weight:800;color:var(--brand);font-family:var(--font);margin-bottom:8px}
-.plan-features{list-style:none}
-.plan-features li{font-size:12px;color:var(--text2);padding:2px 0;display:flex;align-items:center;gap:6px}
-.plan-features li::before{content:'✓';color:var(--green);font-weight:700}
-
 /* ── RESPONSIVE ───────────────────────────────── */
 @media(min-width:640px){
   .page{max-width:640px;margin:0 auto}
@@ -729,21 +679,6 @@ a{color:inherit;text-decoration:none}
 </section>
 
 <!-- ══════════════════════════════════════
-     PAGE: ADMIN
-══════════════════════════════════════ -->
-<section class="page" id="page-admin" style="display:none">
-  <div class="sec-header"><span class="sec-title">🛡️ Panel Admin</span></div>
-  <div class="admin-stat-row" id="admin-stats"></div>
-  <div class="admin-tabs">
-    <div class="admin-tab active" onclick="adminTab(this,'pending')">⏳ Pendientes</div>
-    <div class="admin-tab" onclick="adminTab(this,'approved')">✅ Aprobadas</div>
-    <div class="admin-tab" onclick="adminTab(this,'rejected')">❌ Rechazadas</div>
-    <div class="admin-tab" onclick="adminTab(this,'users')">👥 Usuarios</div>
-  </div>
-  <div id="admin-feed"></div>
-</section>
-
-<!-- ══════════════════════════════════════
      BOTTOM NAV
 ══════════════════════════════════════ -->
 <nav class="bottom-nav">
@@ -761,11 +696,6 @@ a{color:inherit;text-decoration:none}
   </button>
   <button class="nav-btn" id="nav-profile" onclick="goTo('profile')" aria-label="Perfil">
     <span class="nav-icon">👤</span><span>Perfil</span>
-  </button>
-  <button class="nav-btn" id="nav-admin" onclick="goTo('admin')" aria-label="Admin" style="display:none">
-    <span class="nav-icon">🛡️</span>
-    <span id="admin-pending-badge" style="position:absolute;top:6px;right:calc(50% - 18px);min-width:16px;height:16px;border-radius:8px;background:var(--brand);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px"></span>
-    <span>Admin</span>
   </button>
 </nav>
 
@@ -1348,52 +1278,6 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 
-<!-- UPGRADE PLAN -->
-<div class="overlay" id="drawer-upgrade-plan" onclick="overlayClick(event,'upgrade-plan')">
-  <div class="drawer">
-    <div class="drawer-handle"></div>
-    <div class="drawer-header">
-      <div class="drawer-title">🚀 Elige tu plan</div>
-      <div class="drawer-close" onclick="closeDrawer('upgrade-plan')">✕</div>
-    </div>
-    <div class="drawer-body">
-      <p style="font-size:13px;color:var(--text3);margin-bottom:16px">Para publicar contenido necesitas activar un plan. Contacta al administrador para activar el tuyo.</p>
-      <div class="plan-card">
-        <div class="plan-name">🙋 Publicador Individual</div>
-        <div class="plan-price">Gratis</div>
-        <ul class="plan-features">
-          <li>2 publicaciones activas</li>
-          <li>Eventos y experiencias</li>
-          <li>Sin imágenes</li>
-        </ul>
-      </div>
-      <div class="plan-card recommended">
-        <div class="plan-name">🏪 Comercio Básico</div>
-        <div class="plan-price">$5.990 CLP/mes</div>
-        <ul class="plan-features">
-          <li>5 publicaciones activas</li>
-          <li>1 imagen por publicación</li>
-          <li>Estadísticas básicas</li>
-          <li>Badge verificado</li>
-        </ul>
-      </div>
-      <div class="plan-card">
-        <div class="plan-name">🚀 Comercio Pro</div>
-        <div class="plan-price">$14.990 CLP/mes</div>
-        <ul class="plan-features">
-          <li>Publicaciones ilimitadas</li>
-          <li>Hasta 5 imágenes</li>
-          <li>Estadísticas avanzadas</li>
-          <li>1 destacado mensual</li>
-          <li>Notificación push mensual</li>
-        </ul>
-      </div>
-      <div style="height:12px"></div>
-      <button class="btn-primary" onclick="requestPlanUpgrade()">Solicitar activación</button>
-    </div>
-  </div>
-</div>
-
 <!-- DETAIL VIEW -->
 <div class="detail-overlay" id="detail-overlay">
   <div class="detail-hero" id="detail-hero">
@@ -1418,7 +1302,7 @@ a{color:inherit;text-decoration:none}
 <script type="module">
 // ─── FIREBASE ──────────────────────────
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, where, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -1438,16 +1322,14 @@ const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
 // ─── ESTADO DE USUARIO ──────────────────
-let currentUser = null;
-let currentUserRole = 'explorer'; // explorer | publisher | business | admin
+let currentUser = null; // objeto Firebase Auth user
 
 // ─── COLECCIONES FIRESTORE ──────────────
 const COLS = {
   places: collection(db,'places'),
   events: collection(db,'events'),
   experiences: collection(db,'experiences'),
-  emprendimientos: collection(db,'emprendimientos'),
-  users: collection(db,'users')
+  emprendimientos: collection(db,'emprendimientos')
 };
 
 // ─── CACHE LOCAL (para búsqueda y guardados) ─
@@ -1515,101 +1397,39 @@ document.addEventListener('click', e=>{
   }
 });
 
-// ─── REGISTRO Y ROL DE USUARIO ─────────
-async function registerOrLoadUser(user){
-  const userRef = doc(db, 'users', user.uid);
-  const snap = await getDoc(userRef);
-  if(!snap.exists()){
-    // Primera vez — crear documento con rol explorer
-    await setDoc(userRef, {
-      uid: user.uid,
-      email: user.email,
-      name: user.displayName||'',
-      photo: user.photoURL||'',
-      role: 'explorer',
-      plan: 'free',
-      created: Date.now(),
-      lastLogin: Date.now()
-    });
-    currentUserRole = 'explorer';
-  } else {
-    // Ya existe — cargar rol
-    const data = snap.data();
-    currentUserRole = data.role || 'explorer';
-    // Actualizar último login
-    await updateDoc(userRef, { lastLogin: Date.now(), name: user.displayName||'', photo: user.photoURL||'' });
-  }
-  return currentUserRole;
-}
-
-function canPublish(){
-  return ['publisher','business','admin'].includes(currentUserRole);
-}
-
-function isAdmin(){
-  return currentUserRole === 'admin';
-}
-
-function getPlanLimits(){
-  const limits = {
-    explorer:     { maxPosts:0,  images:false, stats:false, featured:0 },
-    publisher:    { maxPosts:2,  images:false, stats:false, featured:0 },
-    business:     { maxPosts:5,  images:true,  stats:true,  featured:1 },
-    admin:        { maxPosts:999,images:true,  stats:true,  featured:99 }
-  };
-  return limits[currentUserRole] || limits.explorer;
-}
-
 function updateAuthUI(user){
+  const avatarEl = document.getElementById('header-avatar');
   const authScreen = document.getElementById('auth-screen');
   if(user){
-    // Avatar header
-    const avatarEl = document.getElementById('header-avatar');
-    if(avatarEl){
-      if(user.photoURL){
-        avatarEl.outerHTML = `<img src="${user.photoURL}" class="user-avatar" id="header-avatar" onclick="toggleUserMenu()" referrerpolicy="no-referrer">`;
-      } else {
-        avatarEl.textContent = user.displayName?user.displayName[0].toUpperCase():'👤';
-      }
+    // Usuario logueado — mostrar foto o inicial
+    if(user.photoURL){
+      avatarEl.outerHTML = `<img src="${user.photoURL}" class="user-avatar" id="header-avatar" onclick="toggleUserMenu()" referrerpolicy="no-referrer">`;
+    } else {
+      avatarEl.textContent = user.displayName?user.displayName[0].toUpperCase():'👤';
     }
+    // Actualizar user menu
     document.getElementById('um-name').textContent = user.displayName||'Usuario';
     document.getElementById('um-email').textContent = user.email||'';
+    // Ocultar auth screen
     authScreen.classList.remove('show');
+    // Sincronizar guardados del usuario en Firestore (futuro)
+    // Actualizar perfil local
     const profile = localDB.obj('profile');
     if(!profile.name) profile.name = user.displayName;
+    if(!profile.city) profile.city = '';
     localDB.set('profile', profile);
-    // Mostrar/ocultar tab admin
-    updateAdminTab();
   } else {
-    const avatarEl = document.getElementById('header-avatar');
-    if(avatarEl) avatarEl.textContent = '👤';
+    // No logueado — mostrar pantalla de auth
+    avatarEl.textContent = '👤';
     authScreen.classList.add('show');
-    currentUserRole = 'explorer';
-    updateAdminTab();
   }
   renderProfile();
 }
 
-function updateAdminTab(){
-  const adminTab = document.getElementById('nav-admin');
-  const adminPage = document.getElementById('page-admin');
-  if(isAdmin()){
-    if(adminTab) adminTab.style.display='flex';
-    if(adminPage) adminPage.style.display='flex';
-  } else {
-    if(adminTab) adminTab.style.display='none';
-  }
-}
-
-function requireAuth(){
+function requireAuth(action){
   if(!currentUser){
     toast('👤 Inicia sesión para publicar');
     document.getElementById('auth-screen').classList.add('show');
-    return false;
-  }
-  if(!canPublish()){
-    toast('🔒 Necesitas el plan Publicador o superior');
-    openDrawer('upgrade-plan');
     return false;
   }
   return true;
@@ -1617,17 +1437,17 @@ function requireAuth(){
 
 // ─── LISTENERS EN TIEMPO REAL ───────────
 function initRealtimeListeners(){
+  // Escucha cada colección en tiempo real
   ['places','events','experiences','emprendimientos'].forEach(col=>{
-    // Usuarios normales solo ven aprobadas. Admin ve todo.
-    const q = isAdmin()
-      ? query(COLS[col], orderBy('created','desc'))
-      : query(COLS[col], where('status','==','approved'), orderBy('created','desc'));
+    const q = query(COLS[col], orderBy('created','desc'));
     onSnapshot(q, snap=>{
       const savedIds = localDB.get('saved_ids');
       memCache[col] = snap.docs.map(d=>({
-        ...d.data(), id:d.id,
+        ...d.data(),
+        id: d.id,
         saved: savedIds.includes(d.id)
       }));
+      // Re-renderizar si estamos en una página que lo necesite
       if(currentPage==='home') renderHome();
       else if(currentPage==='explore') renderExplore(currentFilter);
       else if(currentPage==='agenda') renderAgendaFeed(document.querySelector('.date-btn.active')?.dataset?.date||todayStr());
@@ -1635,23 +1455,9 @@ function initRealtimeListeners(){
       else if(currentPage==='profile') renderProfile();
     }, err=>{
       console.error('Firestore error:',err);
+      toast('⚠️ Error de conexión');
     });
   });
-
-  // Listener de pendientes para admin
-  if(isAdmin()){
-    ['places','events','experiences','emprendimientos'].forEach(col=>{
-      const q = query(COLS[col], where('status','==','pending'), orderBy('created','desc'));
-      onSnapshot(q, snap=>{
-        const pending = snap.docs.map(d=>({...d.data(), id:d.id, col}));
-        // Actualizar badge de pendientes
-        const total = pending.length;
-        const badge = document.getElementById('admin-pending-badge');
-        if(badge) badge.textContent = total > 0 ? total : '';
-        if(currentPage==='admin') renderAdminPage();
-      });
-    });
-  }
 }
 
 // ─── SEED DATA (solo si Firestore está vacío) ──
@@ -1661,19 +1467,19 @@ async function seedData(){
     if(!snap.empty) return; // ya hay datos, no sembrar
     const now = Date.now();
     const places = [
-      {type:'place',name:'La Leña Pizzería',cat:'comida',city:'Valdivia',sector:'Centro',address:'Av. Independencia 456',desc:'Pizza artesanal horneada en leña. Ingredientes locales, masas hechas a mano cada día.',hours:'12:00–23:00',price:'$$',phone:'+56 9 8765 4321',web:'@lalenapizzeria',tags:['Acepta mascotas','Con terraza','Para llevar'],emoji:'🍕',status:'approved',created:now-86400000*3},
-      {type:'place',name:'Café Independencia',cat:'cafe',city:'Valdivia',sector:'Centro Histórico',address:'Calle Independencia 123',desc:'Café de especialidad con granos de origen único. El mejor espacio para trabajar o leer con vista al río.',hours:'08:00–20:00',price:'$$',phone:'+56 9 1122 3344',web:'@cafeindependencia',tags:['WiFi gratis','Acepta mascotas'],emoji:'☕',status:'approved',created:now-86400000*5},
-      {type:'place',name:'Bar Origen',cat:'bares',city:'Valdivia',sector:'Barrio Histórico',address:"O'Higgins 890",desc:'Cócteles artesanales con botánicos del sur. Happy hour todos los días de 18:00 a 20:00.',hours:'18:00–02:00',price:'$$',phone:'+56 9 5566 7788',web:'@barorigen',tags:['Música en vivo','Con terraza'],emoji:'🍸',status:'approved',created:now-86400000*2},
-      {type:'place',name:'Museo Regional de Los Ríos',cat:'arte',city:'Valdivia',sector:'Centro',address:'Los Lauros 47',desc:'Historia y cultura de la región de Los Ríos. Exposiciones permanentes y temporales.',hours:'10:00–18:00',price:'gratis',phone:'+56 63 212 872',web:'museoregionallosrios.cl',tags:['Apto niños','Acceso silla de ruedas'],emoji:'🏛️',status:'approved',created:now-86400000*10},
-      {type:'place',name:'Club Náutico Valdivia',cat:'deporte',city:'Valdivia',sector:'Muelle Fluvial',address:'Arturo Prat s/n',desc:'Kayak, SUP y paseos en bote por el río Calle-Calle. Clases para principiantes disponibles los fines de semana.',hours:'09:00–18:00',price:'$$$',phone:'+56 9 9988 7766',web:'@clubnauticovaldivia',tags:['Reserva requerida'],emoji:'🏄',status:'approved',created:now-86400000*7}
+      {type:'place',name:'La Leña Pizzería',cat:'comida',city:'Valdivia',sector:'Centro',address:'Av. Independencia 456',desc:'Pizza artesanal horneada en leña. Ingredientes locales, masas hechas a mano cada día.',hours:'12:00–23:00',price:'$$',phone:'+56 9 8765 4321',web:'@lalenapizzeria',tags:['Acepta mascotas','Con terraza','Para llevar'],emoji:'🍕',created:now-86400000*3},
+      {type:'place',name:'Café Independencia',cat:'cafe',city:'Valdivia',sector:'Centro Histórico',address:'Calle Independencia 123',desc:'Café de especialidad con granos de origen único. El mejor espacio para trabajar o leer con vista al río.',hours:'08:00–20:00',price:'$$',phone:'+56 9 1122 3344',web:'@cafeindependencia',tags:['WiFi gratis','Acepta mascotas'],emoji:'☕',created:now-86400000*5},
+      {type:'place',name:'Bar Origen',cat:'bares',city:'Valdivia',sector:'Barrio Histórico',address:"O'Higgins 890",desc:'Cócteles artesanales con botánicos del sur. Happy hour todos los días de 18:00 a 20:00.',hours:'18:00–02:00',price:'$$',phone:'+56 9 5566 7788',web:'@barorigen',tags:['Música en vivo','Con terraza'],emoji:'🍸',created:now-86400000*2},
+      {type:'place',name:'Museo Regional de Los Ríos',cat:'arte',city:'Valdivia',sector:'Centro',address:'Los Lauros 47',desc:'Historia y cultura de la región de Los Ríos. Exposiciones permanentes y temporales.',hours:'10:00–18:00',price:'gratis',phone:'+56 63 212 872',web:'museoregionallosrios.cl',tags:['Apto niños','Acceso silla de ruedas'],emoji:'🏛️',created:now-86400000*10},
+      {type:'place',name:'Club Náutico Valdivia',cat:'deporte',city:'Valdivia',sector:'Muelle Fluvial',address:'Arturo Prat s/n',desc:'Kayak, SUP y paseos en bote por el río Calle-Calle. Clases para principiantes disponibles los fines de semana.',hours:'09:00–18:00',price:'$$$',phone:'+56 9 9988 7766',web:'@clubnauticovaldivia',tags:['Reserva requerida'],emoji:'🏄',created:now-86400000*7}
     ];
     const events = [
-      {type:'event',name:'Jazz en Café Torrente',evType:'musica',city:'Valdivia',venue:'Café Torrente',address:'Yungay 735',desc:'Cuarteto de jazz local con música original. Entrada libre, consumas mínimas.',date:todayStr(),time:'21:00',endTime:'23:30',price:'gratis',priceVal:'',capacity:60,contact:'@cafetorrente',tags:['Apto todo público','Con barra'],emoji:'🎵',status:'approved',created:now-3600000},
-      {type:'event',name:'Feria Artesanal del Río',evType:'feria',city:'Valdivia',venue:'Paseo Libertad',address:'Paseo Libertad s/n',desc:'Más de 40 emprendedores y artesanos locales. Cerámica, tejidos, alimentos artesanales.',date:todayStr(),time:'10:00',endTime:'19:00',price:'gratis',priceVal:'',capacity:'',contact:'@feriavaldivia',tags:['Al aire libre','Pet friendly'],emoji:'🏪',status:'approved',created:now-7200000},
-      {type:'event',name:'Running Club — Parque Saval',evType:'deporte',city:'Valdivia',venue:'Parque Saval',address:'Entrada principal Parque Saval',desc:'Rodada semanal abierta a todos los niveles. 5K, 10K y 15K.',date:tomorrowStr(),time:'08:00',endTime:'10:00',price:'gratis',priceVal:'',capacity:'',contact:'+56 9 7654 3210',tags:['Al aire libre','Sin inscripción'],emoji:'🏃',status:'approved',created:now-10800000}
+      {type:'event',name:'Jazz en Café Torrente',evType:'musica',city:'Valdivia',venue:'Café Torrente',address:'Yungay 735',desc:'Cuarteto de jazz local con música original. Entrada libre, consumas mínimas.',date:todayStr(),time:'21:00',endTime:'23:30',price:'gratis',priceVal:'',capacity:60,contact:'@cafetorrente',tags:['Apto todo público','Con barra'],emoji:'🎵',created:now-3600000},
+      {type:'event',name:'Feria Artesanal del Río',evType:'feria',city:'Valdivia',venue:'Paseo Libertad',address:'Paseo Libertad s/n',desc:'Más de 40 emprendedores y artesanos locales. Cerámica, tejidos, alimentos artesanales.',date:todayStr(),time:'10:00',endTime:'19:00',price:'gratis',priceVal:'',capacity:'',contact:'@feriavaldivia',tags:['Al aire libre','Pet friendly'],emoji:'🏪',created:now-7200000},
+      {type:'event',name:'Running Club — Parque Saval',evType:'deporte',city:'Valdivia',venue:'Parque Saval',address:'Entrada principal Parque Saval',desc:'Rodada semanal abierta a todos los niveles. 5K, 10K y 15K.',date:tomorrowStr(),time:'08:00',endTime:'10:00',price:'gratis',priceVal:'',capacity:'',contact:'+56 9 7654 3210',tags:['Al aire libre','Sin inscripción'],emoji:'🏃',created:now-10800000}
     ];
     const experiences = [
-      {type:'experience',name:'Kayak al amanecer — Río Calle-Calle',expType:'aventura',city:'Valdivia',desc:'Recorrido en kayak de 2 horas al amanecer. Incluye equipamiento completo y guía experto.',duration:'2 horas',price:'$18.000',min:2,max:8,avail:'finde',contact:'@kayakvaldivia',includes:['Equipamiento','Guía experto','Fotos'],emoji:'🚣',status:'approved',created:now-172800000}
+      {type:'experience',name:'Kayak al amanecer — Río Calle-Calle',expType:'aventura',city:'Valdivia',desc:'Recorrido en kayak de 2 horas al amanecer. Incluye equipamiento completo y guía experto.',duration:'2 horas',price:'$18.000',min:2,max:8,avail:'finde',contact:'@kayakvaldivia',includes:['Equipamiento','Guía experto','Fotos'],emoji:'🚣',created:now-172800000}
     ];
     for(const p of places) await addDoc(COLS.places, p);
     for(const e of events) await addDoc(COLS.events, e);
@@ -1711,7 +1517,6 @@ function renderPage(page){
   else if(page==='agenda') renderAgenda();
   else if(page==='saved') renderSaved();
   else if(page==='profile') renderProfile();
-  else if(page==='admin' && isAdmin()) renderAdminPage();
 }
 
 // ─── CONTEXT BAR ───────────────────────
@@ -2108,7 +1913,6 @@ async function savePlace(){
     web:document.getElementById('place-web').value.trim(),
     tags:getSelectedTags('place-tags'),
     emoji:selectedEmojis.place,
-    status:'pending',
     created:Date.now()
   };
   try{
@@ -2120,7 +1924,7 @@ async function savePlace(){
     document.querySelectorAll('#place-tags .tag-pick').forEach(t=>t.classList.remove('sel'));
     selectedEmojis.place='🏪';
     closeDrawer('add-place');
-    toast('⏳ Lugar enviado — pendiente de aprobación');
+    toast('✅ ¡Lugar publicado!');
   }catch(err){
     console.error(err);
     toast('❌ Error al publicar. Intenta de nuevo.');
@@ -2151,7 +1955,6 @@ async function saveEvent(){
     contact:document.getElementById('ev-contact').value.trim(),
     tags:getSelectedTags('ev-tags'),
     emoji:selectedEmojis.event,
-    status:'pending',
     created:Date.now()
   };
   try{
@@ -2162,7 +1965,7 @@ async function saveEvent(){
     document.querySelectorAll('#ev-tags .tag-pick').forEach(t=>t.classList.remove('sel'));
     selectedEmojis.event='🎵';
     closeDrawer('add-event');
-    toast('⏳ Evento enviado — pendiente de aprobación');
+    toast('✅ ¡Evento publicado!');
   }catch(err){
     console.error(err);
     toast('❌ Error al publicar. Intenta de nuevo.');
@@ -2190,7 +1993,6 @@ async function saveExperience(){
     contact:document.getElementById('exp-contact').value.trim(),
     includes:getSelectedTags('exp-includes'),
     emoji:'🎒',
-    status:'pending',
     created:Date.now()
   };
   try{
@@ -2200,7 +2002,7 @@ async function saveExperience(){
     document.getElementById('exp-type').selectedIndex=0;
     document.querySelectorAll('#exp-includes .tag-pick').forEach(t=>t.classList.remove('sel'));
     closeDrawer('add-experience');
-    toast('⏳ Experiencia enviada — pendiente de aprobación');
+    toast('✅ ¡Experiencia publicada!');
   }catch(err){
     console.error(err);
     toast('❌ Error al publicar. Intenta de nuevo.');
@@ -2226,7 +2028,6 @@ async function saveEmprendimiento(){
     ig:document.getElementById('emp-ig').value.trim(),
     wa:document.getElementById('emp-wa').value.trim(),
     emoji:'🛍️',
-    status:'pending',
     created:Date.now()
   };
   try{
@@ -2236,7 +2037,7 @@ async function saveEmprendimiento(){
     document.getElementById('emp-cat').selectedIndex=0;
     document.querySelectorAll('#emp-channels .tag-pick').forEach(t=>t.classList.remove('sel'));
     closeDrawer('add-emprendimiento');
-    toast('⏳ Emprendimiento enviado — pendiente de aprobación');
+    toast('✅ ¡Emprendimiento registrado!');
   }catch(err){
     console.error(err);
     toast('❌ Error al registrar. Intenta de nuevo.');
@@ -2330,167 +2131,6 @@ document.addEventListener('keydown',e=>{
   }
 });
 
-// ─── ADMIN FUNCTIONS ───────────────────
-let adminCurrentTab = 'pending';
-
-async function renderAdminPage(){
-  if(!isAdmin()) return;
-  await renderAdminStats();
-  renderAdminFeed(adminCurrentTab);
-}
-
-async function renderAdminStats(){
-  const cols = ['places','events','experiences','emprendimientos'];
-  let pending=0, approved=0, rejected=0, total=0;
-  for(const col of cols){
-    const snap = await getDocs(COLS[col]);
-    snap.forEach(d=>{
-      const s = d.data().status;
-      total++;
-      if(s==='pending') pending++;
-      else if(s==='approved') approved++;
-      else if(s==='rejected') rejected++;
-    });
-  }
-  const usersSnap = await getDocs(COLS.users);
-  const totalUsers = usersSnap.size;
-  document.getElementById('admin-stats').innerHTML = `
-    <div class="admin-stat"><div class="admin-stat-num">${pending}</div><div class="admin-stat-lbl">⏳ Pendientes</div></div>
-    <div class="admin-stat"><div class="admin-stat-num">${approved}</div><div class="admin-stat-lbl">✅ Aprobadas</div></div>
-    <div class="admin-stat"><div class="admin-stat-num">${totalUsers}</div><div class="admin-stat-lbl">👥 Usuarios</div></div>
-    <div class="admin-stat"><div class="admin-stat-num">${total}</div><div class="admin-stat-lbl">📦 Total</div></div>
-  `;
-}
-
-async function renderAdminFeed(tab){
-  const feed = document.getElementById('admin-feed');
-  feed.innerHTML = `<div class="empty"><div class="empty-icon" style="animation:pulse-live 1s infinite">🔄</div><div class="empty-title">Cargando...</div></div>`;
-
-  if(tab === 'users'){
-    await renderAdminUsers();
-    return;
-  }
-
-  const cols = ['places','events','experiences','emprendimientos'];
-  let items = [];
-  for(const col of cols){
-    const q = query(COLS[col], where('status','==',tab), orderBy('created','desc'));
-    const snap = await getDocs(q);
-    snap.forEach(d=> items.push({...d.data(), id:d.id, col}));
-  }
-  items.sort((a,b)=>b.created-a.created);
-
-  if(!items.length){
-    feed.innerHTML = `<div class="empty"><div class="empty-icon">${tab==='pending'?'⏳':tab==='approved'?'✅':'❌'}</div><div class="empty-title">Sin publicaciones ${tab==='pending'?'pendientes':tab==='approved'?'aprobadas':'rechazadas'}</div></div>`;
-    return;
-  }
-
-  feed.innerHTML = items.map(item => {
-    const date = new Date(item.created).toLocaleDateString('es-CL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-    const roleLabel = item.userRole||'publisher';
-    return `<div class="pending-card ${tab}" id="pcard-${item.id}">
-      <div class="pending-header">
-        <div class="pending-emoji">${item.emoji||'📍'}</div>
-        <div class="pending-info">
-          <div class="pending-name">${item.name}</div>
-          <div class="pending-meta">${item.type} · ${item.city||''} · ${date}</div>
-        </div>
-      </div>
-      ${item.userName?`<div class="pending-user">
-        ${item.userPhoto?`<img src="${item.userPhoto}" class="pending-user-photo" referrerpolicy="no-referrer">`:'<div class="pending-user-photo">👤</div>'}
-        <div class="pending-user-name">${item.userName}</div>
-        <span class="pending-user-role role-${roleLabel}">${roleLabel}</span>
-      </div>`:''}
-      <div class="pending-desc">${item.desc||'Sin descripción'}</div>
-      ${tab==='pending'?`<div class="pending-actions">
-        <button class="btn-approve" onclick="approveItem('${item.id}','${item.col}')">✅ Aprobar</button>
-        <button class="btn-reject" onclick="rejectItem('${item.id}','${item.col}')">❌ Rechazar</button>
-      </div>`:`<div class="pending-actions">
-        ${tab==='rejected'?`<button class="btn-approve" onclick="approveItem('${item.id}','${item.col}')">✅ Aprobar</button>`:''}
-        <button class="btn-delete" onclick="deleteItem('${item.id}','${item.col}')">🗑️ Eliminar</button>
-      </div>`}
-    </div>`;
-  }).join('');
-}
-
-async function renderAdminUsers(){
-  const feed = document.getElementById('admin-feed');
-  const snap = await getDocs(query(COLS.users, orderBy('created','desc')));
-  if(snap.empty){
-    feed.innerHTML = `<div class="empty"><div class="empty-icon">👥</div><div class="empty-title">Sin usuarios registrados</div></div>`;
-    return;
-  }
-  feed.innerHTML = snap.docs.map(d=>{
-    const u = d.data();
-    return `<div class="users-card">
-      <div class="users-card-photo">
-        ${u.photo?`<img src="${u.photo}" style="width:40px;height:40px;border-radius:50%;object-fit:cover" referrerpolicy="no-referrer">`:'👤'}
-      </div>
-      <div class="users-card-info">
-        <div class="users-card-name">${u.name||'Sin nombre'}</div>
-        <div class="users-card-email">${u.email||''}</div>
-      </div>
-      <select class="role-select" onchange="changeUserRole('${d.id}',this.value)">
-        <option value="explorer" ${u.role==='explorer'?'selected':''}>👤 Explorer</option>
-        <option value="publisher" ${u.role==='publisher'?'selected':''}>🙋 Publisher</option>
-        <option value="business" ${u.role==='business'?'selected':''}>🏪 Business</option>
-        <option value="admin" ${u.role==='admin'?'selected':''}>🛡️ Admin</option>
-      </select>
-    </div>`;
-  }).join('');
-}
-
-async function approveItem(id, col){
-  try{
-    await updateDoc(doc(db, col, id), {status:'approved', approvedAt:Date.now(), approvedBy:currentUser.uid});
-    toast('✅ Publicación aprobada');
-    const card = document.getElementById('pcard-'+id);
-    if(card) card.remove();
-    renderAdminStats();
-  }catch(err){ console.error(err); toast('❌ Error'); }
-}
-
-async function rejectItem(id, col){
-  const reason = prompt('Motivo del rechazo (opcional):') || '';
-  try{
-    await updateDoc(doc(db, col, id), {status:'rejected', rejectedAt:Date.now(), rejectedBy:currentUser.uid, rejectReason:reason});
-    toast('❌ Publicación rechazada');
-    const card = document.getElementById('pcard-'+id);
-    if(card) card.remove();
-    renderAdminStats();
-  }catch(err){ console.error(err); toast('❌ Error'); }
-}
-
-async function deleteItem(id, col){
-  if(!confirm('¿Eliminar permanentemente esta publicación?')) return;
-  try{
-    await deleteDoc(doc(db, col, id));
-    toast('🗑️ Eliminado');
-    const card = document.getElementById('pcard-'+id);
-    if(card) card.remove();
-    renderAdminStats();
-  }catch(err){ console.error(err); toast('❌ Error'); }
-}
-
-async function changeUserRole(uid, role){
-  try{
-    await updateDoc(doc(db, 'users', uid), {role});
-    toast(`✅ Rol actualizado: ${role}`);
-  }catch(err){ console.error(err); toast('❌ Error al cambiar rol'); }
-}
-
-function adminTab(el, tab){
-  adminCurrentTab = tab;
-  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  renderAdminFeed(tab);
-}
-
-function requestPlanUpgrade(){
-  closeDrawer('upgrade-plan');
-  toast('📩 Solicitud enviada — el admin la revisará pronto');
-}
-
 // ─── EXPONER FUNCIONES AL SCOPE GLOBAL ─
 // Necesario porque type="module" aísla el scope
 Object.assign(window, {
@@ -2505,9 +2145,7 @@ Object.assign(window, {
   goToExplore, openFirstEvent,
   getAllById, getAllItems,
   loginWithGoogle, continueAsGuest, logoutUser,
-  toggleUserMenu, closeUserMenu,
-  adminTab, approveItem, rejectItem, deleteItem,
-  changeUserRole, requestPlanUpgrade
+  toggleUserMenu, closeUserMenu
 });
 
 // ─── PWA SERVICE WORKER ────────────────
@@ -2526,19 +2164,15 @@ async function init(){
   // Listener de autenticación — se dispara al cargar y al cambiar sesión
   onAuthStateChanged(auth, async user => {
     currentUser = user;
-    if(user){
-      // Registrar usuario en Firestore y cargar su rol
-      await registerOrLoadUser(user);
-    } else {
-      currentUserRole = 'explorer';
-    }
     updateAuthUI(user);
     if(!user){
+      // Mostrar auth screen solo si no hay datos cargados aún
       document.getElementById('auth-screen').classList.add('show');
     }
-    // Reiniciar listeners con el rol correcto
-    initRealtimeListeners();
   });
+
+  // Iniciar listeners Firestore en tiempo real
+  initRealtimeListeners();
 
   // Sembrar datos de ejemplo si Firestore está vacío
   await seedData();
