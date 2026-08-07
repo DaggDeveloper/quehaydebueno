@@ -410,6 +410,117 @@ a{color:inherit;text-decoration:none}
 .ctx-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text3)}
 .ctx-val{font-weight:700;color:var(--text2);margin-left:2px}
 
+/* ── AUTH SCREEN ──────────────────────────────── */
+.auth-screen{
+  position:fixed;inset:0;z-index:400;
+  background:var(--bg);display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:32px 24px;text-align:center;
+}
+.auth-screen.show{display:flex}
+.auth-logo{font-family:var(--font);font-size:36px;font-weight:800;color:var(--brand);letter-spacing:-1.5px;margin-bottom:8px}
+.auth-tagline{font-size:15px;color:var(--text2);margin-bottom:48px;line-height:1.5;max-width:280px}
+.auth-btn-google{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  width:100%;max-width:320px;padding:14px 24px;border-radius:14px;
+  background:#fff;color:#1A1A1A;font-size:15px;font-weight:700;
+  cursor:pointer;border:none;font-family:var(--font);
+  box-shadow:0 2px 16px rgba(0,0,0,0.2);transition:transform 0.15s,box-shadow 0.15s;
+}
+.auth-btn-google:hover{transform:translateY(-1px);box-shadow:0 4px 24px rgba(0,0,0,0.3)}
+.auth-btn-google:active{transform:scale(0.98)}
+.auth-btn-google svg{width:20px;height:20px;flex-shrink:0}
+.auth-guest{margin-top:16px;font-size:13px;color:var(--text3);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.auth-terms{margin-top:32px;font-size:11px;color:var(--text3);max-width:280px;line-height:1.6}
+
+/* ── USER AVATAR ──────────────────────────────── */
+.user-avatar{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  object-fit:cover;border:2px solid var(--brand);cursor:pointer;
+}
+.user-avatar-placeholder{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  background:var(--brand-soft);border:2px solid var(--brand);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;cursor:pointer;color:var(--brand);font-weight:700;
+}
+
+/* ── USER MENU ────────────────────────────────── */
+.user-menu{
+  position:fixed;top:60px;right:12px;z-index:200;
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:var(--radius-lg);padding:8px;min-width:200px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  display:none;animation:fade-in 0.15s;
+}
+.user-menu.show{display:block}
+.user-menu-header{padding:10px 12px 10px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.user-menu-name{font-size:14px;font-weight:700;color:var(--text)}
+.user-menu-email{font-size:11px;color:var(--text3);margin-top:2px}
+.user-menu-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  border-radius:8px;cursor:pointer;font-size:13px;color:var(--text2);
+  transition:background 0.1s;
+}
+.user-menu-item:hover{background:var(--bg4)}
+.user-menu-item.danger{color:#f87171}
+
+/* ── MY CONTENT BADGE ─────────────────────────── */
+.mine-badge{
+  font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;
+  background:var(--brand-soft);color:var(--brand);border:1px solid rgba(255,68,34,0.3);
+}
+
+/* ── ADMIN ────────────────────────────────────── */
+.admin-tabs{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;scrollbar-width:none}
+.admin-tabs::-webkit-scrollbar{display:none}
+.admin-tab{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;background:var(--bg3);border:1px solid var(--border);color:var(--text2);transition:all 0.15s;flex-shrink:0}
+.admin-tab.active{background:var(--brand);border-color:var(--brand);color:#fff}
+.pending-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:var(--radius-lg);padding:14px;margin:0 16px 10px}
+.pending-card.approved{border-left-color:var(--green)}
+.pending-card.rejected{border-left-color:#f87171;opacity:0.6}
+.pending-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.pending-emoji{font-size:28px;line-height:1;flex-shrink:0}
+.pending-info{flex:1;min-width:0}
+.pending-name{font-family:var(--font);font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.pending-meta{font-size:11px;color:var(--text3)}
+.pending-user{display:flex;align-items:center;gap:6px;margin:8px 0;padding:8px;background:var(--bg3);border-radius:8px}
+.pending-user-photo{width:24px;height:24px;border-radius:50%;object-fit:cover}
+.pending-user-name{font-size:11px;color:var(--text2);font-weight:600}
+.pending-user-role{font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700}
+.role-explorer{background:var(--bg4);color:var(--text3)}
+.role-publisher{background:var(--blue-soft);color:var(--blue)}
+.role-business{background:var(--purple-soft);color:var(--purple)}
+.role-admin{background:var(--brand-soft);color:var(--brand)}
+.pending-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pending-actions{display:flex;gap:8px}
+.btn-approve{flex:1;padding:10px;border-radius:10px;background:var(--green);color:#fff;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:var(--font)}
+.btn-reject{flex:1;padding:10px;border-radius:10px;background:rgba(248,113,113,0.15);color:#f87171;font-size:13px;font-weight:700;cursor:pointer;border:1px solid rgba(248,113,113,0.3);font-family:var(--font)}
+.btn-delete{padding:10px 14px;border-radius:10px;background:rgba(248,113,113,0.15);color:#f87171;font-size:13px;font-weight:700;cursor:pointer;border:1px solid rgba(248,113,113,0.3);font-family:var(--font)}
+.admin-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--brand);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.nav-btn{position:relative}
+.users-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px 14px;margin:0 16px 8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background 0.1s}
+.users-card:hover{background:var(--bg3)}
+.users-card-photo{width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:18px}
+.users-card-info{flex:1;min-width:0}
+.users-card-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px}
+.users-card-email{font-size:11px;color:var(--text3)}
+.role-select{background:var(--bg4);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px;color:var(--text);cursor:pointer;appearance:none;-webkit-appearance:none}
+.admin-stat-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px 16px}
+.admin-stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
+.admin-stat-num{font-family:var(--font);font-size:28px;font-weight:800;color:var(--brand);letter-spacing:-1px}
+.admin-stat-lbl{font-size:11px;color:var(--text3);margin-top:3px}
+
+/* ── UPGRADE PLAN ─────────────────────────────── */
+.plan-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;margin-bottom:10px;cursor:pointer;transition:border-color 0.15s}
+.plan-card:hover{border-color:var(--brand)}
+.plan-card.recommended{border-color:var(--brand);background:var(--brand-soft)}
+.plan-name{font-family:var(--font);font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+.plan-price{font-size:20px;font-weight:800;color:var(--brand);font-family:var(--font);margin-bottom:8px}
+.plan-features{list-style:none}
+.plan-features li{font-size:12px;color:var(--text2);padding:2px 0;display:flex;align-items:center;gap:6px}
+.plan-features li::before{content:'✓';color:var(--green);font-weight:700}
+
 /* ── RESPONSIVE ───────────────────────────────── */
 @media(min-width:640px){
   .page{max-width:640px;margin:0 auto}
@@ -433,6 +544,36 @@ a{color:inherit;text-decoration:none}
 <div class="toast" id="toast" role="alert"></div>
 
 <!-- ══════════════════════════════════════
+     AUTH SCREEN
+══════════════════════════════════════ -->
+<div class="auth-screen" id="auth-screen">
+  <div class="auth-logo">¿Qué hay<br>de bueno?</div>
+  <div class="auth-tagline">Descubre, comparte y vive lo mejor de tu ciudad.</div>
+  <button class="auth-btn-google" onclick="loginWithGoogle()">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+    Continuar con Google
+  </button>
+  <div class="auth-guest" onclick="continueAsGuest()">Continuar sin cuenta</div>
+  <div class="auth-terms">Al registrarte aceptas nuestros términos de uso. Tu información no será compartida con terceros.</div>
+</div>
+
+<!-- USER MENU -->
+<div class="user-menu" id="user-menu">
+  <div class="user-menu-header">
+    <div class="user-menu-name" id="um-name">—</div>
+    <div class="user-menu-email" id="um-email">—</div>
+  </div>
+  <div class="user-menu-item" onclick="goTo('profile');closeUserMenu()">👤 Mi perfil</div>
+  <div class="user-menu-item" onclick="openDrawer('add-menu');closeUserMenu()">➕ Publicar</div>
+  <div class="user-menu-item danger" onclick="logoutUser();closeUserMenu()">🚪 Cerrar sesión</div>
+</div>
+
+<!-- ══════════════════════════════════════
      APP
 ══════════════════════════════════════ -->
 <div class="app">
@@ -444,7 +585,9 @@ a{color:inherit;text-decoration:none}
     <span>🔍</span>
     <span id="header-search-text">¿Qué quieres hacer ahora?</span>
   </div>
-  <div class="header-btn" onclick="openSearch()" aria-label="Búsqueda por voz">🎤</div>
+  <div id="header-user-btn" onclick="toggleUserMenu()" aria-label="Mi cuenta">
+    <div class="user-avatar-placeholder" id="header-avatar">👤</div>
+  </div>
 </header>
 
 <!-- ══════════════════════════════════════
@@ -531,7 +674,7 @@ a{color:inherit;text-decoration:none}
 ══════════════════════════════════════ -->
 <section class="page" id="page-profile">
   <div class="profile-header">
-    <div class="profile-avatar">😊</div>
+    <div class="profile-avatar" id="profile-avatar-el">😊</div>
     <div class="profile-name" id="profile-name">Mi perfil</div>
     <div class="profile-since" id="profile-since">Usuario de ¿Qué hay de bueno?</div>
   </div>
@@ -586,6 +729,21 @@ a{color:inherit;text-decoration:none}
 </section>
 
 <!-- ══════════════════════════════════════
+     PAGE: ADMIN
+══════════════════════════════════════ -->
+<section class="page" id="page-admin" style="display:none">
+  <div class="sec-header"><span class="sec-title">🛡️ Panel Admin</span></div>
+  <div class="admin-stat-row" id="admin-stats"></div>
+  <div class="admin-tabs">
+    <div class="admin-tab active" onclick="adminTab(this,'pending')">⏳ Pendientes</div>
+    <div class="admin-tab" onclick="adminTab(this,'approved')">✅ Aprobadas</div>
+    <div class="admin-tab" onclick="adminTab(this,'rejected')">❌ Rechazadas</div>
+    <div class="admin-tab" onclick="adminTab(this,'users')">👥 Usuarios</div>
+  </div>
+  <div id="admin-feed"></div>
+</section>
+
+<!-- ══════════════════════════════════════
      BOTTOM NAV
 ══════════════════════════════════════ -->
 <nav class="bottom-nav">
@@ -603,6 +761,11 @@ a{color:inherit;text-decoration:none}
   </button>
   <button class="nav-btn" id="nav-profile" onclick="goTo('profile')" aria-label="Perfil">
     <span class="nav-icon">👤</span><span>Perfil</span>
+  </button>
+  <button class="nav-btn" id="nav-admin" onclick="goTo('admin')" aria-label="Admin" style="display:none">
+    <span class="nav-icon">🛡️</span>
+    <span id="admin-pending-badge" style="position:absolute;top:6px;right:calc(50% - 18px);min-width:16px;height:16px;border-radius:8px;background:var(--brand);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px"></span>
+    <span>Admin</span>
   </button>
 </nav>
 
@@ -1185,6 +1348,52 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 
+<!-- UPGRADE PLAN -->
+<div class="overlay" id="drawer-upgrade-plan" onclick="overlayClick(event,'upgrade-plan')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <div class="drawer-title">🚀 Elige tu plan</div>
+      <div class="drawer-close" onclick="closeDrawer('upgrade-plan')">✕</div>
+    </div>
+    <div class="drawer-body">
+      <p style="font-size:13px;color:var(--text3);margin-bottom:16px">Para publicar contenido necesitas activar un plan. Contacta al administrador para activar el tuyo.</p>
+      <div class="plan-card">
+        <div class="plan-name">🙋 Publicador Individual</div>
+        <div class="plan-price">Gratis</div>
+        <ul class="plan-features">
+          <li>2 publicaciones activas</li>
+          <li>Eventos y experiencias</li>
+          <li>Sin imágenes</li>
+        </ul>
+      </div>
+      <div class="plan-card recommended">
+        <div class="plan-name">🏪 Comercio Básico</div>
+        <div class="plan-price">$5.990 CLP/mes</div>
+        <ul class="plan-features">
+          <li>5 publicaciones activas</li>
+          <li>1 imagen por publicación</li>
+          <li>Estadísticas básicas</li>
+          <li>Badge verificado</li>
+        </ul>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">🚀 Comercio Pro</div>
+        <div class="plan-price">$14.990 CLP/mes</div>
+        <ul class="plan-features">
+          <li>Publicaciones ilimitadas</li>
+          <li>Hasta 5 imágenes</li>
+          <li>Estadísticas avanzadas</li>
+          <li>1 destacado mensual</li>
+          <li>Notificación push mensual</li>
+        </ul>
+      </div>
+      <div style="height:12px"></div>
+      <button class="btn-primary" onclick="requestPlanUpgrade()">Solicitar activación</button>
+    </div>
+  </div>
+</div>
+
 <!-- DETAIL VIEW -->
 <div class="detail-overlay" id="detail-overlay">
   <div class="detail-hero" id="detail-hero">
@@ -1209,7 +1418,8 @@ a{color:inherit;text-decoration:none}
 <script type="module">
 // ─── FIREBASE ──────────────────────────
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, where, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAWLT8ohR1KcTLCgnv6Z59fazgo8s4H8lY",
@@ -1224,13 +1434,20 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+
+// ─── ESTADO DE USUARIO ──────────────────
+let currentUser = null;
+let currentUserRole = 'explorer'; // explorer | publisher | business | admin
 
 // ─── COLECCIONES FIRESTORE ──────────────
 const COLS = {
   places: collection(db,'places'),
   events: collection(db,'events'),
   experiences: collection(db,'experiences'),
-  emprendimientos: collection(db,'emprendimientos')
+  emprendimientos: collection(db,'emprendimientos'),
+  users: collection(db,'users')
 };
 
 // ─── CACHE LOCAL (para búsqueda y guardados) ─
@@ -1250,19 +1467,167 @@ let agendaDate = new Date();
 // Cache en memoria de todos los items de Firestore
 let memCache = { places:[], events:[], experiences:[], emprendimientos:[] };
 
+// ─── AUTH FUNCTIONS ────────────────────
+async function loginWithGoogle(){
+  try{
+    toast('⏳ Conectando con Google...');
+    const result = await signInWithPopup(auth, googleProvider);
+    currentUser = result.user;
+    toast(`✅ Bienvenido, ${currentUser.displayName.split(' ')[0]}!`);
+  }catch(err){
+    console.error(err);
+    if(err.code !== 'auth/popup-closed-by-user'){
+      toast('❌ Error al iniciar sesión');
+    }
+  }
+}
+
+function continueAsGuest(){
+  document.getElementById('auth-screen').classList.remove('show');
+  toast('👋 Modo invitado — puedes explorar pero no publicar');
+}
+
+async function logoutUser(){
+  try{
+    await signOut(auth);
+    currentUser = null;
+    toast('👋 Sesión cerrada');
+  }catch(err){
+    console.error(err);
+  }
+}
+
+function toggleUserMenu(){
+  const menu = document.getElementById('user-menu');
+  menu.classList.toggle('show');
+}
+
+function closeUserMenu(){
+  document.getElementById('user-menu').classList.remove('show');
+}
+
+// Cerrar user menu al tocar fuera
+document.addEventListener('click', e=>{
+  const menu = document.getElementById('user-menu');
+  const btn = document.getElementById('header-user-btn');
+  if(menu.classList.contains('show') && !menu.contains(e.target) && !btn.contains(e.target)){
+    menu.classList.remove('show');
+  }
+});
+
+// ─── REGISTRO Y ROL DE USUARIO ─────────
+async function registerOrLoadUser(user){
+  const userRef = doc(db, 'users', user.uid);
+  const snap = await getDoc(userRef);
+  if(!snap.exists()){
+    // Primera vez — crear documento con rol explorer
+    await setDoc(userRef, {
+      uid: user.uid,
+      email: user.email,
+      name: user.displayName||'',
+      photo: user.photoURL||'',
+      role: 'explorer',
+      plan: 'free',
+      created: Date.now(),
+      lastLogin: Date.now()
+    });
+    currentUserRole = 'explorer';
+  } else {
+    // Ya existe — cargar rol
+    const data = snap.data();
+    currentUserRole = data.role || 'explorer';
+    // Actualizar último login
+    await updateDoc(userRef, { lastLogin: Date.now(), name: user.displayName||'', photo: user.photoURL||'' });
+  }
+  return currentUserRole;
+}
+
+function canPublish(){
+  return ['publisher','business','admin'].includes(currentUserRole);
+}
+
+function isAdmin(){
+  return currentUserRole === 'admin';
+}
+
+function getPlanLimits(){
+  const limits = {
+    explorer:     { maxPosts:0,  images:false, stats:false, featured:0 },
+    publisher:    { maxPosts:2,  images:false, stats:false, featured:0 },
+    business:     { maxPosts:5,  images:true,  stats:true,  featured:1 },
+    admin:        { maxPosts:999,images:true,  stats:true,  featured:99 }
+  };
+  return limits[currentUserRole] || limits.explorer;
+}
+
+function updateAuthUI(user){
+  const authScreen = document.getElementById('auth-screen');
+  if(user){
+    // Avatar header
+    const avatarEl = document.getElementById('header-avatar');
+    if(avatarEl){
+      if(user.photoURL){
+        avatarEl.outerHTML = `<img src="${user.photoURL}" class="user-avatar" id="header-avatar" onclick="toggleUserMenu()" referrerpolicy="no-referrer">`;
+      } else {
+        avatarEl.textContent = user.displayName?user.displayName[0].toUpperCase():'👤';
+      }
+    }
+    document.getElementById('um-name').textContent = user.displayName||'Usuario';
+    document.getElementById('um-email').textContent = user.email||'';
+    authScreen.classList.remove('show');
+    const profile = localDB.obj('profile');
+    if(!profile.name) profile.name = user.displayName;
+    localDB.set('profile', profile);
+    // Mostrar/ocultar tab admin
+    updateAdminTab();
+  } else {
+    const avatarEl = document.getElementById('header-avatar');
+    if(avatarEl) avatarEl.textContent = '👤';
+    authScreen.classList.add('show');
+    currentUserRole = 'explorer';
+    updateAdminTab();
+  }
+  renderProfile();
+}
+
+function updateAdminTab(){
+  const adminTab = document.getElementById('nav-admin');
+  const adminPage = document.getElementById('page-admin');
+  if(isAdmin()){
+    if(adminTab) adminTab.style.display='flex';
+    if(adminPage) adminPage.style.display='flex';
+  } else {
+    if(adminTab) adminTab.style.display='none';
+  }
+}
+
+function requireAuth(){
+  if(!currentUser){
+    toast('👤 Inicia sesión para publicar');
+    document.getElementById('auth-screen').classList.add('show');
+    return false;
+  }
+  if(!canPublish()){
+    toast('🔒 Necesitas el plan Publicador o superior');
+    openDrawer('upgrade-plan');
+    return false;
+  }
+  return true;
+}
+
 // ─── LISTENERS EN TIEMPO REAL ───────────
 function initRealtimeListeners(){
-  // Escucha cada colección en tiempo real
   ['places','events','experiences','emprendimientos'].forEach(col=>{
-    const q = query(COLS[col], orderBy('created','desc'));
+    // Usuarios normales solo ven aprobadas. Admin ve todo.
+    const q = isAdmin()
+      ? query(COLS[col], orderBy('created','desc'))
+      : query(COLS[col], where('status','==','approved'), orderBy('created','desc'));
     onSnapshot(q, snap=>{
       const savedIds = localDB.get('saved_ids');
       memCache[col] = snap.docs.map(d=>({
-        ...d.data(),
-        id: d.id,
+        ...d.data(), id:d.id,
         saved: savedIds.includes(d.id)
       }));
-      // Re-renderizar si estamos en una página que lo necesite
       if(currentPage==='home') renderHome();
       else if(currentPage==='explore') renderExplore(currentFilter);
       else if(currentPage==='agenda') renderAgendaFeed(document.querySelector('.date-btn.active')?.dataset?.date||todayStr());
@@ -1270,9 +1635,23 @@ function initRealtimeListeners(){
       else if(currentPage==='profile') renderProfile();
     }, err=>{
       console.error('Firestore error:',err);
-      toast('⚠️ Error de conexión');
     });
   });
+
+  // Listener de pendientes para admin
+  if(isAdmin()){
+    ['places','events','experiences','emprendimientos'].forEach(col=>{
+      const q = query(COLS[col], where('status','==','pending'), orderBy('created','desc'));
+      onSnapshot(q, snap=>{
+        const pending = snap.docs.map(d=>({...d.data(), id:d.id, col}));
+        // Actualizar badge de pendientes
+        const total = pending.length;
+        const badge = document.getElementById('admin-pending-badge');
+        if(badge) badge.textContent = total > 0 ? total : '';
+        if(currentPage==='admin') renderAdminPage();
+      });
+    });
+  }
 }
 
 // ─── SEED DATA (solo si Firestore está vacío) ──
@@ -1282,19 +1661,19 @@ async function seedData(){
     if(!snap.empty) return; // ya hay datos, no sembrar
     const now = Date.now();
     const places = [
-      {type:'place',name:'La Leña Pizzería',cat:'comida',city:'Valdivia',sector:'Centro',address:'Av. Independencia 456',desc:'Pizza artesanal horneada en leña. Ingredientes locales, masas hechas a mano cada día.',hours:'12:00–23:00',price:'$$',phone:'+56 9 8765 4321',web:'@lalenapizzeria',tags:['Acepta mascotas','Con terraza','Para llevar'],emoji:'🍕',created:now-86400000*3},
-      {type:'place',name:'Café Independencia',cat:'cafe',city:'Valdivia',sector:'Centro Histórico',address:'Calle Independencia 123',desc:'Café de especialidad con granos de origen único. El mejor espacio para trabajar o leer con vista al río.',hours:'08:00–20:00',price:'$$',phone:'+56 9 1122 3344',web:'@cafeindependencia',tags:['WiFi gratis','Acepta mascotas'],emoji:'☕',created:now-86400000*5},
-      {type:'place',name:'Bar Origen',cat:'bares',city:'Valdivia',sector:'Barrio Histórico',address:"O'Higgins 890",desc:'Cócteles artesanales con botánicos del sur. Happy hour todos los días de 18:00 a 20:00.',hours:'18:00–02:00',price:'$$',phone:'+56 9 5566 7788',web:'@barorigen',tags:['Música en vivo','Con terraza'],emoji:'🍸',created:now-86400000*2},
-      {type:'place',name:'Museo Regional de Los Ríos',cat:'arte',city:'Valdivia',sector:'Centro',address:'Los Lauros 47',desc:'Historia y cultura de la región de Los Ríos. Exposiciones permanentes y temporales.',hours:'10:00–18:00',price:'gratis',phone:'+56 63 212 872',web:'museoregionallosrios.cl',tags:['Apto niños','Acceso silla de ruedas'],emoji:'🏛️',created:now-86400000*10},
-      {type:'place',name:'Club Náutico Valdivia',cat:'deporte',city:'Valdivia',sector:'Muelle Fluvial',address:'Arturo Prat s/n',desc:'Kayak, SUP y paseos en bote por el río Calle-Calle. Clases para principiantes disponibles los fines de semana.',hours:'09:00–18:00',price:'$$$',phone:'+56 9 9988 7766',web:'@clubnauticovaldivia',tags:['Reserva requerida'],emoji:'🏄',created:now-86400000*7}
+      {type:'place',name:'La Leña Pizzería',cat:'comida',city:'Valdivia',sector:'Centro',address:'Av. Independencia 456',desc:'Pizza artesanal horneada en leña. Ingredientes locales, masas hechas a mano cada día.',hours:'12:00–23:00',price:'$$',phone:'+56 9 8765 4321',web:'@lalenapizzeria',tags:['Acepta mascotas','Con terraza','Para llevar'],emoji:'🍕',status:'approved',created:now-86400000*3},
+      {type:'place',name:'Café Independencia',cat:'cafe',city:'Valdivia',sector:'Centro Histórico',address:'Calle Independencia 123',desc:'Café de especialidad con granos de origen único. El mejor espacio para trabajar o leer con vista al río.',hours:'08:00–20:00',price:'$$',phone:'+56 9 1122 3344',web:'@cafeindependencia',tags:['WiFi gratis','Acepta mascotas'],emoji:'☕',status:'approved',created:now-86400000*5},
+      {type:'place',name:'Bar Origen',cat:'bares',city:'Valdivia',sector:'Barrio Histórico',address:"O'Higgins 890",desc:'Cócteles artesanales con botánicos del sur. Happy hour todos los días de 18:00 a 20:00.',hours:'18:00–02:00',price:'$$',phone:'+56 9 5566 7788',web:'@barorigen',tags:['Música en vivo','Con terraza'],emoji:'🍸',status:'approved',created:now-86400000*2},
+      {type:'place',name:'Museo Regional de Los Ríos',cat:'arte',city:'Valdivia',sector:'Centro',address:'Los Lauros 47',desc:'Historia y cultura de la región de Los Ríos. Exposiciones permanentes y temporales.',hours:'10:00–18:00',price:'gratis',phone:'+56 63 212 872',web:'museoregionallosrios.cl',tags:['Apto niños','Acceso silla de ruedas'],emoji:'🏛️',status:'approved',created:now-86400000*10},
+      {type:'place',name:'Club Náutico Valdivia',cat:'deporte',city:'Valdivia',sector:'Muelle Fluvial',address:'Arturo Prat s/n',desc:'Kayak, SUP y paseos en bote por el río Calle-Calle. Clases para principiantes disponibles los fines de semana.',hours:'09:00–18:00',price:'$$$',phone:'+56 9 9988 7766',web:'@clubnauticovaldivia',tags:['Reserva requerida'],emoji:'🏄',status:'approved',created:now-86400000*7}
     ];
     const events = [
-      {type:'event',name:'Jazz en Café Torrente',evType:'musica',city:'Valdivia',venue:'Café Torrente',address:'Yungay 735',desc:'Cuarteto de jazz local con música original. Entrada libre, consumas mínimas.',date:todayStr(),time:'21:00',endTime:'23:30',price:'gratis',priceVal:'',capacity:60,contact:'@cafetorrente',tags:['Apto todo público','Con barra'],emoji:'🎵',created:now-3600000},
-      {type:'event',name:'Feria Artesanal del Río',evType:'feria',city:'Valdivia',venue:'Paseo Libertad',address:'Paseo Libertad s/n',desc:'Más de 40 emprendedores y artesanos locales. Cerámica, tejidos, alimentos artesanales.',date:todayStr(),time:'10:00',endTime:'19:00',price:'gratis',priceVal:'',capacity:'',contact:'@feriavaldivia',tags:['Al aire libre','Pet friendly'],emoji:'🏪',created:now-7200000},
-      {type:'event',name:'Running Club — Parque Saval',evType:'deporte',city:'Valdivia',venue:'Parque Saval',address:'Entrada principal Parque Saval',desc:'Rodada semanal abierta a todos los niveles. 5K, 10K y 15K.',date:tomorrowStr(),time:'08:00',endTime:'10:00',price:'gratis',priceVal:'',capacity:'',contact:'+56 9 7654 3210',tags:['Al aire libre','Sin inscripción'],emoji:'🏃',created:now-10800000}
+      {type:'event',name:'Jazz en Café Torrente',evType:'musica',city:'Valdivia',venue:'Café Torrente',address:'Yungay 735',desc:'Cuarteto de jazz local con música original. Entrada libre, consumas mínimas.',date:todayStr(),time:'21:00',endTime:'23:30',price:'gratis',priceVal:'',capacity:60,contact:'@cafetorrente',tags:['Apto todo público','Con barra'],emoji:'🎵',status:'approved',created:now-3600000},
+      {type:'event',name:'Feria Artesanal del Río',evType:'feria',city:'Valdivia',venue:'Paseo Libertad',address:'Paseo Libertad s/n',desc:'Más de 40 emprendedores y artesanos locales. Cerámica, tejidos, alimentos artesanales.',date:todayStr(),time:'10:00',endTime:'19:00',price:'gratis',priceVal:'',capacity:'',contact:'@feriavaldivia',tags:['Al aire libre','Pet friendly'],emoji:'🏪',status:'approved',created:now-7200000},
+      {type:'event',name:'Running Club — Parque Saval',evType:'deporte',city:'Valdivia',venue:'Parque Saval',address:'Entrada principal Parque Saval',desc:'Rodada semanal abierta a todos los niveles. 5K, 10K y 15K.',date:tomorrowStr(),time:'08:00',endTime:'10:00',price:'gratis',priceVal:'',capacity:'',contact:'+56 9 7654 3210',tags:['Al aire libre','Sin inscripción'],emoji:'🏃',status:'approved',created:now-10800000}
     ];
     const experiences = [
-      {type:'experience',name:'Kayak al amanecer — Río Calle-Calle',expType:'aventura',city:'Valdivia',desc:'Recorrido en kayak de 2 horas al amanecer. Incluye equipamiento completo y guía experto.',duration:'2 horas',price:'$18.000',min:2,max:8,avail:'finde',contact:'@kayakvaldivia',includes:['Equipamiento','Guía experto','Fotos'],emoji:'🚣',created:now-172800000}
+      {type:'experience',name:'Kayak al amanecer — Río Calle-Calle',expType:'aventura',city:'Valdivia',desc:'Recorrido en kayak de 2 horas al amanecer. Incluye equipamiento completo y guía experto.',duration:'2 horas',price:'$18.000',min:2,max:8,avail:'finde',contact:'@kayakvaldivia',includes:['Equipamiento','Guía experto','Fotos'],emoji:'🚣',status:'approved',created:now-172800000}
     ];
     for(const p of places) await addDoc(COLS.places, p);
     for(const e of events) await addDoc(COLS.events, e);
@@ -1332,6 +1711,7 @@ function renderPage(page){
   else if(page==='agenda') renderAgenda();
   else if(page==='saved') renderSaved();
   else if(page==='profile') renderProfile();
+  else if(page==='admin' && isAdmin()) renderAdminPage();
 }
 
 // ─── CONTEXT BAR ───────────────────────
@@ -1532,12 +1912,26 @@ function toggleSave(id){
 // ─── PROFILE ───────────────────────────
 function renderProfile(){
   const profile = localDB.obj('profile');
-  document.getElementById('profile-name').textContent = profile.name||'Mi perfil';
-  document.getElementById('profile-since').textContent = profile.city?`📍 ${profile.city}`:'Configura tu ciudad';
-  document.getElementById('stat-places').textContent = memCache.places.length;
-  document.getElementById('stat-events').textContent = memCache.events.length;
+  const name = currentUser?.displayName || profile.name || 'Mi perfil';
+  const city = profile.city || '';
+  document.getElementById('profile-name').textContent = name;
+  document.getElementById('profile-since').textContent = city ? `📍 ${city}` : (currentUser ? currentUser.email : 'Configura tu ciudad');
+  // Avatar en perfil
+  const avatarEl = document.getElementById('profile-avatar-el');
+  if(avatarEl){
+    if(currentUser?.photoURL){
+      avatarEl.innerHTML = `<img src="${currentUser.photoURL}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--brand)" referrerpolicy="no-referrer">`;
+    } else {
+      avatarEl.textContent = name[0]?.toUpperCase() || '😊';
+    }
+  }
+  // Stats — mis publicaciones
+  const myPlaces = currentUser ? memCache.places.filter(i=>i.userId===currentUser.uid).length : memCache.places.length;
+  const myEvents = currentUser ? memCache.events.filter(i=>i.userId===currentUser.uid).length : memCache.events.length;
+  document.getElementById('stat-places').textContent = myPlaces;
+  document.getElementById('stat-events').textContent = myEvents;
   document.getElementById('stat-saved').textContent = getAllItems().filter(i=>i.saved).length;
-  document.getElementById('settings-city-val').textContent = profile.city||'No configurada';
+  document.getElementById('settings-city-val').textContent = city || 'No configurada';
 }
 
 // ─── DETAIL VIEW ───────────────────────
@@ -1695,12 +2089,16 @@ function setEmoji(type, emoji){
 
 // ─── SAVE PLACE ────────────────────────
 async function savePlace(){
+  if(!requireAuth()) return;
   const name = document.getElementById('place-name').value.trim();
   const cat = document.getElementById('place-cat').value;
   const city = document.getElementById('place-city').value.trim();
   if(!name||!cat||!city){toast('⚠️ Completa los campos obligatorios');return;}
   const place = {
     type:'place', name, cat, city,
+    userId: currentUser.uid,
+    userName: currentUser.displayName||'',
+    userPhoto: currentUser.photoURL||'',
     sector:document.getElementById('place-sector').value.trim(),
     address:document.getElementById('place-address').value.trim(),
     desc:document.getElementById('place-desc').value.trim(),
@@ -1710,6 +2108,7 @@ async function savePlace(){
     web:document.getElementById('place-web').value.trim(),
     tags:getSelectedTags('place-tags'),
     emoji:selectedEmojis.place,
+    status:'pending',
     created:Date.now()
   };
   try{
@@ -1721,7 +2120,7 @@ async function savePlace(){
     document.querySelectorAll('#place-tags .tag-pick').forEach(t=>t.classList.remove('sel'));
     selectedEmojis.place='🏪';
     closeDrawer('add-place');
-    toast('✅ ¡Lugar publicado!');
+    toast('⏳ Lugar enviado — pendiente de aprobación');
   }catch(err){
     console.error(err);
     toast('❌ Error al publicar. Intenta de nuevo.');
@@ -1730,6 +2129,7 @@ async function savePlace(){
 
 // ─── SAVE EVENT ────────────────────────
 async function saveEvent(){
+  if(!requireAuth()) return;
   const name = document.getElementById('ev-name').value.trim();
   const evType = document.getElementById('ev-type').value;
   const city = document.getElementById('ev-city').value.trim();
@@ -1738,6 +2138,9 @@ async function saveEvent(){
   if(!name||!evType||!city||!date||!time){toast('⚠️ Completa los campos obligatorios');return;}
   const ev = {
     type:'event', name,evType,city,date,time,
+    userId: currentUser.uid,
+    userName: currentUser.displayName||'',
+    userPhoto: currentUser.photoURL||'',
     endTime:document.getElementById('ev-end-time').value,
     desc:document.getElementById('ev-desc').value.trim(),
     price:document.getElementById('ev-price').value,
@@ -1748,6 +2151,7 @@ async function saveEvent(){
     contact:document.getElementById('ev-contact').value.trim(),
     tags:getSelectedTags('ev-tags'),
     emoji:selectedEmojis.event,
+    status:'pending',
     created:Date.now()
   };
   try{
@@ -1758,7 +2162,7 @@ async function saveEvent(){
     document.querySelectorAll('#ev-tags .tag-pick').forEach(t=>t.classList.remove('sel'));
     selectedEmojis.event='🎵';
     closeDrawer('add-event');
-    toast('✅ ¡Evento publicado!');
+    toast('⏳ Evento enviado — pendiente de aprobación');
   }catch(err){
     console.error(err);
     toast('❌ Error al publicar. Intenta de nuevo.');
@@ -1767,12 +2171,16 @@ async function saveEvent(){
 
 // ─── SAVE EXPERIENCE ───────────────────
 async function saveExperience(){
+  if(!requireAuth()) return;
   const name = document.getElementById('exp-name').value.trim();
   const expType = document.getElementById('exp-type').value;
   const city = document.getElementById('exp-city').value.trim();
   if(!name||!expType||!city){toast('⚠️ Completa los campos obligatorios');return;}
   const exp = {
     type:'experience', name,expType,city,
+    userId: currentUser.uid,
+    userName: currentUser.displayName||'',
+    userPhoto: currentUser.photoURL||'',
     desc:document.getElementById('exp-desc').value.trim(),
     duration:document.getElementById('exp-duration').value.trim(),
     price:document.getElementById('exp-price').value.trim(),
@@ -1782,6 +2190,7 @@ async function saveExperience(){
     contact:document.getElementById('exp-contact').value.trim(),
     includes:getSelectedTags('exp-includes'),
     emoji:'🎒',
+    status:'pending',
     created:Date.now()
   };
   try{
@@ -1791,7 +2200,7 @@ async function saveExperience(){
     document.getElementById('exp-type').selectedIndex=0;
     document.querySelectorAll('#exp-includes .tag-pick').forEach(t=>t.classList.remove('sel'));
     closeDrawer('add-experience');
-    toast('✅ ¡Experiencia publicada!');
+    toast('⏳ Experiencia enviada — pendiente de aprobación');
   }catch(err){
     console.error(err);
     toast('❌ Error al publicar. Intenta de nuevo.');
@@ -1800,12 +2209,16 @@ async function saveExperience(){
 
 // ─── SAVE EMPRENDIMIENTO ───────────────
 async function saveEmprendimiento(){
+  if(!requireAuth()) return;
   const name = document.getElementById('emp-name').value.trim();
   const cat = document.getElementById('emp-cat').value;
   const city = document.getElementById('emp-city').value.trim();
   if(!name||!cat||!city){toast('⚠️ Completa los campos obligatorios');return;}
   const emp = {
     type:'emprendimiento', name,cat,city,
+    userId: currentUser.uid,
+    userName: currentUser.displayName||'',
+    userPhoto: currentUser.photoURL||'',
     desc:document.getElementById('emp-desc').value.trim(),
     products:document.getElementById('emp-products').value.trim(),
     years:document.getElementById('emp-years').value,
@@ -1813,6 +2226,7 @@ async function saveEmprendimiento(){
     ig:document.getElementById('emp-ig').value.trim(),
     wa:document.getElementById('emp-wa').value.trim(),
     emoji:'🛍️',
+    status:'pending',
     created:Date.now()
   };
   try{
@@ -1822,7 +2236,7 @@ async function saveEmprendimiento(){
     document.getElementById('emp-cat').selectedIndex=0;
     document.querySelectorAll('#emp-channels .tag-pick').forEach(t=>t.classList.remove('sel'));
     closeDrawer('add-emprendimiento');
-    toast('✅ ¡Emprendimiento registrado!');
+    toast('⏳ Emprendimiento enviado — pendiente de aprobación');
   }catch(err){
     console.error(err);
     toast('❌ Error al registrar. Intenta de nuevo.');
@@ -1916,6 +2330,167 @@ document.addEventListener('keydown',e=>{
   }
 });
 
+// ─── ADMIN FUNCTIONS ───────────────────
+let adminCurrentTab = 'pending';
+
+async function renderAdminPage(){
+  if(!isAdmin()) return;
+  await renderAdminStats();
+  renderAdminFeed(adminCurrentTab);
+}
+
+async function renderAdminStats(){
+  const cols = ['places','events','experiences','emprendimientos'];
+  let pending=0, approved=0, rejected=0, total=0;
+  for(const col of cols){
+    const snap = await getDocs(COLS[col]);
+    snap.forEach(d=>{
+      const s = d.data().status;
+      total++;
+      if(s==='pending') pending++;
+      else if(s==='approved') approved++;
+      else if(s==='rejected') rejected++;
+    });
+  }
+  const usersSnap = await getDocs(COLS.users);
+  const totalUsers = usersSnap.size;
+  document.getElementById('admin-stats').innerHTML = `
+    <div class="admin-stat"><div class="admin-stat-num">${pending}</div><div class="admin-stat-lbl">⏳ Pendientes</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${approved}</div><div class="admin-stat-lbl">✅ Aprobadas</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${totalUsers}</div><div class="admin-stat-lbl">👥 Usuarios</div></div>
+    <div class="admin-stat"><div class="admin-stat-num">${total}</div><div class="admin-stat-lbl">📦 Total</div></div>
+  `;
+}
+
+async function renderAdminFeed(tab){
+  const feed = document.getElementById('admin-feed');
+  feed.innerHTML = `<div class="empty"><div class="empty-icon" style="animation:pulse-live 1s infinite">🔄</div><div class="empty-title">Cargando...</div></div>`;
+
+  if(tab === 'users'){
+    await renderAdminUsers();
+    return;
+  }
+
+  const cols = ['places','events','experiences','emprendimientos'];
+  let items = [];
+  for(const col of cols){
+    const q = query(COLS[col], where('status','==',tab), orderBy('created','desc'));
+    const snap = await getDocs(q);
+    snap.forEach(d=> items.push({...d.data(), id:d.id, col}));
+  }
+  items.sort((a,b)=>b.created-a.created);
+
+  if(!items.length){
+    feed.innerHTML = `<div class="empty"><div class="empty-icon">${tab==='pending'?'⏳':tab==='approved'?'✅':'❌'}</div><div class="empty-title">Sin publicaciones ${tab==='pending'?'pendientes':tab==='approved'?'aprobadas':'rechazadas'}</div></div>`;
+    return;
+  }
+
+  feed.innerHTML = items.map(item => {
+    const date = new Date(item.created).toLocaleDateString('es-CL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    const roleLabel = item.userRole||'publisher';
+    return `<div class="pending-card ${tab}" id="pcard-${item.id}">
+      <div class="pending-header">
+        <div class="pending-emoji">${item.emoji||'📍'}</div>
+        <div class="pending-info">
+          <div class="pending-name">${item.name}</div>
+          <div class="pending-meta">${item.type} · ${item.city||''} · ${date}</div>
+        </div>
+      </div>
+      ${item.userName?`<div class="pending-user">
+        ${item.userPhoto?`<img src="${item.userPhoto}" class="pending-user-photo" referrerpolicy="no-referrer">`:'<div class="pending-user-photo">👤</div>'}
+        <div class="pending-user-name">${item.userName}</div>
+        <span class="pending-user-role role-${roleLabel}">${roleLabel}</span>
+      </div>`:''}
+      <div class="pending-desc">${item.desc||'Sin descripción'}</div>
+      ${tab==='pending'?`<div class="pending-actions">
+        <button class="btn-approve" onclick="approveItem('${item.id}','${item.col}')">✅ Aprobar</button>
+        <button class="btn-reject" onclick="rejectItem('${item.id}','${item.col}')">❌ Rechazar</button>
+      </div>`:`<div class="pending-actions">
+        ${tab==='rejected'?`<button class="btn-approve" onclick="approveItem('${item.id}','${item.col}')">✅ Aprobar</button>`:''}
+        <button class="btn-delete" onclick="deleteItem('${item.id}','${item.col}')">🗑️ Eliminar</button>
+      </div>`}
+    </div>`;
+  }).join('');
+}
+
+async function renderAdminUsers(){
+  const feed = document.getElementById('admin-feed');
+  const snap = await getDocs(query(COLS.users, orderBy('created','desc')));
+  if(snap.empty){
+    feed.innerHTML = `<div class="empty"><div class="empty-icon">👥</div><div class="empty-title">Sin usuarios registrados</div></div>`;
+    return;
+  }
+  feed.innerHTML = snap.docs.map(d=>{
+    const u = d.data();
+    return `<div class="users-card">
+      <div class="users-card-photo">
+        ${u.photo?`<img src="${u.photo}" style="width:40px;height:40px;border-radius:50%;object-fit:cover" referrerpolicy="no-referrer">`:'👤'}
+      </div>
+      <div class="users-card-info">
+        <div class="users-card-name">${u.name||'Sin nombre'}</div>
+        <div class="users-card-email">${u.email||''}</div>
+      </div>
+      <select class="role-select" onchange="changeUserRole('${d.id}',this.value)">
+        <option value="explorer" ${u.role==='explorer'?'selected':''}>👤 Explorer</option>
+        <option value="publisher" ${u.role==='publisher'?'selected':''}>🙋 Publisher</option>
+        <option value="business" ${u.role==='business'?'selected':''}>🏪 Business</option>
+        <option value="admin" ${u.role==='admin'?'selected':''}>🛡️ Admin</option>
+      </select>
+    </div>`;
+  }).join('');
+}
+
+async function approveItem(id, col){
+  try{
+    await updateDoc(doc(db, col, id), {status:'approved', approvedAt:Date.now(), approvedBy:currentUser.uid});
+    toast('✅ Publicación aprobada');
+    const card = document.getElementById('pcard-'+id);
+    if(card) card.remove();
+    renderAdminStats();
+  }catch(err){ console.error(err); toast('❌ Error'); }
+}
+
+async function rejectItem(id, col){
+  const reason = prompt('Motivo del rechazo (opcional):') || '';
+  try{
+    await updateDoc(doc(db, col, id), {status:'rejected', rejectedAt:Date.now(), rejectedBy:currentUser.uid, rejectReason:reason});
+    toast('❌ Publicación rechazada');
+    const card = document.getElementById('pcard-'+id);
+    if(card) card.remove();
+    renderAdminStats();
+  }catch(err){ console.error(err); toast('❌ Error'); }
+}
+
+async function deleteItem(id, col){
+  if(!confirm('¿Eliminar permanentemente esta publicación?')) return;
+  try{
+    await deleteDoc(doc(db, col, id));
+    toast('🗑️ Eliminado');
+    const card = document.getElementById('pcard-'+id);
+    if(card) card.remove();
+    renderAdminStats();
+  }catch(err){ console.error(err); toast('❌ Error'); }
+}
+
+async function changeUserRole(uid, role){
+  try{
+    await updateDoc(doc(db, 'users', uid), {role});
+    toast(`✅ Rol actualizado: ${role}`);
+  }catch(err){ console.error(err); toast('❌ Error al cambiar rol'); }
+}
+
+function adminTab(el, tab){
+  adminCurrentTab = tab;
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderAdminFeed(tab);
+}
+
+function requestPlanUpgrade(){
+  closeDrawer('upgrade-plan');
+  toast('📩 Solicitud enviada — el admin la revisará pronto');
+}
+
 // ─── EXPONER FUNCIONES AL SCOPE GLOBAL ─
 // Necesario porque type="module" aísla el scope
 Object.assign(window, {
@@ -1928,7 +2503,11 @@ Object.assign(window, {
   filterCategory, exploreFilter,
   selectDate, surpriseMe, clearAllData,
   goToExplore, openFirstEvent,
-  getAllById, getAllItems
+  getAllById, getAllItems,
+  loginWithGoogle, continueAsGuest, logoutUser,
+  toggleUserMenu, closeUserMenu,
+  adminTab, approveItem, rejectItem, deleteItem,
+  changeUserRole, requestPlanUpgrade
 });
 
 // ─── PWA SERVICE WORKER ────────────────
@@ -1940,10 +2519,27 @@ if('serviceWorker' in navigator){
 async function init(){
   updateContext();
   setInterval(updateContext, 30000);
+
   // Mostrar loading mientras conecta
   document.getElementById('home-feed').innerHTML = `<div class="empty"><div class="empty-icon" style="animation:pulse-live 1s infinite">🔄</div><div class="empty-title">Conectando...</div><div class="empty-sub">Cargando datos en tiempo real</div></div>`;
-  // Iniciar listeners en tiempo real (renderiza automáticamente al recibir datos)
-  initRealtimeListeners();
+
+  // Listener de autenticación — se dispara al cargar y al cambiar sesión
+  onAuthStateChanged(auth, async user => {
+    currentUser = user;
+    if(user){
+      // Registrar usuario en Firestore y cargar su rol
+      await registerOrLoadUser(user);
+    } else {
+      currentUserRole = 'explorer';
+    }
+    updateAuthUI(user);
+    if(!user){
+      document.getElementById('auth-screen').classList.add('show');
+    }
+    // Reiniciar listeners con el rol correcto
+    initRealtimeListeners();
+  });
+
   // Sembrar datos de ejemplo si Firestore está vacío
   await seedData();
 }
