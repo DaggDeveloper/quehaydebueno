@@ -521,6 +521,57 @@ a{color:inherit;text-decoration:none}
 .plan-features li{font-size:12px;color:var(--text2);padding:2px 0;display:flex;align-items:center;gap:6px}
 .plan-features li::before{content:'✓';color:var(--green);font-weight:700}
 
+/* ── IMAGE UPLOAD ─────────────────────────────── */
+.img-upload-zone{
+  width:100%;aspect-ratio:1/1;border-radius:var(--radius-lg);
+  border:2px dashed var(--border2);background:var(--bg3);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;
+}
+.img-upload-zone:hover{border-color:var(--brand);background:var(--brand-soft)}
+.img-upload-zone.has-image{border-style:solid;border-color:var(--border2)}
+.img-upload-zone img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.img-upload-zone input[type=file]{display:none}
+.img-upload-overlay{
+  position:absolute;inset:0;background:rgba(0,0,0,0.5);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;transition:opacity 0.2s;
+}
+.img-upload-zone.has-image:hover .img-upload-overlay{opacity:1}
+.img-upload-icon{font-size:36px;margin-bottom:8px}
+.img-upload-text{font-size:13px;color:var(--text3);text-align:center;line-height:1.5}
+.img-upload-hint{font-size:11px;color:var(--text3);margin-top:6px}
+.img-upload-locked{
+  width:100%;aspect-ratio:1/1;border-radius:var(--radius-lg);
+  background:var(--bg4);border:1px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;
+}
+.img-upload-locked-icon{font-size:28px;opacity:0.4}
+.img-upload-locked-text{font-size:12px;color:var(--text3);text-align:center;line-height:1.5;padding:0 16px}
+.img-upload-locked-badge{font-size:11px;font-weight:700;color:var(--brand);background:var(--brand-soft);padding:4px 12px;border-radius:20px;cursor:pointer}
+.img-progress{
+  width:100%;height:3px;background:var(--bg4);border-radius:2px;
+  margin-top:8px;overflow:hidden;display:none;
+}
+.img-progress-bar{height:100%;background:var(--brand);border-radius:2px;width:0;transition:width 0.3s}
+
+/* ── FEED CARD WITH IMAGE ─────────────────────── */
+.card-with-image{flex-direction:column;padding:0;overflow:hidden}
+.card-image{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.card-image-placeholder{
+  width:100%;aspect-ratio:1/1;
+  display:flex;align-items:center;justify-content:center;font-size:64px;
+}
+.card-image-placeholder.food{background:rgba(255,68,34,0.12)}
+.card-image-placeholder.bar{background:rgba(59,130,246,0.12)}
+.card-image-placeholder.music{background:rgba(124,58,237,0.12)}
+.card-image-placeholder.sport{background:rgba(16,185,129,0.12)}
+.card-image-placeholder.art{background:rgba(245,158,11,0.12)}
+.card-image-placeholder.family{background:rgba(236,72,153,0.12)}
+.card-image-placeholder.default{background:var(--bg3)}
+.card-content{padding:12px 14px 14px}
+
 /* ── RESPONSIVE ───────────────────────────────── */
 @media(min-width:640px){
   .page{max-width:640px;margin:0 auto}
@@ -899,7 +950,12 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">Foto del emoji representativo</label>
+        <label class="form-label">Afiche / Foto principal</label>
+        <div id="place-img-upload-wrap"></div>
+        <div class="img-progress" id="place-img-progress"><div class="img-progress-bar" id="place-img-progress-bar"></div></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Emoji representativo</label>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px" id="emoji-picker-place">
           <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','🍕')">🍕</span>
           <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('place','☕')">☕</span>
@@ -1023,6 +1079,11 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
       <div class="form-group">
+        <label class="form-label">Afiche del evento</label>
+        <div id="event-img-upload-wrap"></div>
+        <div class="img-progress" id="event-img-progress"><div class="img-progress-bar" id="event-img-progress-bar"></div></div>
+      </div>
+      <div class="form-group">
         <label class="form-label">Emoji del evento</label>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
           <span style="padding:8px;font-size:22px;cursor:pointer;border-radius:8px;background:var(--bg3);border:1px solid var(--border)" onclick="setEmoji('event','🎵')">🎵</span>
@@ -1125,6 +1186,11 @@ a{color:inherit;text-decoration:none}
         <label class="form-label">Contacto</label>
         <input class="form-input" id="exp-contact" placeholder="WhatsApp, Instagram, email...">
       </div>
+      <div class="form-group">
+        <label class="form-label">Foto / Afiche de la experiencia</label>
+        <div id="exp-img-upload-wrap"></div>
+        <div class="img-progress" id="exp-img-progress"><div class="img-progress-bar" id="exp-img-progress-bar"></div></div>
+      </div>
       <div style="height:16px"></div>
       <button class="btn-primary" onclick="saveExperience()">Publicar experiencia</button>
       <div style="height:10px"></div>
@@ -1201,6 +1267,11 @@ a{color:inherit;text-decoration:none}
       <div class="form-group">
         <label class="form-label">WhatsApp de contacto</label>
         <input class="form-input" id="emp-wa" type="tel" placeholder="+56 9 1234 5678">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Foto del emprendimiento</label>
+        <div id="emp-img-upload-wrap"></div>
+        <div class="img-progress" id="emp-img-progress"><div class="img-progress-bar" id="emp-img-progress-bar"></div></div>
       </div>
       <div style="height:16px"></div>
       <button class="btn-primary" onclick="saveEmprendimiento()">Registrar emprendimiento</button>
@@ -1420,6 +1491,7 @@ a{color:inherit;text-decoration:none}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, where, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAWLT8ohR1KcTLCgnv6Z59fazgo8s4H8lY",
@@ -1435,6 +1507,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 const googleProvider = new GoogleAuthProvider();
 
 // ─── ESTADO DE USUARIO ──────────────────
@@ -1777,9 +1850,32 @@ function renderCard(item){
   if(item.type==='experience') badges+=`<span class="badge badge-new">🎒 Experiencia</span>`;
   if(item.type==='place'&&isOpen(item)) badges+=`<span class="badge badge-open">Abierto</span>`;
   if(item.type==='emprendimiento') badges+=`<span class="badge badge-new">🛍️ Emprendedor</span>`;
-  const subtitle = item.type==='event'?`${item.date===todayStr()?'Hoy':'📅 '+item.date} ${item.time||''} · ${item.venue||item.city}`
-                 : item.type==='experience'?`${item.duration||''} · ${item.city} · ${item.price||''}`
-                 : `${item.cat||''} · ${item.city}${item.sector?' · '+item.sector:''}`;
+  const subtitle = item.type==='event'
+    ? `${item.date===todayStr()?'Hoy':'📅 '+item.date} ${item.time||''} · ${item.venue||item.city}`
+    : item.type==='experience'?`${item.duration||''} · ${item.city} · ${item.price||''}`
+    : `${item.cat||''} · ${item.city}${item.sector?' · '+item.sector:''}`;
+
+  if(item.imageUrl){
+    // Tarjeta con imagen estilo Instagram
+    return `<div class="card card-with-image" onclick="openDetail(getAllById('${item.id}'))">
+      <img class="card-image" src="${item.imageUrl}" alt="${item.name}" loading="lazy">
+      <div class="card-content">
+        <div style="display:flex;align-items:flex-start;gap:10px">
+          <div style="flex:1;min-width:0">
+            <div class="card-name">${item.name}</div>
+            <div class="card-meta">${subtitle}</div>
+            <div class="card-tags" style="margin-top:6px">${badges}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">
+            <div class="card-dist">${dist}</div>
+            <div onclick="event.stopPropagation();toggleSave('${item.id}')" style="font-size:18px;cursor:pointer;line-height:1">${saved?'❤️':'🤍'}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // Tarjeta sin imagen — emoji grande
   return `<div class="card" onclick="openDetail(getAllById('${item.id}'))">
     <div class="card-thumb ${thumb}">${item.emoji||'📍'}</div>
     <div class="card-body">
@@ -1938,7 +2034,36 @@ function renderProfile(){
 function openDetail(item){
   if(!item) return;
   currentDetail = item;
-  document.getElementById('detail-emoji').textContent = item.emoji||'📍';
+
+  // Hero — imagen o emoji
+  const hero = document.getElementById('detail-hero');
+  const thumb = getCatThumb(item);
+  if(item.imageUrl){
+    hero.style.height = 'auto';
+    hero.style.padding = '0';
+    document.getElementById('detail-emoji').style.display = 'none';
+    // Insertar imagen si no existe ya
+    let heroImg = hero.querySelector('.detail-hero-img');
+    if(!heroImg){
+      heroImg = document.createElement('img');
+      heroImg.className = 'detail-hero-img';
+      heroImg.style.cssText = 'width:100%;aspect-ratio:1/1;object-fit:cover;display:block';
+      hero.insertBefore(heroImg, hero.firstChild);
+    }
+    heroImg.src = item.imageUrl;
+    heroImg.alt = item.name;
+  } else {
+    hero.style.height = '220px';
+    hero.style.padding = '';
+    document.getElementById('detail-emoji').style.display = '';
+    document.getElementById('detail-emoji').textContent = item.emoji||'📍';
+    // Fondo de color según categoría
+    const colors = {food:'rgba(255,68,34,0.12)',bar:'rgba(59,130,246,0.12)',music:'rgba(124,58,237,0.12)',sport:'rgba(16,185,129,0.12)',art:'rgba(245,158,11,0.12)',family:'rgba(236,72,153,0.12)'};
+    hero.style.background = colors[thumb] || 'var(--bg3)';
+    const heroImg = hero.querySelector('.detail-hero-img');
+    if(heroImg) heroImg.remove();
+  }
+
   document.getElementById('detail-name').textContent = item.name;
 
   let tagline = '';
@@ -2036,6 +2161,10 @@ function doSearch(q){
 // ─── DRAWERS ───────────────────────────
 function openDrawer(name){
   document.getElementById('drawer-'+name).classList.add('open');
+  if(name==='add-place'){
+    document.getElementById('place-emoji-preview').textContent = selectedEmojis.place;
+    renderImageUpload('place-img-upload-wrap','place');
+  }
   if(name==='add-event'){
     const d = document.getElementById('ev-date');
     if(!d.value) d.value = todayStr();
@@ -2043,6 +2172,14 @@ function openDrawer(name){
     document.getElementById('ev-price').onchange = function(){
       document.getElementById('ev-price-val-wrap').style.display = this.value==='pago'?'block':'none';
     };
+    document.getElementById('event-emoji-preview').textContent = selectedEmojis.event;
+    renderImageUpload('event-img-upload-wrap','event');
+  }
+  if(name==='add-experience'){
+    renderImageUpload('exp-img-upload-wrap','exp');
+  }
+  if(name==='add-emprendimiento'){
+    renderImageUpload('emp-img-upload-wrap','emp');
   }
   if(name==='city-settings'){
     const p = localDB.obj('profile');
@@ -2056,12 +2193,6 @@ function openDrawer(name){
     const p = localDB.obj('profile');
     document.getElementById('prof-name').value = p.name||'';
     document.getElementById('prof-city').value = p.city||'';
-  }
-  if(name==='add-place'){
-    document.getElementById('place-emoji-preview').textContent = selectedEmojis.place;
-  }
-  if(name==='add-event'){
-    document.getElementById('event-emoji-preview').textContent = selectedEmojis.event;
   }
 }
 
@@ -2113,12 +2244,19 @@ async function savePlace(){
   };
   try{
     toast('⏳ Publicando...');
-    await addDoc(COLS.places, place);
+    // Primero crear el documento para obtener el ID
+    const docRef = await addDoc(COLS.places, place);
+    // Subir imagen si existe
+    if(pendingImages['place']){
+      const imgUrl = await uploadImage('place','places',docRef.id,'place-img-progress','place-img-progress-bar');
+      if(imgUrl) await updateDoc(docRef, {imageUrl: imgUrl});
+    }
     clearForm(['place-name','place-city','place-sector','place-address','place-desc','place-phone','place-web','place-open','place-close']);
     document.getElementById('place-cat').selectedIndex=0;
     document.getElementById('place-price').selectedIndex=0;
     document.querySelectorAll('#place-tags .tag-pick').forEach(t=>t.classList.remove('sel'));
     selectedEmojis.place='🏪';
+    delete pendingImages['place'];
     closeDrawer('add-place');
     toast('⏳ Lugar enviado — pendiente de aprobación');
   }catch(err){
@@ -2156,11 +2294,16 @@ async function saveEvent(){
   };
   try{
     toast('⏳ Publicando...');
-    await addDoc(COLS.events, ev);
+    const docRef = await addDoc(COLS.events, ev);
+    if(pendingImages['event']){
+      const imgUrl = await uploadImage('event','events',docRef.id,'event-img-progress','event-img-progress-bar');
+      if(imgUrl) await updateDoc(docRef, {imageUrl: imgUrl});
+    }
     clearForm(['ev-name','ev-city','ev-address','ev-desc','ev-venue','ev-contact','ev-capacity','ev-price-val']);
     document.getElementById('ev-type').selectedIndex=0;
     document.querySelectorAll('#ev-tags .tag-pick').forEach(t=>t.classList.remove('sel'));
     selectedEmojis.event='🎵';
+    delete pendingImages['event'];
     closeDrawer('add-event');
     toast('⏳ Evento enviado — pendiente de aprobación');
   }catch(err){
@@ -2195,10 +2338,15 @@ async function saveExperience(){
   };
   try{
     toast('⏳ Publicando...');
-    await addDoc(COLS.experiences, exp);
+    const docRef = await addDoc(COLS.experiences, exp);
+    if(pendingImages['exp']){
+      const imgUrl = await uploadImage('exp','experiences',docRef.id,'exp-img-progress','exp-img-progress-bar');
+      if(imgUrl) await updateDoc(docRef, {imageUrl: imgUrl});
+    }
     clearForm(['exp-name','exp-city','exp-desc','exp-duration','exp-price','exp-contact']);
     document.getElementById('exp-type').selectedIndex=0;
     document.querySelectorAll('#exp-includes .tag-pick').forEach(t=>t.classList.remove('sel'));
+    delete pendingImages['exp'];
     closeDrawer('add-experience');
     toast('⏳ Experiencia enviada — pendiente de aprobación');
   }catch(err){
@@ -2231,10 +2379,15 @@ async function saveEmprendimiento(){
   };
   try{
     toast('⏳ Registrando...');
-    await addDoc(COLS.emprendimientos, emp);
+    const docRef = await addDoc(COLS.emprendimientos, emp);
+    if(pendingImages['emp']){
+      const imgUrl = await uploadImage('emp','emprendimientos',docRef.id,'emp-img-progress','emp-img-progress-bar');
+      if(imgUrl) await updateDoc(docRef, {imageUrl: imgUrl});
+    }
     clearForm(['emp-name','emp-city','emp-desc','emp-products','emp-years','emp-ig','emp-wa']);
     document.getElementById('emp-cat').selectedIndex=0;
     document.querySelectorAll('#emp-channels .tag-pick').forEach(t=>t.classList.remove('sel'));
+    delete pendingImages['emp'];
     closeDrawer('add-emprendimiento');
     toast('⏳ Emprendimiento enviado — pendiente de aprobación');
   }catch(err){
@@ -2329,6 +2482,118 @@ document.addEventListener('keydown',e=>{
     });
   }
 });
+
+// ─── IMAGE UPLOAD ──────────────────────
+// Almacena el blob comprimido listo para subir
+const pendingImages = {};
+
+function canUploadImages(){
+  return ['business','admin'].includes(currentUserRole);
+}
+
+function renderImageUpload(wrapperId, formKey){
+  const wrap = document.getElementById(wrapperId);
+  if(!wrap) return;
+  if(canUploadImages()){
+    wrap.innerHTML = `
+      <div class="img-upload-zone ${pendingImages[formKey]?'has-image':''}" id="img-zone-${formKey}" onclick="document.getElementById('img-input-${formKey}').click()">
+        ${pendingImages[formKey]
+          ? `<img src="${URL.createObjectURL(pendingImages[formKey])}" alt="preview">`
+          : `<div class="img-upload-icon">📷</div>
+             <div class="img-upload-text">Toca para subir una foto</div>
+             <div class="img-upload-hint">JPG, PNG, WebP · Máx 5MB · Se ajusta a 1:1</div>`
+        }
+        <div class="img-upload-overlay">
+          <div style="font-size:28px">🔄</div>
+          <div style="font-size:13px;color:#fff;margin-top:6px">Cambiar foto</div>
+        </div>
+        <input type="file" id="img-input-${formKey}" accept="image/*" onchange="handleImageSelect(event,'${formKey}','${wrapperId}')">
+      </div>
+    `;
+  } else {
+    wrap.innerHTML = `
+      <div class="img-upload-locked">
+        <div class="img-upload-locked-icon">🔒</div>
+        <div class="img-upload-locked-text">Las imágenes están disponibles para planes Comercio Básico y superiores</div>
+        <div class="img-upload-locked-badge" onclick="openDrawer('upgrade-plan')">Ver planes →</div>
+      </div>
+    `;
+  }
+}
+
+async function handleImageSelect(event, formKey, wrapperId){
+  const file = event.target.files[0];
+  if(!file) return;
+  if(file.size > 5 * 1024 * 1024){
+    toast('⚠️ La imagen supera 5MB');
+    return;
+  }
+  toast('⏳ Procesando imagen...');
+  try{
+    const compressed = await compressToSquare(file, 1080);
+    pendingImages[formKey] = compressed;
+    renderImageUpload(wrapperId, formKey);
+    toast('✅ Imagen lista');
+  }catch(err){
+    console.error(err);
+    toast('❌ Error al procesar la imagen');
+  }
+}
+
+function compressToSquare(file, size){
+  return new Promise((resolve, reject)=>{
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = ()=>{
+      URL.revokeObjectURL(url);
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      // Recorte cuadrado centrado (object-fit: cover)
+      const srcSize = Math.min(img.width, img.height);
+      const srcX = (img.width - srcSize) / 2;
+      const srcY = (img.height - srcSize) / 2;
+      ctx.drawImage(img, srcX, srcY, srcSize, srcSize, 0, 0, size, size);
+      canvas.toBlob(blob=>{
+        if(blob) resolve(blob);
+        else reject(new Error('Canvas toBlob failed'));
+      }, 'image/jpeg', 0.85);
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+async function uploadImage(formKey, col, docId, progressId, progressBarId){
+  const blob = pendingImages[formKey];
+  if(!blob) return null;
+  try{
+    // Mostrar barra de progreso
+    const progress = document.getElementById(progressId);
+    const bar = document.getElementById(progressBarId);
+    if(progress) progress.style.display='block';
+    if(bar) bar.style.width='30%';
+    const path = `images/${col}/${currentUser.uid}_${docId}_${Date.now()}.jpg`;
+    const storageRef = ref(storage, path);
+    if(bar) bar.style.width='60%';
+    await uploadBytes(storageRef, blob);
+    if(bar) bar.style.width='90%';
+    const url = await getDownloadURL(storageRef);
+    if(bar) bar.style.width='100%';
+    setTimeout(()=>{ if(progress) progress.style.display='none'; }, 600);
+    delete pendingImages[formKey];
+    return url;
+  }catch(err){
+    console.error('Upload error:', err);
+    return null;
+  }
+}
+
+function clearImageUpload(formKey, wrapperId){
+  delete pendingImages[formKey];
+  renderImageUpload(wrapperId, formKey);
+}
 
 // ─── ADMIN FUNCTIONS ───────────────────
 let adminCurrentTab = 'pending';
@@ -2507,7 +2772,8 @@ Object.assign(window, {
   loginWithGoogle, continueAsGuest, logoutUser,
   toggleUserMenu, closeUserMenu,
   adminTab, approveItem, rejectItem, deleteItem,
-  changeUserRole, requestPlanUpgrade
+  changeUserRole, requestPlanUpgrade,
+  handleImageSelect, renderImageUpload
 });
 
 // ─── PWA SERVICE WORKER ────────────────

@@ -572,6 +572,11 @@ a{color:inherit;text-decoration:none}
 .card-image-placeholder.default{background:var(--bg3)}
 .card-content{padding:12px 14px 14px}
 
+/* ── GUEST LOCKED STATES ──────────────────────── */
+.nav-btn.guest-locked{opacity:0.45}
+.nav-btn.guest-locked .nav-icon::after{content:' 🔒';font-size:10px}
+.fab.guest-locked{opacity:0.7}
+
 /* ── RESPONSIVE ───────────────────────────────── */
 @media(min-width:640px){
   .page{max-width:640px;margin:0 auto}
@@ -609,7 +614,7 @@ a{color:inherit;text-decoration:none}
     </svg>
     Continuar con Google
   </button>
-  <div class="auth-guest" onclick="continueAsGuest()">Continuar sin cuenta</div>
+  <div class="auth-guest" onclick="continueAsGuest()">Solo quiero explorar →</div>
   <div class="auth-terms">Al registrarte aceptas nuestros términos de uso. Tu información no será compartida con terceros.</div>
 </div>
 
@@ -619,9 +624,15 @@ a{color:inherit;text-decoration:none}
     <div class="user-menu-name" id="um-name">—</div>
     <div class="user-menu-email" id="um-email">—</div>
   </div>
-  <div class="user-menu-item" onclick="goTo('profile');closeUserMenu()">👤 Mi perfil</div>
-  <div class="user-menu-item" onclick="openDrawer('add-menu');closeUserMenu()">➕ Publicar</div>
-  <div class="user-menu-item danger" onclick="logoutUser();closeUserMenu()">🚪 Cerrar sesión</div>
+  <div id="um-logged-in" style="display:none">
+    <div class="user-menu-item" onclick="goTo('profile');closeUserMenu()">👤 Mi perfil</div>
+    <div class="user-menu-item" onclick="openDrawer('add-menu');closeUserMenu()">➕ Publicar</div>
+    <div class="user-menu-item danger" onclick="logoutUser();closeUserMenu()">🚪 Cerrar sesión</div>
+  </div>
+  <div id="um-guest">
+    <div class="user-menu-item" onclick="document.getElementById('auth-screen').classList.add('show');closeUserMenu()">🔑 Iniciar sesión con Google</div>
+    <div class="user-menu-item" onclick="goTo('explore');closeUserMenu()">🔭 Explorar contenido</div>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════
@@ -1557,7 +1568,6 @@ async function loginWithGoogle(){
 
 function continueAsGuest(){
   document.getElementById('auth-screen').classList.remove('show');
-  toast('👋 Modo invitado — puedes explorar pero no publicar');
 }
 
 async function logoutUser(){
@@ -1635,8 +1645,9 @@ function getPlanLimits(){
 
 function updateAuthUI(user){
   const authScreen = document.getElementById('auth-screen');
+  const umLoggedIn = document.getElementById('um-logged-in');
+  const umGuest = document.getElementById('um-guest');
   if(user){
-    // Avatar header
     const avatarEl = document.getElementById('header-avatar');
     if(avatarEl){
       if(user.photoURL){
@@ -1647,18 +1658,23 @@ function updateAuthUI(user){
     }
     document.getElementById('um-name').textContent = user.displayName||'Usuario';
     document.getElementById('um-email').textContent = user.email||'';
+    if(umLoggedIn) umLoggedIn.style.display='block';
+    if(umGuest) umGuest.style.display='none';
     authScreen.classList.remove('show');
     const profile = localDB.obj('profile');
     if(!profile.name) profile.name = user.displayName;
     localDB.set('profile', profile);
-    // Mostrar/ocultar tab admin
     updateAdminTab();
+    updateGuestUI();
   } else {
     const avatarEl = document.getElementById('header-avatar');
     if(avatarEl) avatarEl.textContent = '👤';
-    authScreen.classList.add('show');
-    currentUserRole = 'explorer';
+    document.getElementById('um-name').textContent = 'Modo invitado';
+    document.getElementById('um-email').textContent = 'Inicia sesión para publicar';
+    if(umLoggedIn) umLoggedIn.style.display='none';
+    if(umGuest) umGuest.style.display='block';
     updateAdminTab();
+    updateGuestUI();
   }
   renderProfile();
 }
@@ -1674,15 +1690,46 @@ function updateAdminTab(){
   }
 }
 
+function updateGuestUI(){
+  const isLoggedIn = !!currentUser;
+  const fab = document.getElementById('fab');
+  // FAB — visible pero con apariencia bloqueada
+  if(fab){
+    fab.classList.toggle('guest-locked', !isLoggedIn);
+    fab.title = isLoggedIn ? 'Publicar' : 'Inicia sesión para publicar';
+  }
+  // Nav tabs guardados y perfil — apariencia bloqueada
+  ['saved','profile'].forEach(tab=>{
+    const el = document.getElementById('nav-'+tab);
+    if(el) el.classList.toggle('guest-locked', !isLoggedIn);
+  });
+}
+
 function requireAuth(){
   if(!currentUser){
-    toast('👤 Inicia sesión para publicar');
-    document.getElementById('auth-screen').classList.add('show');
+    showLoginPrompt();
     return false;
   }
   if(!canPublish()){
     toast('🔒 Necesitas el plan Publicador o superior');
     openDrawer('upgrade-plan');
+    return false;
+  }
+  return true;
+}
+
+function showLoginPrompt(){
+  // Mostrar toast + pantalla de login
+  toast('👤 Inicia sesión para continuar');
+  setTimeout(()=>{
+    document.getElementById('auth-screen').classList.add('show');
+  }, 600);
+}
+
+function requireLogin(){
+  // Solo chequea login, sin verificar rol
+  if(!currentUser){
+    showLoginPrompt();
     return false;
   }
   return true;
@@ -1768,10 +1815,16 @@ function tomorrowStr(){
 
 // ─── NAVIGATION ────────────────────────
 function goTo(page){
+  // Páginas que requieren login
+  const loginRequired = ['saved','profile'];
+  if(loginRequired.includes(page) && !currentUser){
+    showLoginPrompt();
+    return;
+  }
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
-  document.getElementById('nav-'+page).classList.add('active');
+  document.getElementById('nav-'+page)?.classList.add('active');
   currentPage = page;
   renderPage(page);
 }
@@ -1993,11 +2046,11 @@ function renderSaved(){
 }
 
 function toggleSave(id){
+  if(!requireLogin()) return;
   const savedIds = localDB.get('saved_ids');
   const isSaved = savedIds.includes(id);
   const newIds = isSaved ? savedIds.filter(s=>s!==id) : [...savedIds, id];
   localDB.set('saved_ids', newIds);
-  // Actualizar el cache en memoria
   ['places','events','experiences','emprendimientos'].forEach(col=>{
     memCache[col] = memCache[col].map(i=>i.id===id?{...i,saved:!isSaved}:i);
   });
@@ -2204,7 +2257,10 @@ function overlayClick(e, name){
   if(e.target===document.getElementById('drawer-'+name)) closeDrawer(name);
 }
 
-function openAddMenu(){openDrawer('add-menu')}
+function openAddMenu(){
+  if(!requireLogin()) return;
+  openDrawer('add-menu');
+}
 
 // ─── TAG TOGGLE ────────────────────────
 function toggleTag(el){el.classList.toggle('sel')}
@@ -2773,7 +2829,8 @@ Object.assign(window, {
   toggleUserMenu, closeUserMenu,
   adminTab, approveItem, rejectItem, deleteItem,
   changeUserRole, requestPlanUpgrade,
-  handleImageSelect, renderImageUpload
+  handleImageSelect, renderImageUpload,
+  requireLogin, showLoginPrompt, updateGuestUI
 });
 
 // ─── PWA SERVICE WORKER ────────────────
@@ -2795,13 +2852,13 @@ async function init(){
     if(user){
       // Registrar usuario en Firestore y cargar su rol
       await registerOrLoadUser(user);
+      // Ocultar auth screen si estaba visible
+      document.getElementById('auth-screen').classList.remove('show');
     } else {
       currentUserRole = 'explorer';
+      // NO mostrar auth screen — el usuario puede explorar sin cuenta
     }
     updateAuthUI(user);
-    if(!user){
-      document.getElementById('auth-screen').classList.add('show');
-    }
     // Reiniciar listeners con el rol correcto
     initRealtimeListeners();
   });
