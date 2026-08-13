@@ -24,7 +24,10 @@
   --purple:#7C3AED;--purple-soft:rgba(124,58,237,0.15);
   --amber:#F59E0B;--amber-soft:rgba(245,158,11,0.15);
   --blue:#3B82F6;--blue-soft:rgba(59,130,246,0.15);
-  --radius:12px;--radius-lg:16px;--radius-xl:20px;
+  --coast:#0077CC;--coast-soft:rgba(0,119,204,0.15);--coast-mid:#2299EE;
+  --coast-bg:#07111A;--coast-bg2:#0D1B26;--coast-bg3:#132333;
+  --coast-border:rgba(0,119,204,0.2);--coast-text:rgba(255,255,255,0.9);
+
   --nav-h:64px;--header-h:56px;
   --font:'Space Grotesk',system-ui,sans-serif;
   --font-body:'DM Sans',system-ui,sans-serif;
@@ -572,6 +575,40 @@ a{color:inherit;text-decoration:none}
 .card-image-placeholder.default{background:var(--bg3)}
 .card-content{padding:12px 14px 14px}
 
+/* ── MY POSTS ─────────────────────────────────── */
+.my-post-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius-lg);margin:0 16px 10px;
+  overflow:hidden;cursor:pointer;transition:border-color 0.15s;
+}
+.my-post-card:hover{border-color:var(--border2)}
+.my-post-card.pending{border-left:3px solid var(--amber)}
+.my-post-card.approved{border-left:3px solid var(--green)}
+.my-post-card.rejected{border-left:3px solid #f87171;opacity:0.7}
+.my-post-inner{display:flex;gap:12px;align-items:flex-start;padding:12px 14px}
+.my-post-thumb{
+  width:56px;height:56px;border-radius:10px;flex-shrink:0;
+  object-fit:cover;display:flex;align-items:center;justify-content:center;font-size:24px;
+}
+.my-post-info{flex:1;min-width:0}
+.my-post-name{font-family:var(--font);font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.my-post-meta{font-size:11px;color:var(--text3);margin-bottom:6px}
+.my-post-status{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:5px}
+.status-pending{background:var(--amber-soft);color:var(--amber)}
+.status-approved{background:var(--green-soft);color:var(--green)}
+.status-rejected{background:rgba(248,113,113,0.15);color:#f87171}
+.my-post-actions{display:flex;gap:8px;padding:0 14px 12px}
+.my-post-edit-btn{
+  flex:1;padding:8px;border-radius:8px;font-size:12px;font-weight:700;
+  cursor:pointer;border:1px solid var(--border2);background:var(--bg3);
+  color:var(--text2);font-family:var(--font);transition:background 0.15s;
+}
+.my-post-edit-btn:hover{background:var(--bg4)}
+.my-post-reject-reason{
+  font-size:11px;color:#f87171;padding:0 14px 10px;
+  display:flex;align-items:flex-start;gap:5px;
+}
+
 /* ── GUEST LOCKED STATES ──────────────────────── */
 .nav-btn.guest-locked{opacity:0.45}
 .nav-btn.guest-locked .nav-icon::after{content:' 🔒';font-size:10px}
@@ -587,6 +624,73 @@ a{color:inherit;text-decoration:none}
   .detail-overlay{max-width:640px;left:50%;transform:none}
   .detail-overlay.open{transform:translateX(-50%);margin-left:0}
 }
+
+/* ── ZONE SWITCHER ────────────────────────────── */
+.zone-switcher{
+  display:flex;align-items:center;gap:6px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:20px;padding:4px 6px;cursor:pointer;
+  flex-shrink:0;transition:background 0.15s;
+}
+.zone-switcher:hover{background:var(--bg4)}
+.zone-pill{
+  display:flex;align-items:center;gap:4px;
+  padding:4px 10px;border-radius:16px;font-size:11px;font-weight:700;
+  transition:all 0.2s;white-space:nowrap;
+}
+.zone-pill.active{background:var(--brand);color:#fff}
+.zone-pill.active.coast{background:var(--coast)}
+.zone-pill.inactive{color:var(--text3)}
+
+/* ── COSTA HOME ───────────────────────────────── */
+.coast-header{
+  background:linear-gradient(160deg,#07111A 0%,#0D2035 60%,#0a1d30 100%);
+  padding:20px 16px 24px;position:relative;overflow:hidden;
+}
+.coast-header::before{
+  content:'';position:absolute;bottom:-20px;left:-10%;right:-10%;
+  height:80px;
+  background:rgba(0,119,204,0.08);
+  border-radius:50%;
+}
+.coast-eyebrow{font-size:11px;font-weight:700;color:var(--coast-mid);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.coast-title{font-family:var(--font);font-size:26px;font-weight:800;color:#fff;letter-spacing:-0.8px;margin-bottom:4px;line-height:1.1}
+.coast-subtitle{font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:16px}
+.coast-search{
+  background:rgba(255,255,255,0.08);border:1px solid rgba(0,119,204,0.3);
+  border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:8px;cursor:pointer;
+}
+.coast-search-text{font-size:13px;color:rgba(255,255,255,0.35);flex:1}
+.coast-quick-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px 16px;
+}
+.coast-quick-item{
+  background:var(--bg2);border:1px solid var(--coast-border);
+  border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;
+  transition:all 0.15s;
+}
+.coast-quick-item:hover{background:var(--coast-soft);border-color:var(--coast)}
+.coast-quick-icon{font-size:22px;margin-bottom:4px}
+.coast-quick-label{font-size:10px;font-weight:600;color:var(--text3)}
+.coast-section-title{
+  font-family:var(--font);font-size:14px;font-weight:700;
+  color:var(--coast-mid);text-transform:uppercase;letter-spacing:1px;
+  padding:16px 16px 8px;display:flex;align-items:center;gap:6px;
+}
+.coast-badge{
+  display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;
+  padding:2px 7px;border-radius:5px;background:var(--coast-soft);color:var(--coast-mid);
+}
+/* App body en modo costa */
+body.zone-costa{background:var(--coast-bg)}
+body.zone-costa .card{background:var(--coast-bg2);border-color:var(--coast-border)}
+body.zone-costa .card:hover{background:var(--coast-bg3)}
+body.zone-costa .bottom-nav{background:rgba(7,17,26,0.96)}
+body.zone-costa .top-header{background:rgba(7,17,26,0.92)}
+body.zone-costa .header-logo{color:var(--coast-mid)}
+/* Subzone selector en formularios */
+.subzone-wrap{display:none}
+.subzone-wrap.visible{display:block}
 
 /* ── ANIMATIONS ───────────────────────────────── */
 .fade-in{animation:fade-in 0.3s}
@@ -642,7 +746,11 @@ a{color:inherit;text-decoration:none}
 
 <!-- ── HEADER ──────────────────────────── -->
 <header class="top-header" id="top-header">
-  <div class="header-logo">¿Qué hay de bueno?</div>
+  <!-- Zona switcher: reemplaza el logo estático -->
+  <div class="zone-switcher" onclick="toggleZoneSwitcher()" id="zone-switcher" aria-label="Cambiar zona">
+    <div class="zone-pill active" id="zone-pill-valdivia">🏙️ Valdivia</div>
+    <div class="zone-pill inactive" id="zone-pill-costa">🌊 Costa</div>
+  </div>
   <div class="header-search" onclick="openSearch()" role="button" aria-label="Buscar">
     <span>🔍</span>
     <span id="header-search-text">¿Qué quieres hacer ahora?</span>
@@ -696,6 +804,67 @@ a{color:inherit;text-decoration:none}
 </section>
 
 <!-- ══════════════════════════════════════
+     PAGE: HOME COSTA
+══════════════════════════════════════ -->
+<section class="page" id="page-home-costa">
+
+  <!-- Header costero -->
+  <div class="coast-header">
+    <div class="coast-eyebrow">🌊 Costa Valdiviana</div>
+    <div class="coast-title">¿Qué hay de bueno?</div>
+    <div class="coast-subtitle">Descubre qué está pasando en la costa</div>
+    <div class="coast-search" onclick="openSearch()">
+      <span>🔍</span>
+      <span class="coast-search-text">¿Qué buscas en la costa?</span>
+    </div>
+  </div>
+
+  <!-- Accesos rápidos costeros -->
+  <div class="coast-quick-grid" id="coast-quick-grid">
+    <div class="coast-quick-item" onclick="coastFilter('playa')">
+      <div class="coast-quick-icon">🌊</div>
+      <div class="coast-quick-label">Playas</div>
+    </div>
+    <div class="coast-quick-item" onclick="coastFilter('caleta')">
+      <div class="coast-quick-icon">⚓</div>
+      <div class="coast-quick-label">Caletas</div>
+    </div>
+    <div class="coast-quick-item" onclick="coastFilter('actividad')">
+      <div class="coast-quick-icon">🛶</div>
+      <div class="coast-quick-label">Actividades</div>
+    </div>
+    <div class="coast-quick-item" onclick="coastFilter('producto_mar')">
+      <div class="coast-quick-icon">🐟</div>
+      <div class="coast-quick-label">Productos</div>
+    </div>
+    <div class="coast-quick-item" onclick="coastFilter('gastronomia')">
+      <div class="coast-quick-icon">🍽️</div>
+      <div class="coast-quick-label">Comer</div>
+    </div>
+    <div class="coast-quick-item" onclick="coastFilter('alojamiento')">
+      <div class="coast-quick-icon">🏕️</div>
+      <div class="coast-quick-label">Alojar</div>
+    </div>
+    <div class="coast-quick-item" onclick="coastFilter('evento')">
+      <div class="coast-quick-icon">🎪</div>
+      <div class="coast-quick-label">Eventos</div>
+    </div>
+    <div class="coast-quick-item" onclick="surpriseMe()">
+      <div class="coast-quick-icon">✨</div>
+      <div class="coast-quick-label">Sorpresa</div>
+    </div>
+  </div>
+
+  <!-- Feed costero dinámico -->
+  <div class="coast-section-title">🔥 Está pasando</div>
+  <div id="coast-feed-recent"></div>
+
+  <div class="coast-section-title">🌊 Descubre la costa</div>
+  <div id="coast-feed-places"></div>
+
+</section>
+
+<!-- ══════════════════════════════════════
      PAGE: EXPLORAR
 ══════════════════════════════════════ -->
 <section class="page" id="page-explore">
@@ -745,7 +914,15 @@ a{color:inherit;text-decoration:none}
     <div class="stat-card"><div class="stat-num" id="stat-events">0</div><div class="stat-lbl">Eventos</div></div>
     <div class="stat-card"><div class="stat-num" id="stat-saved">0</div><div class="stat-lbl">Guardados</div></div>
   </div>
-  <div class="settings-section">Mi contenido</div>
+
+  <!-- Mis publicaciones -->
+  <div class="sec-header">
+    <span class="sec-title">Mis publicaciones</span>
+    <span class="sec-action" onclick="openDrawer('add-menu')">+ Publicar</span>
+  </div>
+  <div id="my-posts-feed"></div>
+
+  <div class="settings-section" style="margin-top:8px">Publicar contenido</div>
   <div class="settings-item" onclick="openDrawer('add-place')">
     <div class="settings-icon">🏪</div>
     <div><div class="settings-label">Agregar lugar / negocio</div><div class="settings-value">Restaurante, café, bar, tienda...</div></div>
@@ -796,6 +973,12 @@ a{color:inherit;text-decoration:none}
 <section class="page" id="page-admin" style="display:none">
   <div class="sec-header"><span class="sec-title">🛡️ Panel Admin</span></div>
   <div class="admin-stat-row" id="admin-stats"></div>
+  <!-- Filtro de zona -->
+  <div style="display:flex;gap:8px;padding:0 16px 12px">
+    <div id="admin-zone-all" onclick="setAdminZone('all')" style="flex:1;padding:8px;border-radius:10px;font-size:12px;font-weight:700;text-align:center;cursor:pointer;background:var(--brand);color:#fff">Todas</div>
+    <div id="admin-zone-valdivia" onclick="setAdminZone('valdivia')" style="flex:1;padding:8px;border-radius:10px;font-size:12px;font-weight:700;text-align:center;cursor:pointer;background:var(--bg3);border:1px solid var(--border);color:var(--text3)">🏙️ Valdivia</div>
+    <div id="admin-zone-costa" onclick="setAdminZone('costa')" style="flex:1;padding:8px;border-radius:10px;font-size:12px;font-weight:700;text-align:center;cursor:pointer;background:var(--bg3);border:1px solid var(--border);color:var(--text3)">🌊 Costa</div>
+  </div>
   <div class="admin-tabs">
     <div class="admin-tab active" onclick="adminTab(this,'pending')">⏳ Pendientes</div>
     <div class="admin-tab" onclick="adminTab(this,'approved')">✅ Aprobadas</div>
@@ -896,6 +1079,28 @@ a{color:inherit;text-decoration:none}
           <option value="emprendimiento">🏪 Emprendimiento</option>
         </select>
       </div>
+      <!-- ZONA -->
+      <div class="form-group">
+        <label class="form-label">¿Dónde ocurre? *</label>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <div class="zone-pill active" id="place-zone-valdivia" onclick="setFormZone('place','valdivia')" style="background:var(--brand);color:#fff;cursor:pointer;border-radius:20px;padding:7px 16px;font-size:12px;font-weight:700;flex:1;justify-content:center;display:flex">🏙️ Valdivia</div>
+          <div class="zone-pill inactive" id="place-zone-costa" onclick="setFormZone('place','costa')" style="background:var(--bg3);border:1px solid var(--border);color:var(--text3);cursor:pointer;border-radius:20px;padding:7px 16px;font-size:12px;font-weight:700;flex:1;justify-content:center;display:flex">🌊 Costa</div>
+        </div>
+        <input type="hidden" id="place-zone" value="valdivia">
+      </div>
+      <div class="form-group subzone-wrap" id="place-subzone-wrap">
+        <label class="form-label">Subzona (opcional)</label>
+        <select class="form-select" id="place-subzone">
+          <option value="">Selecciona un sector</option>
+          <option value="niebla">Niebla</option>
+          <option value="los-molinos">Los Molinos</option>
+          <option value="corral">Corral</option>
+          <option value="chaihuin">Chaihuín</option>
+          <option value="huiro">Huiro</option>
+          <option value="pelche">Pelche</option>
+          <option value="otra">Otra</option>
+        </select>
+      </div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Ciudad *</label>
@@ -905,10 +1110,6 @@ a{color:inherit;text-decoration:none}
           <label class="form-label">Barrio / Sector</label>
           <input class="form-input" id="place-sector" placeholder="ej. Centro">
         </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Dirección</label>
-        <input class="form-input" id="place-address" placeholder="ej. Av. Independencia 123">
       </div>
       <div class="form-group">
         <label class="form-label">Descripción</label>
@@ -1056,6 +1257,28 @@ a{color:inherit;text-decoration:none}
         <label class="form-label">Lugar donde se realiza</label>
         <input class="form-input" id="ev-venue" placeholder="ej. Café Torrente, Parque Saval...">
       </div>
+      <!-- ZONA -->
+      <div class="form-group">
+        <label class="form-label">¿Dónde ocurre?</label>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <div class="zone-pill active" id="ev-zone-valdivia" onclick="setFormZone('ev','valdivia')" style="background:var(--brand);color:#fff;cursor:pointer;border-radius:20px;padding:7px 16px;font-size:12px;font-weight:700;flex:1;justify-content:center;display:flex">🏙️ Valdivia</div>
+          <div class="zone-pill inactive" id="ev-zone-costa" onclick="setFormZone('ev','costa')" style="background:var(--bg3);border:1px solid var(--border);color:var(--text3);cursor:pointer;border-radius:20px;padding:7px 16px;font-size:12px;font-weight:700;flex:1;justify-content:center;display:flex">🌊 Costa</div>
+        </div>
+        <input type="hidden" id="ev-zone" value="valdivia">
+      </div>
+      <div class="form-group subzone-wrap" id="ev-subzone-wrap">
+        <label class="form-label">Subzona (opcional)</label>
+        <select class="form-select" id="ev-subzone">
+          <option value="">Selecciona un sector</option>
+          <option value="niebla">Niebla</option>
+          <option value="los-molinos">Los Molinos</option>
+          <option value="corral">Corral</option>
+          <option value="chaihuin">Chaihuín</option>
+          <option value="huiro">Huiro</option>
+          <option value="pelche">Pelche</option>
+          <option value="otra">Otra</option>
+        </select>
+      </div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Ciudad *</label>
@@ -1066,8 +1289,6 @@ a{color:inherit;text-decoration:none}
           <input class="form-input" id="ev-address" placeholder="ej. O'Higgins 1234">
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Capacidad máxima</label>
         <input class="form-input" id="ev-capacity" type="number" placeholder="ej. 100 (dejar vacío si no hay límite)">
       </div>
       <div class="form-group">
@@ -1169,6 +1390,27 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
       <div class="form-group">
+        <label class="form-label">¿Dónde ocurre?</label>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <div id="exp-zone-valdivia" onclick="setFormZone('exp','valdivia')" style="background:var(--brand);color:#fff;cursor:pointer;border-radius:20px;padding:7px 16px;font-size:12px;font-weight:700;flex:1;text-align:center">🏙️ Valdivia</div>
+          <div id="exp-zone-costa" onclick="setFormZone('exp','costa')" style="background:var(--bg3);border:1px solid var(--border);color:var(--text3);cursor:pointer;border-radius:20px;padding:7px 16px;font-size:12px;font-weight:700;flex:1;text-align:center">🌊 Costa</div>
+        </div>
+        <input type="hidden" id="exp-zone" value="valdivia">
+      </div>
+      <div class="form-group subzone-wrap" id="exp-subzone-wrap">
+        <label class="form-label">Subzona (opcional)</label>
+        <select class="form-select" id="exp-subzone">
+          <option value="">Selecciona un sector</option>
+          <option value="niebla">Niebla</option>
+          <option value="los-molinos">Los Molinos</option>
+          <option value="corral">Corral</option>
+          <option value="chaihuin">Chaihuín</option>
+          <option value="huiro">Huiro</option>
+          <option value="pelche">Pelche</option>
+          <option value="otra">Otra</option>
+        </select>
+      </div>
+      <div class="form-group">
         <label class="form-label">Ciudad / Punto de encuentro</label>
         <input class="form-input" id="exp-city" placeholder="ej. Valdivia, Muelle Fluvial">
       </div>
@@ -1239,6 +1481,27 @@ a{color:inherit;text-decoration:none}
           <option value="arte">🎨 Arte / Diseño gráfico</option>
           <option value="gastronomia">🍳 Gastronomía / Catering</option>
           <option value="otro">📌 Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">¿Dónde opera?</label>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <div id="emp-zone-valdivia" onclick="setFormZone('emp','valdivia')" style="background:var(--brand);color:#fff;cursor:pointer;border-radius:20px;padding:7px 16px;font-size:12px;font-weight:700;flex:1;text-align:center">🏙️ Valdivia</div>
+          <div id="emp-zone-costa" onclick="setFormZone('emp','costa')" style="background:var(--bg3);border:1px solid var(--border);color:var(--text3);cursor:pointer;border-radius:20px;padding:7px 16px;font-size:12px;font-weight:700;flex:1;text-align:center">🌊 Costa</div>
+        </div>
+        <input type="hidden" id="emp-zone" value="valdivia">
+      </div>
+      <div class="form-group subzone-wrap" id="emp-subzone-wrap">
+        <label class="form-label">Subzona (opcional)</label>
+        <select class="form-select" id="emp-subzone">
+          <option value="">Selecciona un sector</option>
+          <option value="niebla">Niebla</option>
+          <option value="los-molinos">Los Molinos</option>
+          <option value="corral">Corral</option>
+          <option value="chaihuin">Chaihuín</option>
+          <option value="huiro">Huiro</option>
+          <option value="pelche">Pelche</option>
+          <option value="otra">Otra</option>
         </select>
       </div>
       <div class="form-group">
@@ -1430,6 +1693,39 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 
+<!-- EDIT PUBLICATION -->
+<div class="overlay" id="drawer-edit-post" onclick="overlayClick(event,'edit-post')">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <div class="drawer-title" id="edit-drawer-title">✏️ Editar publicación</div>
+      <div class="drawer-close" onclick="closeDrawer('edit-post')">✕</div>
+    </div>
+    <div class="drawer-body">
+      <div class="form-group">
+        <label class="form-label">Nombre *</label>
+        <input class="form-input" id="edit-name" placeholder="Nombre" maxlength="80">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-input form-textarea" id="edit-desc" placeholder="Descripción..." maxlength="600"></textarea>
+      </div>
+      <!-- Campos dinámicos según tipo -->
+      <div id="edit-extra-fields"></div>
+      <!-- Imagen -->
+      <div class="form-group">
+        <label class="form-label">Afiche / Foto</label>
+        <div id="edit-img-wrap"></div>
+        <div class="img-progress" id="edit-img-progress"><div class="img-progress-bar" id="edit-img-progress-bar"></div></div>
+      </div>
+      <div style="height:16px"></div>
+      <button class="btn-primary" onclick="saveEdit()">Guardar cambios</button>
+      <div style="height:10px"></div>
+      <button class="btn-secondary" style="color:#f87171;border-color:rgba(248,113,113,0.3)" onclick="deleteMyPost()">🗑️ Eliminar publicación</button>
+    </div>
+  </div>
+</div>
+
 <!-- UPGRADE PLAN -->
 <div class="overlay" id="drawer-upgrade-plan" onclick="overlayClick(event,'upgrade-plan')">
   <div class="drawer">
@@ -1544,12 +1840,120 @@ const localDB = {
 // ─── ESTADO GLOBAL ──────────────────────
 let currentPage = 'home';
 let currentFilter = 'todos';
+let currentZone = 'valdivia'; // 'valdivia' | 'costa'
+let adminZoneFilter = 'all';  // 'all' | 'valdivia' | 'costa'
 let currentDetail = null;
 let selectedEmojis = {place:'🏪', event:'🎵'};
 let agendaDate = new Date();
 
 // Cache en memoria de todos los items de Firestore
 let memCache = { places:[], events:[], experiences:[], emprendimientos:[] };
+
+// ─── ZONA ──────────────────────────────
+// Constantes de zonas y categorías costeras
+const COAST_CATS = ['playa','caleta','actividad','producto_mar','gastronomia','alojamiento','camping','lugar','evento','aviso','emprendimiento'];
+const COAST_SUBZONES = {niebla:'Niebla','los-molinos':'Los Molinos',corral:'Corral',chaihuin:'Chaihuín',huiro:'Huiro',pelche:'Pelche',otra:'Otra'};
+
+function getZoneItems(zone){
+  // zone = 'valdivia' | 'costa' | null (todos)
+  const all = getAllItems();
+  if(!zone) return all;
+  return all.filter(item=>{
+    // Compatibilidad hacia atrás: items sin zone se tratan como valdivia
+    const itemZone = item.zone || 'valdivia';
+    return itemZone === zone;
+  });
+}
+
+function setZone(zone){
+  if(zone === currentZone) return;
+  currentZone = zone;
+  // Actualizar UI del switcher
+  const pV = document.getElementById('zone-pill-valdivia');
+  const pC = document.getElementById('zone-pill-costa');
+  if(pV && pC){
+    if(zone === 'valdivia'){
+      pV.className = 'zone-pill active';
+      pV.style.background = 'var(--brand)'; pV.style.color = '#fff';
+      pC.className = 'zone-pill inactive';
+      pC.style.background = ''; pC.style.color = '';
+    } else {
+      pC.className = 'zone-pill active coast';
+      pC.style.background = 'var(--coast)'; pC.style.color = '#fff';
+      pV.className = 'zone-pill inactive';
+      pV.style.background = ''; pV.style.color = '';
+    }
+  }
+  // Cambiar estilo visual del body
+  document.body.classList.toggle('zone-costa', zone === 'costa');
+  // Actualizar meta tags dinámicamente
+  updateMetaTags(zone);
+  // Navegar al home de la zona correcta
+  navigateToZoneHome(zone);
+}
+
+function toggleZoneSwitcher(){
+  setZone(currentZone === 'valdivia' ? 'costa' : 'valdivia');
+}
+
+function navigateToZoneHome(zone){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  if(zone === 'costa'){
+    document.getElementById('page-home-costa').classList.add('active');
+    currentPage = 'home-costa';
+    renderHomeCoasta();
+  } else {
+    document.getElementById('page-home').classList.add('active');
+    currentPage = 'home';
+    renderHome();
+  }
+  document.getElementById('nav-home')?.classList.add('active');
+}
+
+function updateMetaTags(zone){
+  if(zone === 'costa'){
+    document.title = '¿Qué hay de bueno? — Costa Valdiviana';
+    document.querySelector('meta[name="description"]')?.setAttribute('content','Descubre qué hacer, dónde ir, qué comer y qué está pasando en la Costa Valdiviana.');
+  } else {
+    document.title = '¿Qué hay de bueno?';
+    document.querySelector('meta[name="description"]')?.setAttribute('content','Descubre qué está pasando cerca de ti ahora mismo.');
+  }
+}
+
+// Form zone selector
+function setFormZone(prefix, zone){
+  document.getElementById(`${prefix}-zone`).value = zone;
+  const vEl = document.getElementById(`${prefix}-zone-valdivia`);
+  const cEl = document.getElementById(`${prefix}-zone-costa`);
+  const subwrap = document.getElementById(`${prefix}-subzone-wrap`);
+  if(zone === 'valdivia'){
+    if(vEl){ vEl.style.background='var(--brand)';vEl.style.color='#fff';vEl.style.borderColor=''; }
+    if(cEl){ cEl.style.background='var(--bg3)';cEl.style.color='var(--text3)'; }
+    if(subwrap) subwrap.classList.remove('visible');
+  } else {
+    if(cEl){ cEl.style.background='var(--coast)';cEl.style.color='#fff'; }
+    if(vEl){ vEl.style.background='var(--bg3)';vEl.style.color='var(--text3)'; }
+    if(subwrap) subwrap.classList.add('visible');
+    // Si estamos en zona costa, pre-llenar ciudad
+    const cityEl = document.getElementById(`${prefix}-city`);
+    if(cityEl && !cityEl.value) cityEl.value = 'Costa Valdiviana';
+  }
+}
+
+// Admin zone filter
+function setAdminZone(zone){
+  adminZoneFilter = zone;
+  ['all','valdivia','costa'].forEach(z=>{
+    const el = document.getElementById(`admin-zone-${z}`);
+    if(!el) return;
+    const isActive = z === zone;
+    el.style.background = isActive ? (z==='costa'?'var(--coast)':z==='valdivia'?'var(--brand)':'var(--brand)') : 'var(--bg3)';
+    el.style.color = isActive ? '#fff' : 'var(--text3)';
+    el.style.borderColor = isActive ? '' : 'var(--border)';
+  });
+  renderAdminFeed(adminCurrentTab);
+}
 
 // ─── AUTH FUNCTIONS ────────────────────
 async function loginWithGoogle(){
@@ -1749,6 +2153,7 @@ function initRealtimeListeners(){
         saved: savedIds.includes(d.id)
       }));
       if(currentPage==='home') renderHome();
+      else if(currentPage==='home-costa') renderHomeCoasta();
       else if(currentPage==='explore') renderExplore(currentFilter);
       else if(currentPage==='agenda') renderAgendaFeed(document.querySelector('.date-btn.active')?.dataset?.date||todayStr());
       else if(currentPage==='saved') renderSaved();
@@ -1781,19 +2186,25 @@ async function seedData(){
     if(!snap.empty) return; // ya hay datos, no sembrar
     const now = Date.now();
     const places = [
-      {type:'place',name:'La Leña Pizzería',cat:'comida',city:'Valdivia',sector:'Centro',address:'Av. Independencia 456',desc:'Pizza artesanal horneada en leña. Ingredientes locales, masas hechas a mano cada día.',hours:'12:00–23:00',price:'$$',phone:'+56 9 8765 4321',web:'@lalenapizzeria',tags:['Acepta mascotas','Con terraza','Para llevar'],emoji:'🍕',status:'approved',created:now-86400000*3},
-      {type:'place',name:'Café Independencia',cat:'cafe',city:'Valdivia',sector:'Centro Histórico',address:'Calle Independencia 123',desc:'Café de especialidad con granos de origen único. El mejor espacio para trabajar o leer con vista al río.',hours:'08:00–20:00',price:'$$',phone:'+56 9 1122 3344',web:'@cafeindependencia',tags:['WiFi gratis','Acepta mascotas'],emoji:'☕',status:'approved',created:now-86400000*5},
-      {type:'place',name:'Bar Origen',cat:'bares',city:'Valdivia',sector:'Barrio Histórico',address:"O'Higgins 890",desc:'Cócteles artesanales con botánicos del sur. Happy hour todos los días de 18:00 a 20:00.',hours:'18:00–02:00',price:'$$',phone:'+56 9 5566 7788',web:'@barorigen',tags:['Música en vivo','Con terraza'],emoji:'🍸',status:'approved',created:now-86400000*2},
-      {type:'place',name:'Museo Regional de Los Ríos',cat:'arte',city:'Valdivia',sector:'Centro',address:'Los Lauros 47',desc:'Historia y cultura de la región de Los Ríos. Exposiciones permanentes y temporales.',hours:'10:00–18:00',price:'gratis',phone:'+56 63 212 872',web:'museoregionallosrios.cl',tags:['Apto niños','Acceso silla de ruedas'],emoji:'🏛️',status:'approved',created:now-86400000*10},
-      {type:'place',name:'Club Náutico Valdivia',cat:'deporte',city:'Valdivia',sector:'Muelle Fluvial',address:'Arturo Prat s/n',desc:'Kayak, SUP y paseos en bote por el río Calle-Calle. Clases para principiantes disponibles los fines de semana.',hours:'09:00–18:00',price:'$$$',phone:'+56 9 9988 7766',web:'@clubnauticovaldivia',tags:['Reserva requerida'],emoji:'🏄',status:'approved',created:now-86400000*7}
+      {type:'place',name:'La Leña Pizzería',cat:'comida',city:'Valdivia',zone:'valdivia',sector:'Centro',address:'Av. Independencia 456',desc:'Pizza artesanal horneada en leña. Ingredientes locales, masas hechas a mano cada día.',hours:'12:00–23:00',price:'$$',phone:'+56 9 8765 4321',web:'@lalenapizzeria',tags:['Acepta mascotas','Con terraza','Para llevar'],emoji:'🍕',status:'approved',created:now-86400000*3},
+      {type:'place',name:'Café Independencia',cat:'cafe',city:'Valdivia',zone:'valdivia',sector:'Centro Histórico',address:'Calle Independencia 123',desc:'Café de especialidad con granos de origen único. El mejor espacio para trabajar o leer con vista al río.',hours:'08:00–20:00',price:'$$',phone:'+56 9 1122 3344',web:'@cafeindependencia',tags:['WiFi gratis','Acepta mascotas'],emoji:'☕',status:'approved',created:now-86400000*5},
+      {type:'place',name:'Bar Origen',cat:'bares',city:'Valdivia',zone:'valdivia',sector:'Barrio Histórico',address:"O'Higgins 890",desc:'Cócteles artesanales con botánicos del sur. Happy hour todos los días de 18:00 a 20:00.',hours:'18:00–02:00',price:'$$',phone:'+56 9 5566 7788',web:'@barorigen',tags:['Música en vivo','Con terraza'],emoji:'🍸',status:'approved',created:now-86400000*2},
+      {type:'place',name:'Museo Regional de Los Ríos',cat:'arte',city:'Valdivia',zone:'valdivia',sector:'Centro',address:'Los Lauros 47',desc:'Historia y cultura de la región de Los Ríos. Exposiciones permanentes y temporales.',hours:'10:00–18:00',price:'gratis',phone:'+56 63 212 872',web:'museoregionallosrios.cl',tags:['Apto niños','Acceso silla de ruedas'],emoji:'🏛️',status:'approved',created:now-86400000*10},
+      // 🌊 Demo Costa
+      {type:'place',name:'Playa Los Molinos',cat:'playa',city:'Los Molinos',zone:'costa',subzone:'los-molinos',sector:'Los Molinos',desc:'Playa tranquila de arena oscura rodeada de vegetación nativa. Ideal para descansar y desconectarse. Acceso por camino costero.',price:'gratis',tags:['Aire libre','Acceso gratuito','Pet friendly'],emoji:'🌊',status:'approved',created:now-86400000*1},
+      {type:'place',name:'Caleta Niebla',cat:'caleta',city:'Niebla',zone:'costa',subzone:'niebla',sector:'Puerto',address:'Borde costero Niebla',desc:'Caleta de pescadores artesanales con vistas al mar. Venta directa de mariscos frescos y congrio. El ambiente más auténtico de la costa.',price:'$',tags:['Mariscos frescos','Vista al mar'],emoji:'⚓',status:'approved',created:now-86400000*2},
+      {type:'place',name:'Fuerte Corral',cat:'lugar',city:'Corral',zone:'costa',subzone:'corral',sector:'Puerto Corral',address:'Puerto Corral s/n',desc:'Fortaleza colonial del siglo XVII con vista panorámica al Océano Pacífico. Patrimonio histórico de la región.',price:'gratis',tags:['Patrimonio','Vista panorámica','Historia'],emoji:'🏰',status:'approved',created:now-86400000*4}
     ];
     const events = [
-      {type:'event',name:'Jazz en Café Torrente',evType:'musica',city:'Valdivia',venue:'Café Torrente',address:'Yungay 735',desc:'Cuarteto de jazz local con música original. Entrada libre, consumas mínimas.',date:todayStr(),time:'21:00',endTime:'23:30',price:'gratis',priceVal:'',capacity:60,contact:'@cafetorrente',tags:['Apto todo público','Con barra'],emoji:'🎵',status:'approved',created:now-3600000},
-      {type:'event',name:'Feria Artesanal del Río',evType:'feria',city:'Valdivia',venue:'Paseo Libertad',address:'Paseo Libertad s/n',desc:'Más de 40 emprendedores y artesanos locales. Cerámica, tejidos, alimentos artesanales.',date:todayStr(),time:'10:00',endTime:'19:00',price:'gratis',priceVal:'',capacity:'',contact:'@feriavaldivia',tags:['Al aire libre','Pet friendly'],emoji:'🏪',status:'approved',created:now-7200000},
-      {type:'event',name:'Running Club — Parque Saval',evType:'deporte',city:'Valdivia',venue:'Parque Saval',address:'Entrada principal Parque Saval',desc:'Rodada semanal abierta a todos los niveles. 5K, 10K y 15K.',date:tomorrowStr(),time:'08:00',endTime:'10:00',price:'gratis',priceVal:'',capacity:'',contact:'+56 9 7654 3210',tags:['Al aire libre','Sin inscripción'],emoji:'🏃',status:'approved',created:now-10800000}
+      {type:'event',name:'Jazz en Café Torrente',evType:'musica',city:'Valdivia',zone:'valdivia',venue:'Café Torrente',address:'Yungay 735',desc:'Cuarteto de jazz local con música original. Entrada libre, consumas mínimas.',date:todayStr(),time:'21:00',endTime:'23:30',price:'gratis',priceVal:'',capacity:60,contact:'@cafetorrente',tags:['Apto todo público','Con barra'],emoji:'🎵',status:'approved',created:now-3600000},
+      {type:'event',name:'Feria Artesanal del Río',evType:'feria',city:'Valdivia',zone:'valdivia',venue:'Paseo Libertad',address:'Paseo Libertad s/n',desc:'Más de 40 emprendedores y artesanos locales. Cerámica, tejidos, alimentos artesanales.',date:todayStr(),time:'10:00',endTime:'19:00',price:'gratis',priceVal:'',capacity:'',contact:'@feriavaldivia',tags:['Al aire libre','Pet friendly'],emoji:'🏪',status:'approved',created:now-7200000},
+      // 🌊 Demo Costa
+      {type:'event',name:'Feria Costumbrista de Niebla',evType:'feria',city:'Niebla',zone:'costa',subzone:'niebla',venue:'Plaza de Niebla',desc:'Artesanos, gastronomía local, música en vivo y productos del mar. Entrada libre para toda la familia.',date:tomorrowStr(),time:'11:00',endTime:'18:00',price:'gratis',priceVal:'',tags:['Gastronomía','Artesanía','Familia'],emoji:'🎪',status:'approved',created:now-5400000}
     ];
     const experiences = [
-      {type:'experience',name:'Kayak al amanecer — Río Calle-Calle',expType:'aventura',city:'Valdivia',desc:'Recorrido en kayak de 2 horas al amanecer. Incluye equipamiento completo y guía experto.',duration:'2 horas',price:'$18.000',min:2,max:8,avail:'finde',contact:'@kayakvaldivia',includes:['Equipamiento','Guía experto','Fotos'],emoji:'🚣',status:'approved',created:now-172800000}
+      {type:'experience',name:'Kayak al amanecer — Río Calle-Calle',expType:'aventura',city:'Valdivia',zone:'valdivia',desc:'Recorrido en kayak de 2 horas al amanecer. Incluye equipamiento completo y guía experto.',duration:'2 horas',price:'$18.000',min:2,max:8,avail:'finde',contact:'@kayakvaldivia',includes:['Equipamiento','Guía experto','Fotos'],emoji:'🚣',status:'approved',created:now-172800000},
+      // 🌊 Demo Costa
+      {type:'experience',name:'Tour en lancha — Corral y Mancera',expType:'aventura',city:'Niebla',zone:'costa',subzone:'niebla',desc:'Recorrido en lancha desde Niebla hasta Corral e Isla Mancera. Visita los fuertes coloniales y disfruta del paisaje costero.',duration:'3 horas',price:'$15.000',min:2,max:12,avail:'finde',contact:'+56 9 1234 5678',includes:['Transporte','Guía','Entrada fuertes'],emoji:'⛵',status:'approved',created:now-259200000}
     ];
     for(const p of places) await addDoc(COLS.places, p);
     for(const e of events) await addDoc(COLS.events, e);
@@ -1833,6 +2244,7 @@ function goToExplore(){goTo('explore')}
 
 function renderPage(page){
   if(page==='home') renderHome();
+  else if(page==='home-costa') renderHomeCoasta();
   else if(page==='explore') renderExplore('todos');
   else if(page==='agenda') renderAgenda();
   else if(page==='saved') renderSaved();
@@ -1858,13 +2270,51 @@ function updateContext(){
 function renderHome(){
   updateContext();
   renderLiveBanner();
-  const all = getAllItems();
+  // Solo muestra items de Valdivia (o sin zone)
+  const all = getZoneItems('valdivia');
   if(!all.length){
     document.getElementById('home-feed').innerHTML = `<div class="empty"><div class="empty-icon">🌆</div><div class="empty-title">La ciudad te espera</div><div class="empty-sub">Sé el primero en agregar un lugar, evento o experiencia.</div><div class="empty-btn" onclick="openDrawer('add-menu')">+ Agregar ahora</div></div>`;
     return;
   }
-  const shown = all.slice(0,6);
-  document.getElementById('home-feed').innerHTML = shown.map(renderCard).join('');
+  document.getElementById('home-feed').innerHTML = all.slice(0,6).map(renderCard).join('');
+}
+
+// ─── HOME COSTA ─────────────────────────
+function renderHomeCoasta(){
+  const coastItems = getZoneItems('costa');
+  // Recientes (eventos y publicaciones nuevas)
+  const recent = coastItems.filter(i=>i.type==='event'||i.created>Date.now()-7*86400000).slice(0,4);
+  // Lugares costeros
+  const places = coastItems.filter(i=>i.type==='place'||i.type==='experience').slice(0,6);
+
+  const recentEl = document.getElementById('coast-feed-recent');
+  const placesEl = document.getElementById('coast-feed-places');
+
+  if(recentEl){
+    if(!recent.length){
+      recentEl.innerHTML = `<div class="empty" style="padding:24px 16px"><div class="empty-icon">🌊</div><div class="empty-title">Sé el primero en publicar en la costa</div><div class="empty-sub">Comparte lo que está pasando en la Costa Valdiviana</div><div class="empty-btn" onclick="openDrawer('add-menu')">+ Publicar en Costa</div></div>`;
+    } else {
+      recentEl.innerHTML = recent.map(renderCard).join('');
+    }
+  }
+  if(placesEl){
+    if(!places.length){
+      placesEl.innerHTML = `<div style="padding:0 16px 16px;font-size:13px;color:var(--text3)">Aún no hay lugares registrados. ¡Agrega el primero!</div>`;
+    } else {
+      placesEl.innerHTML = places.map(renderCard).join('');
+    }
+  }
+}
+
+// Filtro rápido desde los accesos costeros
+function coastFilter(cat){
+  // Navegar a explorar con filtro de zona costa + categoría
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-explore').classList.add('active');
+  document.getElementById('nav-explore')?.classList.add('active');
+  currentPage = 'explore';
+  renderExploreCoast(cat);
 }
 
 function renderLiveBanner(){
@@ -1889,8 +2339,15 @@ function openFirstEvent(){
 
 // ─── CARD RENDERER ─────────────────────
 function getCatThumb(item){
-  const map={comida:'food',cafe:'food',bares:'bar',musica:'music',arte:'art',deporte:'sport',familia:'family',emprendimiento:'food',aventura:'sport',naturaleza:'sport'};
-  return map[item.cat||item.evType||item.expType]||'default';
+  const map={
+    comida:'food',cafe:'food',bares:'bar',musica:'music',arte:'art',deporte:'sport',
+    familia:'family',emprendimiento:'food',aventura:'sport',naturaleza:'sport',
+    // Categorías costeras
+    playa:'sport',caleta:'bar',actividad:'sport',producto_mar:'food',
+    gastronomia:'food',alojamiento:'art',camping:'sport',lugar:'default',
+    evento:'music',aviso:'default'
+  };
+  return map[item.cat||item.evType||item.expType||item.coastCat]||'default';
 }
 
 function renderCard(item){
@@ -1903,6 +2360,9 @@ function renderCard(item){
   if(item.type==='experience') badges+=`<span class="badge badge-new">🎒 Experiencia</span>`;
   if(item.type==='place'&&isOpen(item)) badges+=`<span class="badge badge-open">Abierto</span>`;
   if(item.type==='emprendimiento') badges+=`<span class="badge badge-new">🛍️ Emprendedor</span>`;
+  // Badge de zona Costa
+  if(item.zone==='costa') badges+=`<span class="badge" style="background:var(--coast-soft);color:var(--coast-mid)">🌊 Costa</span>`;
+  if(item.subzone && COAST_SUBZONES[item.subzone]) badges+=`<span class="badge" style="background:var(--bg4);color:var(--text3)">${COAST_SUBZONES[item.subzone]}</span>`;
   const subtitle = item.type==='event'
     ? `${item.date===todayStr()?'Hoy':'📅 '+item.date} ${item.time||''} · ${item.venue||item.city}`
     : item.type==='experience'?`${item.duration||''} · ${item.city} · ${item.price||''}`
@@ -1971,20 +2431,62 @@ function getAllById(id){
 // ─── EXPLORE ───────────────────────────
 function renderExplore(filter){
   currentFilter = filter;
-  let all = getAllItems();
+  // Filtrar por zona activa
+  let all = getZoneItems(currentZone === 'costa' ? 'costa' : 'valdivia');
   if(filter!=='todos'){
     all = all.filter(i=>{
-      const c = (i.cat||i.evType||i.expType||'').toLowerCase();
+      const c = (i.cat||i.evType||i.expType||i.coastCat||'').toLowerCase();
       if(filter==='gratis') return i.price==='gratis'||i.priceVal==='0';
       if(filter==='emprendimiento') return i.type==='emprendimiento';
+      // Categorías costeras
+      if(COAST_CATS.includes(filter)) return c===filter;
       return c===filter || (filter==='bares'&&c==='bar') || (filter==='musica'&&(c==='musica'||c==='bar')) || (filter==='arte'&&(c==='arte'||c==='teatro'||c==='cultural'));
     });
   }
+  // Actualizar chips según zona
+  updateExploreChips();
   const feed = document.getElementById('explore-feed');
   if(!all.length){
     feed.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><div class="empty-title">Nada aquí todavía</div><div class="empty-sub">¡Sé el primero en agregar algo en esta categoría!</div><div class="empty-btn" onclick="openDrawer('add-menu')">+ Agregar</div></div>`;
   } else {
     feed.innerHTML = all.map(renderCard).join('');
+  }
+}
+
+function renderExploreCoast(cat){
+  currentFilter = cat || 'todos';
+  updateExploreChips();
+  renderExplore(currentFilter);
+}
+
+function updateExploreChips(){
+  const chips = document.getElementById('explore-chips');
+  if(!chips) return;
+  if(currentZone === 'costa'){
+    chips.innerHTML = `
+      <div class="chip active" onclick="exploreFilter(this,'todos')">🌊 Todo</div>
+      <div class="chip" onclick="exploreFilter(this,'playa')">🌊 Playas</div>
+      <div class="chip" onclick="exploreFilter(this,'caleta')">⚓ Caletas</div>
+      <div class="chip" onclick="exploreFilter(this,'actividad')">🛶 Actividades</div>
+      <div class="chip" onclick="exploreFilter(this,'producto_mar')">🐟 Productos</div>
+      <div class="chip" onclick="exploreFilter(this,'gastronomia')">🍽️ Comer</div>
+      <div class="chip" onclick="exploreFilter(this,'alojamiento')">🏕️ Alojar</div>
+      <div class="chip" onclick="exploreFilter(this,'evento')">🎪 Eventos</div>
+      <div class="chip" onclick="exploreFilter(this,'emprendimiento')">🛍️ Emprendedores</div>
+      <div class="chip" onclick="exploreFilter(this,'gratis')">🎁 Gratis</div>
+    `;
+  } else {
+    chips.innerHTML = `
+      <div class="chip active" onclick="exploreFilter(this,'todos')">🌎 Todos</div>
+      <div class="chip" onclick="exploreFilter(this,'comida')">🍜 Comida</div>
+      <div class="chip" onclick="exploreFilter(this,'bares')">🍸 Bares</div>
+      <div class="chip" onclick="exploreFilter(this,'musica')">🎵 Música</div>
+      <div class="chip" onclick="exploreFilter(this,'deporte')">🏃 Deporte</div>
+      <div class="chip" onclick="exploreFilter(this,'arte')">🎨 Arte</div>
+      <div class="chip" onclick="exploreFilter(this,'familia')">👨‍👩‍👧 Familia</div>
+      <div class="chip" onclick="exploreFilter(this,'emprendimiento')">🏪 Emprendedores</div>
+      <div class="chip" onclick="exploreFilter(this,'gratis')">🎁 Gratis</div>
+    `;
   }
 }
 
@@ -2064,8 +2566,7 @@ function renderProfile(){
   const name = currentUser?.displayName || profile.name || 'Mi perfil';
   const city = profile.city || '';
   document.getElementById('profile-name').textContent = name;
-  document.getElementById('profile-since').textContent = city ? `📍 ${city}` : (currentUser ? currentUser.email : 'Configura tu ciudad');
-  // Avatar en perfil
+  document.getElementById('profile-since').textContent = city ? `📍 ${city}` : (currentUser ? currentUser.email : 'Explora la ciudad');
   const avatarEl = document.getElementById('profile-avatar-el');
   if(avatarEl){
     if(currentUser?.photoURL){
@@ -2074,13 +2575,14 @@ function renderProfile(){
       avatarEl.textContent = name[0]?.toUpperCase() || '😊';
     }
   }
-  // Stats — mis publicaciones
   const myPlaces = currentUser ? memCache.places.filter(i=>i.userId===currentUser.uid).length : memCache.places.length;
   const myEvents = currentUser ? memCache.events.filter(i=>i.userId===currentUser.uid).length : memCache.events.length;
   document.getElementById('stat-places').textContent = myPlaces;
   document.getElementById('stat-events').textContent = myEvents;
   document.getElementById('stat-saved').textContent = getAllItems().filter(i=>i.saved).length;
   document.getElementById('settings-city-val').textContent = city || 'No configurada';
+  // Renderizar mis publicaciones
+  renderMyPosts();
 }
 
 // ─── DETAIL VIEW ───────────────────────
@@ -2146,10 +2648,12 @@ function openDetail(item){
   document.getElementById('detail-desc').textContent = item.desc||'Sin descripción disponible.';
 
   const saved = item.saved;
+  const isOwner = currentUser && (item.userId === currentUser.uid || isAdmin());
   document.getElementById('detail-actions').innerHTML = `
     <div class="detail-action-btn secondary" onclick="toggleSave('${item.id}')">${saved?'❤️ Guardado':'🤍 Guardar'}</div>
     ${item.phone?`<div class="detail-action-btn primary" onclick="window.open('https://wa.me/${item.phone.replace(/\D/g,'')}','_blank')">💬 Contactar</div>`:''}
     ${item.web&&item.web.startsWith('http')?`<div class="detail-action-btn secondary" onclick="window.open('${item.web}','_blank')">🔗 Ver web</div>`:''}
+    ${isOwner?`<div class="detail-action-btn secondary" onclick="closeDetail();openEdit('${item.id}','${item.col||item.type+'s'}')">✏️ Editar</div>`:''}
   `;
 
   document.getElementById('detail-overlay').classList.add('open');
@@ -2283,6 +2787,8 @@ async function savePlace(){
   if(!name||!cat||!city){toast('⚠️ Completa los campos obligatorios');return;}
   const place = {
     type:'place', name, cat, city,
+    zone: document.getElementById('place-zone')?.value || 'valdivia',
+    subzone: document.getElementById('place-subzone')?.value || '',
     userId: currentUser.uid,
     userName: currentUser.displayName||'',
     userPhoto: currentUser.photoURL||'',
@@ -2332,6 +2838,8 @@ async function saveEvent(){
   if(!name||!evType||!city||!date||!time){toast('⚠️ Completa los campos obligatorios');return;}
   const ev = {
     type:'event', name,evType,city,date,time,
+    zone: document.getElementById('ev-zone')?.value || 'valdivia',
+    subzone: document.getElementById('ev-subzone')?.value || '',
     userId: currentUser.uid,
     userName: currentUser.displayName||'',
     userPhoto: currentUser.photoURL||'',
@@ -2377,6 +2885,8 @@ async function saveExperience(){
   if(!name||!expType||!city){toast('⚠️ Completa los campos obligatorios');return;}
   const exp = {
     type:'experience', name,expType,city,
+    zone: document.getElementById('exp-zone')?.value || 'valdivia',
+    subzone: document.getElementById('exp-subzone')?.value || '',
     userId: currentUser.uid,
     userName: currentUser.displayName||'',
     userPhoto: currentUser.photoURL||'',
@@ -2420,6 +2930,8 @@ async function saveEmprendimiento(){
   if(!name||!cat||!city){toast('⚠️ Completa los campos obligatorios');return;}
   const emp = {
     type:'emprendimiento', name,cat,city,
+    zone: document.getElementById('emp-zone')?.value || 'valdivia',
+    subzone: document.getElementById('emp-subzone')?.value || '',
     userId: currentUser.uid,
     userName: currentUser.displayName||'',
     userPhoto: currentUser.photoURL||'',
@@ -2651,6 +3163,200 @@ function clearImageUpload(formKey, wrapperId){
   renderImageUpload(wrapperId, formKey);
 }
 
+// ─── MIS PUBLICACIONES ─────────────────
+async function renderMyPosts(){
+  const feed = document.getElementById('my-posts-feed');
+  if(!currentUser){
+    feed.innerHTML = `<div class="empty" style="padding:32px 16px"><div class="empty-icon">📝</div><div class="empty-title">Inicia sesión para ver tus publicaciones</div></div>`;
+    return;
+  }
+  // Buscar en todas las colecciones por userId
+  const cols = ['places','events','experiences','emprendimientos'];
+  let myItems = [];
+  for(const col of cols){
+    const q = query(COLS[col], where('userId','==',currentUser.uid), orderBy('created','desc'));
+    try{
+      const snap = await getDocs(q);
+      snap.forEach(d=> myItems.push({...d.data(), id:d.id, col}));
+    }catch(e){
+      // Fallback: buscar en memCache
+      const cached = memCache[col].filter(i=>i.userId===currentUser.uid);
+      myItems = [...myItems, ...cached.map(i=>({...i,col}))];
+    }
+  }
+  myItems.sort((a,b)=>b.created-a.created);
+  if(!myItems.length){
+    feed.innerHTML = `<div class="empty" style="padding:32px 16px"><div class="empty-icon">📝</div><div class="empty-title">Aún no has publicado nada</div><div class="empty-sub">Toca "+ Publicar" para empezar</div></div>`;
+    return;
+  }
+  feed.innerHTML = myItems.map(item=>{
+    const statusMap = {pending:['⏳','status-pending','Pendiente de aprobación'],approved:['✅','status-approved','Aprobado'],rejected:['❌','status-rejected','Rechazado']};
+    const [sIcon,sCls,sLabel] = statusMap[item.status]||['⏳','status-pending','Pendiente'];
+    const thumb = getCatThumb(item);
+    const thumbEl = item.imageUrl
+      ? `<img src="${item.imageUrl}" class="my-post-thumb" style="object-fit:cover">`
+      : `<div class="my-post-thumb ${thumb}">${item.emoji||'📍'}</div>`;
+    const typeLabel = {place:'Lugar',event:'Evento',experience:'Experiencia',emprendimiento:'Emprendimiento'}[item.type]||item.type;
+    return `<div class="my-post-card ${item.status||'pending'}">
+      <div class="my-post-inner">
+        ${thumbEl}
+        <div class="my-post-info">
+          <div class="my-post-name">${item.name}</div>
+          <div class="my-post-meta">${typeLabel} · ${item.city||''}</div>
+          <span class="my-post-status ${sCls}">${sIcon} ${sLabel}</span>
+        </div>
+      </div>
+      ${item.rejectReason?`<div class="my-post-reject-reason">⚠️ ${item.rejectReason}</div>`:''}
+      <div class="my-post-actions">
+        <button class="my-post-edit-btn" onclick="openEdit('${item.id}','${item.col}')">✏️ Editar</button>
+        <button class="my-post-edit-btn" onclick="openDetail(getAllById('${item.id}'))">👁️ Ver</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── EDICIÓN ───────────────────────────
+let editingItem = null;
+
+async function openEdit(id, col){
+  // Buscar el item en Firestore directo para tener los datos frescos
+  try{
+    const snap = await getDoc(doc(db, col, id));
+    if(!snap.exists()){toast('❌ No encontrado');return;}
+    editingItem = {...snap.data(), id, col};
+  }catch(e){
+    editingItem = {...getAllById(id), col};
+  }
+  if(!editingItem){toast('❌ No encontrado');return;}
+  if(currentUser?.uid !== editingItem.userId && !isAdmin()){
+    toast('🔒 No tienes permiso para editar esto');
+    return;
+  }
+  // Llenar formulario
+  const typeLabels = {place:'🏪 Editar lugar',event:'📅 Editar evento',experience:'🎒 Editar experiencia',emprendimiento:'🛍️ Editar emprendimiento'};
+  document.getElementById('edit-drawer-title').textContent = typeLabels[editingItem.type]||'✏️ Editar';
+  document.getElementById('edit-name').value = editingItem.name||'';
+  document.getElementById('edit-desc').value = editingItem.desc||'';
+  // Campos extra según tipo
+  let extra = '';
+  if(editingItem.type==='place'){
+    extra = `
+      <div class="form-group"><label class="form-label">Ciudad</label><input class="form-input" id="edit-city" value="${editingItem.city||''}"></div>
+      <div class="form-group"><label class="form-label">Dirección</label><input class="form-input" id="edit-address" value="${editingItem.address||''}"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Apertura</label><input class="form-input" id="edit-open" type="time" value="${editingItem.hours?.split('–')[0]||''}"></div>
+        <div class="form-group"><label class="form-label">Cierre</label><input class="form-input" id="edit-close" type="time" value="${editingItem.hours?.split('–')[1]||''}"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Teléfono / WhatsApp</label><input class="form-input" id="edit-phone" value="${editingItem.phone||''}"></div>`;
+  } else if(editingItem.type==='event'){
+    extra = `
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Fecha</label><input class="form-input" id="edit-date" type="date" value="${editingItem.date||''}"></div>
+        <div class="form-group"><label class="form-label">Hora</label><input class="form-input" id="edit-time" type="time" value="${editingItem.time||''}"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Lugar</label><input class="form-input" id="edit-venue" value="${editingItem.venue||''}"></div>
+      <div class="form-group"><label class="form-label">Ciudad</label><input class="form-input" id="edit-city" value="${editingItem.city||''}"></div>
+      <div class="form-group"><label class="form-label">Contacto / Inscripción</label><input class="form-input" id="edit-contact" value="${editingItem.contact||''}"></div>`;
+  } else if(editingItem.type==='experience'){
+    extra = `
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Duración</label><input class="form-input" id="edit-duration" value="${editingItem.duration||''}"></div>
+        <div class="form-group"><label class="form-label">Precio</label><input class="form-input" id="edit-price" value="${editingItem.price||''}"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Ciudad</label><input class="form-input" id="edit-city" value="${editingItem.city||''}"></div>
+      <div class="form-group"><label class="form-label">Contacto</label><input class="form-input" id="edit-contact" value="${editingItem.contact||''}"></div>`;
+  } else if(editingItem.type==='emprendimiento'){
+    extra = `
+      <div class="form-group"><label class="form-label">Ciudad</label><input class="form-input" id="edit-city" value="${editingItem.city||''}"></div>
+      <div class="form-group"><label class="form-label">Productos / Servicios</label><textarea class="form-input form-textarea" id="edit-products" style="min-height:60px">${editingItem.products||''}</textarea></div>
+      <div class="form-group"><label class="form-label">Instagram</label><input class="form-input" id="edit-ig" value="${editingItem.ig||''}"></div>
+      <div class="form-group"><label class="form-label">WhatsApp</label><input class="form-input" id="edit-wa" value="${editingItem.wa||''}"></div>`;
+  }
+  document.getElementById('edit-extra-fields').innerHTML = extra;
+  // Imagen actual
+  pendingImages['edit'] = null;
+  const wrap = document.getElementById('edit-img-wrap');
+  if(editingItem.imageUrl){
+    wrap.innerHTML = `
+      <div class="img-upload-zone has-image" onclick="document.getElementById('img-input-edit').click()">
+        <img src="${editingItem.imageUrl}" alt="imagen actual">
+        <div class="img-upload-overlay"><div style="font-size:24px">🔄</div><div style="font-size:12px;color:#fff;margin-top:4px">Cambiar foto</div></div>
+        <input type="file" id="img-input-edit" accept="image/*" onchange="handleImageSelect(event,'edit','edit-img-wrap')">
+      </div>`;
+  } else {
+    renderImageUpload('edit-img-wrap','edit');
+  }
+  openDrawer('edit-post');
+}
+
+async function saveEdit(){
+  if(!editingItem){toast('❌ No hay nada que editar');return;}
+  const name = document.getElementById('edit-name').value.trim();
+  if(!name){toast('⚠️ El nombre es obligatorio');return;}
+  const updates = {
+    name,
+    desc: document.getElementById('edit-desc').value.trim(),
+    updatedAt: Date.now(),
+    // Volver a pendiente si el usuario edita (para que el admin revise de nuevo)
+    status: isAdmin() ? editingItem.status : 'pending'
+  };
+  // Campos extra según tipo
+  const city = document.getElementById('edit-city')?.value.trim();
+  if(city) updates.city = city;
+  if(editingItem.type==='place'){
+    updates.address = document.getElementById('edit-address')?.value.trim()||editingItem.address;
+    const o = document.getElementById('edit-open')?.value;
+    const c = document.getElementById('edit-close')?.value;
+    if(o&&c) updates.hours = `${o}–${c}`;
+    updates.phone = document.getElementById('edit-phone')?.value.trim()||editingItem.phone;
+  } else if(editingItem.type==='event'){
+    updates.date = document.getElementById('edit-date')?.value||editingItem.date;
+    updates.time = document.getElementById('edit-time')?.value||editingItem.time;
+    updates.venue = document.getElementById('edit-venue')?.value.trim()||editingItem.venue;
+    updates.contact = document.getElementById('edit-contact')?.value.trim()||editingItem.contact;
+  } else if(editingItem.type==='experience'){
+    updates.duration = document.getElementById('edit-duration')?.value.trim()||editingItem.duration;
+    updates.price = document.getElementById('edit-price')?.value.trim()||editingItem.price;
+    updates.contact = document.getElementById('edit-contact')?.value.trim()||editingItem.contact;
+  } else if(editingItem.type==='emprendimiento'){
+    updates.products = document.getElementById('edit-products')?.value.trim()||editingItem.products;
+    updates.ig = document.getElementById('edit-ig')?.value.trim()||editingItem.ig;
+    updates.wa = document.getElementById('edit-wa')?.value.trim()||editingItem.wa;
+  }
+  try{
+    toast('⏳ Guardando cambios...');
+    const docRef = doc(db, editingItem.col, editingItem.id);
+    await updateDoc(docRef, updates);
+    // Subir nueva imagen si la hay
+    if(pendingImages['edit']){
+      const imgUrl = await uploadImage('edit', editingItem.col, editingItem.id, 'edit-img-progress','edit-img-progress-bar');
+      if(imgUrl) await updateDoc(docRef, {imageUrl: imgUrl});
+    }
+    closeDrawer('edit-post');
+    toast(isAdmin() ? '✅ Guardado' : '⏳ Cambios enviados — pendiente de aprobación');
+    editingItem = null;
+    renderMyPosts();
+  }catch(err){
+    console.error(err);
+    toast('❌ Error al guardar');
+  }
+}
+
+async function deleteMyPost(){
+  if(!editingItem) return;
+  if(!confirm(`¿Eliminar "${editingItem.name}"? Esta acción no se puede deshacer.`)) return;
+  try{
+    await deleteDoc(doc(db, editingItem.col, editingItem.id));
+    closeDrawer('edit-post');
+    toast('🗑️ Publicación eliminada');
+    editingItem = null;
+    renderMyPosts();
+  }catch(err){
+    console.error(err);
+    toast('❌ Error al eliminar');
+  }
+}
+
 // ─── ADMIN FUNCTIONS ───────────────────
 let adminCurrentTab = 'pending';
 
@@ -2700,6 +3406,10 @@ async function renderAdminFeed(tab){
     snap.forEach(d=> items.push({...d.data(), id:d.id, col}));
   }
   items.sort((a,b)=>b.created-a.created);
+  // Filtro por zona en admin
+  if(adminZoneFilter !== 'all'){
+    items = items.filter(i=>(i.zone||'valdivia') === adminZoneFilter);
+  }
 
   if(!items.length){
     feed.innerHTML = `<div class="empty"><div class="empty-icon">${tab==='pending'?'⏳':tab==='approved'?'✅':'❌'}</div><div class="empty-title">Sin publicaciones ${tab==='pending'?'pendientes':tab==='approved'?'aprobadas':'rechazadas'}</div></div>`;
@@ -2830,7 +3540,12 @@ Object.assign(window, {
   adminTab, approveItem, rejectItem, deleteItem,
   changeUserRole, requestPlanUpgrade,
   handleImageSelect, renderImageUpload,
-  requireLogin, showLoginPrompt, updateGuestUI
+  requireLogin, showLoginPrompt, updateGuestUI,
+  openEdit, saveEdit, deleteMyPost, renderMyPosts,
+  // Zona
+  setZone, toggleZoneSwitcher, setFormZone,
+  setAdminZone, coastFilter, renderExploreCoast,
+  getZoneItems
 });
 
 // ─── PWA SERVICE WORKER ────────────────
